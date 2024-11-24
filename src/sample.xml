@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <note>
   <some_tag>Hello</some_tag>
+  <first_tag>yo</first_tag>
+  <second_tag>hi</second_tag>
+  <third_tag>abc</third_tag>
 </note> 
