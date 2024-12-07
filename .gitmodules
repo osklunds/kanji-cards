@@ -4,3 +4,6 @@
 [submodule "Catch2"]
 	path = Catch2
 	url = https://github.com/catchorg/Catch2.git
+[submodule "deps/CImg"]
+	path = deps/CImg
+	url = https://github.com/GreycLab/CImg.git
