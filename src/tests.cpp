@@ -10,10 +10,6 @@
 // #define cimg_display 0
 // #include "CImg.h"
 
-// using namespace cimg_library;
-using namespace std;
-using namespace pugi;
-
 #ifdef TEST
 
 TEST_CASE("learning") {
@@ -83,12 +79,12 @@ TEST_CASE("learning_kanjidic2") {
     REQUIRE(result == true);
 
     pugi::xpath_node xpath_node = doc.select_node("/kanjidic2/character/literal");
-    xml_node node = xpath_node.node();
+    pugi::xml_node node = xpath_node.node();
 
     // cout << node.name() << endl;
     // cout << node.text().get() << endl;
 
-    const char_t *text = node.text().get();
+    const pugi::char_t *text = node.text().get();
     REQUIRE(strcmp(text, "亜") == 0);
 }
 
@@ -99,25 +95,25 @@ TEST_CASE("learning_lookup_by_kanji") {
 
     pugi::xpath_node xpath_character_node =
         doc.select_node("/kanjidic2/character[./literal = \"日\"]");
-    xml_node character_node = xpath_character_node.node();
+    pugi::xml_node character_node = xpath_character_node.node();
 
-    cout << "name: " << character_node.name() << endl;
+    std::cout << "name: " << character_node.name() << std::endl;
 
-    xml_node literal_node = character_node.child("literal");
-    cout << "name: " << literal_node.name() << endl;
-    cout << "text: " << literal_node.text().get() << endl;
+    pugi::xml_node literal_node = character_node.child("literal");
+    std::cout << "name: " << literal_node.name() << std::endl;
+    std::cout << "text: " << literal_node.text().get() << std::endl;
 
-    const char_t *text = literal_node.text().get();
+    const pugi::char_t *text = literal_node.text().get();
     REQUIRE(strcmp(text, "日") == 0);
 }
 
 TEST_CASE("learning_frequency_list") {
-    string line;
-    ifstream file ("../data/kanji_freqency_list.csv");
+    std::string line;
+    std::ifstream file ("../data/kanji_freqency_list.csv");
     REQUIRE(file.is_open());
 
     while(getline(file, line)) {
-        cout << line << endl;
+        std::cout << line << std::endl;
     }
     file.close();
 }
