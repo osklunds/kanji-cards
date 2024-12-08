@@ -88,9 +88,21 @@ TEST_CASE("learning_kanjidic2") {
 
     const char_t *text = node.text().get();
     REQUIRE(strcmp(text, "亜") == 0);
+}
 
+TEST_CASE("learning_lookup_by_kanji") {
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
+    REQUIRE(result == true);
 
+    pugi::xpath_node xpath_node = doc.select_node("/kanjidic2/character/literal[text()=\"日\"]");
+    xml_node node = xpath_node.node();
 
+    cout << node.name() << endl;
+    cout << node.text().get() << endl;
+
+    const char_t *text = node.text().get();
+    REQUIRE(strcmp(text, "日") == 0);
 }
 
 #endif
