@@ -4,6 +4,13 @@
 #include "catch.hpp"
 #include "pugixml.hpp"
 
+#include <cstdlib>
+#define cimg_display 0
+#include "CImg.h"
+
+using namespace cimg_library;
+using namespace std;
+
 #ifdef TEST
 
 TEST_CASE("learning") {
@@ -45,9 +52,26 @@ TEST_CASE("learning") {
     REQUIRE(n3.empty() == false);
     REQUIRE(n4.empty() == false);
     REQUIRE(afterLast.empty() == true);
-    
+}
 
-    
+TEST_CASE("learning_img") {
+    CImg<unsigned char> image(300,200,1,3);
+
+    cimg_forXY(image,x,y) {
+        image(x,y,0,0)=255;
+        image(x,y,0,1)=255;
+        image(x,y,0,2)=255;
+    }
+
+    // Make some colours
+    unsigned char black[] = {0, 0, 0};
+    unsigned char white[] = {255, 255, 255};
+
+    cout << u8"hej 感じ" << endl;
+
+    image.draw_text(30,60,u8"hejåäö 感じ",black,white,1,16);
+
+    image.save_png("result.png");
 }
 
 #endif
