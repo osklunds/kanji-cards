@@ -83,8 +83,8 @@ TEST_CASE("learning_kanjidic2") {
     pugi::xpath_node xpath_node = doc.select_node("/kanjidic2/character/literal");
     xml_node node = xpath_node.node();
 
-    cout << node.name() << endl;
-    cout << node.text().get() << endl;
+    // cout << node.name() << endl;
+    // cout << node.text().get() << endl;
 
     const char_t *text = node.text().get();
     REQUIRE(strcmp(text, "亜") == 0);
@@ -95,13 +95,17 @@ TEST_CASE("learning_lookup_by_kanji") {
     pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
     REQUIRE(result == true);
 
-    pugi::xpath_node xpath_node = doc.select_node("/kanjidic2/character/literal[text()=\"日\"]");
-    xml_node node = xpath_node.node();
+    pugi::xpath_node xpath_character_node =
+        doc.select_node("/kanjidic2/character[./literal = \"日\"]");
+    xml_node character_node = xpath_character_node.node();
 
-    cout << node.name() << endl;
-    cout << node.text().get() << endl;
+    cout << "name: " << character_node.name() << endl;
 
-    const char_t *text = node.text().get();
+    xml_node literal_node = character_node.child("literal");
+    cout << "name: " << literal_node.name() << endl;
+    cout << "text: " << literal_node.text().get() << endl;
+
+    const char_t *text = literal_node.text().get();
     REQUIRE(strcmp(text, "日") == 0);
 }
 
