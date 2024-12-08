@@ -1,8 +1,10 @@
 
 #include <iostream>
+#include <string>
 #include <string.h>
 #include <fstream>
 #include <sstream>
+#include <regex>
 
 #include "catch.hpp"
 #include "pugixml.hpp"
@@ -98,11 +100,11 @@ TEST_CASE("learning_lookup_by_kanji") {
         doc.select_node("/kanjidic2/character[./literal = \"日\"]");
     pugi::xml_node character_node = xpath_character_node.node();
 
-    std::cout << "name: " << character_node.name() << std::endl;
+    // std::cout << "name: " << character_node.name() << std::endl;
 
     pugi::xml_node literal_node = character_node.child("literal");
-    std::cout << "name: " << literal_node.name() << std::endl;
-    std::cout << "text: " << literal_node.text().get() << std::endl;
+    // std::cout << "name: " << literal_node.name() << std::endl;
+    // std::cout << "text: " << literal_node.text().get() << std::endl;
 
     const pugi::char_t *text = literal_node.text().get();
     REQUIRE(strcmp(text, "日") == 0);
@@ -113,23 +115,25 @@ TEST_CASE("learning_frequency_list") {
     std::ifstream file ("../data/kanji_freqency_list.csv");
     REQUIRE(file.is_open());
 
-    while (std::getline(file, line)) {
+    int count = 0;
+
+    while (std::getline(file, line) && count < 5) {
+        count++;
         std::cout << line << std::endl;
-        std::stringstream stream (line);
-        std::string kanji;
-        std::string frequency;
-        std::string segment;
 
-        while (std::getline(stream, segment, ',')) {
-            if (kanji.empty()) {
-                kanji = segment;
-            }
+        std::regex r("(.*),(\\d+,){9}(\\d+)");
+        std::smatch m;
+        std::regex_search(line, m, r);
+
+        if (!m.empty()) {
+            REQUIRE(m.size() == 4);
+
+            std::string kanji = m[1];
+            std::string frequency = m[3];
+
+            std::cout << "oskar: " << kanji << std::endl;
+            std::cout << "oskar: " << frequency << std::endl;
         }
-        frequency = segment;
-
-        std::cout << kanji << std::endl;
-        std::cout << frequency << std::endl;
-
     }
     file.close();
 }
