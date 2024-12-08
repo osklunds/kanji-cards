@@ -86,6 +86,9 @@ TEST_CASE("learning_kanjidic2") {
     cout << node.name() << endl;
     cout << node.text().get() << endl;
 
+    const char_t *text = node.text().get();
+    REQUIRE(strcmp(text, "亜") == 0);
+
 
 
 }
