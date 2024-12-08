@@ -4,12 +4,13 @@
 #include "catch.hpp"
 #include "pugixml.hpp"
 
-#include <cstdlib>
-#define cimg_display 0
-#include "CImg.h"
+// #include <cstdlib>
+// #define cimg_display 0
+// #include "CImg.h"
 
-using namespace cimg_library;
+// using namespace cimg_library;
 using namespace std;
+using namespace pugi;
 
 #ifdef TEST
 
@@ -54,24 +55,39 @@ TEST_CASE("learning") {
     REQUIRE(afterLast.empty() == true);
 }
 
-TEST_CASE("learning_img") {
-    CImg<unsigned char> image(300,200,1,3);
+// TEST_CASE("learning_img") {
+//     CImg<unsigned char> image(300,200,1,3);
 
-    cimg_forXY(image,x,y) {
-        image(x,y,0,0)=255;
-        image(x,y,0,1)=255;
-        image(x,y,0,2)=255;
-    }
+//     cimg_forXY(image,x,y) {
+//         image(x,y,0,0)=255;
+//         image(x,y,0,1)=255;
+//         image(x,y,0,2)=255;
+//     }
 
-    // Make some colours
-    unsigned char black[] = {0, 0, 0};
-    unsigned char white[] = {255, 255, 255};
+//     // Make some colours
+//     unsigned char black[] = {0, 0, 0};
+//     unsigned char white[] = {255, 255, 255};
 
-    cout << u8"hej 感じ" << endl;
+//     cout << u8"hej 感じ" << endl;
 
-    image.draw_text(30,60,u8"hejåäö 感じ",black,white,1,16);
+//     image.draw_text(30,60,u8"hejåäö 感じ",black,white,1,16);
 
-    image.save_png("result.png");
+//     image.save_png("result.png");
+// }
+
+TEST_CASE("learning_kanjidic2") {
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
+    REQUIRE(result == true);
+
+    pugi::xpath_node xpath_node = doc.select_node("/kanjidic2/character/literal");
+    xml_node node = xpath_node.node();
+
+    cout << node.name() << endl;
+    cout << node.text().get() << endl;
+
+
+
 }
 
 #endif
