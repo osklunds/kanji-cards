@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
+#include <sstream>
 
 #include "catch.hpp"
 #include "pugixml.hpp"
@@ -112,8 +113,23 @@ TEST_CASE("learning_frequency_list") {
     std::ifstream file ("../data/kanji_freqency_list.csv");
     REQUIRE(file.is_open());
 
-    while(getline(file, line)) {
+    while (std::getline(file, line)) {
         std::cout << line << std::endl;
+        std::stringstream stream (line);
+        std::string kanji;
+        std::string frequency;
+        std::string segment;
+
+        while (std::getline(stream, segment, ',')) {
+            if (kanji.empty()) {
+                kanji = segment;
+            }
+        }
+        frequency = segment;
+
+        std::cout << kanji << std::endl;
+        std::cout << frequency << std::endl;
+
     }
     file.close();
 }
