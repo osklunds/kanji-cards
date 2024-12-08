@@ -1,6 +1,8 @@
 
 #include <iostream>
 #include <string.h>
+#include <fstream>
+
 #include "catch.hpp"
 #include "pugixml.hpp"
 
@@ -107,6 +109,17 @@ TEST_CASE("learning_lookup_by_kanji") {
 
     const char_t *text = literal_node.text().get();
     REQUIRE(strcmp(text, "日") == 0);
+}
+
+TEST_CASE("learning_frequency_list") {
+    string line;
+    ifstream file ("../data/kanji_freqency_list.csv");
+    REQUIRE(file.is_open());
+
+    while(getline(file, line)) {
+        cout << line << endl;
+    }
+    file.close();
 }
 
 #endif
