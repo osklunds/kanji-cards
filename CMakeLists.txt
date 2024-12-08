@@ -8,4 +8,5 @@ add_executable(main src/main.cpp
                     src/pugixml.cpp
                     src/tests.cpp
                     src/tests_main.cpp
+                    src/frequency.cpp
 )
