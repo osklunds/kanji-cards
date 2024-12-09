@@ -119,7 +119,7 @@ TEST_CASE("learning_frequency_list") {
 
     while (std::getline(file, line) && count < 5) {
         count++;
-        std::cout << line << std::endl;
+        // std::cout << line << std::endl;
 
         std::regex r("(.*),(\\d+,){9}(\\d+)");
         std::smatch m;
@@ -131,8 +131,8 @@ TEST_CASE("learning_frequency_list") {
             std::string kanji = m[1];
             std::string frequency = m[3];
 
-            std::cout << "oskar: " << kanji << std::endl;
-            std::cout << "oskar: " << frequency << std::endl;
+            // std::cout << "oskar: " << kanji << std::endl;
+            // std::cout << "oskar: " << frequency << std::endl;
         }
     }
     file.close();

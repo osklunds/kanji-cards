@@ -9,4 +9,5 @@ add_executable(main src/main.cpp
                     src/tests.cpp
                     src/tests_main.cpp
                     src/frequency.cpp
+                    src/frequency_tests.cpp
 )
