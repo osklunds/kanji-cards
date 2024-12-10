@@ -41,5 +41,13 @@ std::vector<frequency_entry> get_frequency_entries_from_file(std::string file_pa
         }
     }
     file.close();
+
+    std::sort(entries.begin(), entries.end());
+
     return entries;
 }
+
+bool operator< (const frequency_entry& fe1, const frequency_entry& fe2) {
+    return fe1.frequency < fe2.frequency;
+}
+

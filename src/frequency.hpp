@@ -14,6 +14,8 @@ public:
 
     int get_frequency();
     std::string get_kanji();
+
+    friend bool operator< (const frequency_entry& fe1, const frequency_entry& fe2);
 };
 
 std::vector<frequency_entry> get_frequency_entries_from_file(std::string file_path);
