@@ -48,6 +48,10 @@ std::vector<frequency_entry> get_frequency_entries_from_file(std::string file_pa
 }
 
 bool operator< (const frequency_entry& fe1, const frequency_entry& fe2) {
-    return fe1.frequency < fe2.frequency;
+    if (fe1.frequency == fe2.frequency) {
+        return fe1.kanji < fe2.kanji;
+    } else {
+        return fe1.frequency < fe2.frequency;
+    }
 }
 
