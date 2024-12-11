@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(KanjiCards)
 
+set(CMAKE_CXX_STANDARD 20)
+
 # Comment out the below to build the executable aimed for usage
 add_definitions(-DTEST)
 
@@ -10,4 +12,6 @@ add_executable(main src/main.cpp
                     src/tests_main.cpp
                     src/frequency.cpp
                     src/frequency_tests.cpp
+                    src/kanji_data.cpp
+                    src/kanji_data_tests.cpp
 )
