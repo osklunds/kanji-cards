@@ -9,7 +9,9 @@
 
 kanji_data::kanji_data(std::string kanji) :
     kanji { kanji },
-    meanings {}
+    meanings {},
+    kun_readings {},
+    on_readings {}
 {
 
 }
@@ -37,9 +39,25 @@ bool kanji_data::read_from_file(std::string path) {
         }
     }
 
+    for (auto reading : rmgroup.children("reading")) {
+        if (strcmp(reading.attribute("r_type").value(), "ja_kun") == 0) {
+            this->kun_readings.push_back(reading.text().get());
+        } else if (strcmp(reading.attribute("r_type").value(), "ja_on") == 0) {
+            this->on_readings.push_back(reading.text().get());
+        }
+    }
+
     return true;
 }
 
 std::vector<std::string> kanji_data::get_meanings() {
     return this->meanings;
+}
+
+std::vector<std::string> kanji_data::get_kun_readings() {
+    return this->kun_readings;
+}
+
+std::vector<std::string> kanji_data::get_on_readings() {
+    return this->on_readings;
 }
