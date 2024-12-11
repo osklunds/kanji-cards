@@ -25,9 +25,21 @@ bool kanji_data::read_from_file(std::string path) {
     pugi::xml_node character_node = xpath_character_node.node();
 
     pugi::xml_node literal_node = character_node.child("literal");
-
     const pugi::char_t *text = literal_node.text().get();
     assert(strcmp(text, this->kanji.c_str()) == 0);
 
+    pugi::xml_node reading_meaning = character_node.child("reading_meaning");
+    pugi::xml_node rmgroup = reading_meaning.child("rmgroup");
+
+    for (auto meaning : rmgroup.children("meaning")) {
+        if (meaning.first_attribute().empty()) {
+            this->meanings.push_back(meaning.text().get());
+        }
+    }
+
     return true;
+}
+
+std::vector<std::string> kanji_data::get_meanings() {
+    return this->meanings;
 }

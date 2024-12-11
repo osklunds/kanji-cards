@@ -14,6 +14,8 @@ public:
     kanji_data(std::string kanji);
 
     bool read_from_file(std::string path);
+
+    std::vector<std::string> get_meanings();
 };
 
 #endif
