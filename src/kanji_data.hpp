@@ -16,7 +16,7 @@ private:
 public:
     kanji_data(std::string kanji);
 
-    void read_from_file(pugi::xml_document& doc);
+    void read_from_doc(pugi::xml_document& doc);
 
     std::vector<std::string> get_meanings();
     std::vector<std::string> get_kun_readings();
