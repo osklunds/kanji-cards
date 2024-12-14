@@ -60,28 +60,28 @@ std::string kanji_data::as_string() {
 
     string += "Kanji: " + kanji + "\n";
 
-    string += "Meanings: ";
-    for (auto meaning : meanings) {
-        string += meaning + ", ";
-    }
-    string.pop_back();
-    string.pop_back();
-    string += "\n";
+    string += vector_as_string("Meanings", this->meanings);
+    string += vector_as_string("Kun readings", this->kun_readings);
+    string += vector_as_string("On readings", this->on_readings);
 
-    string += "Kun readings: ";
-    for (auto reading : kun_readings) {
-        string += reading + ", ";
-    }
-    string.pop_back();
-    string.pop_back();
-    string += "\n";
-
-    string += "On readings: ";
-    for (auto reading : on_readings) {
-        string += reading + ", ";
-    }
-    string.pop_back();
     string.pop_back();
 
     return string;
+}
+
+std::string kanji_data::vector_as_string(std::string prefix,
+                                         std::vector<std::string>& strings
+                                         ) {
+    std::string string {};
+
+    string += prefix + ": ";
+    for (auto str : strings) {
+        string += str + ", ";
+    }
+    string.pop_back();
+    string.pop_back();
+    string += "\n";
+
+    return string;
+
 }

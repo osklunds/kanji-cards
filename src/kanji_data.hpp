@@ -13,6 +13,10 @@ private:
     std::vector<std::string> kun_readings {};
     std::vector<std::string> on_readings {};
 
+    std::string vector_as_string(std::string prefix,
+                                 std::vector<std::string>& strings
+                                 );
+
 public:
     kanji_data(std::string kanji);
 
