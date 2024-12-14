@@ -15,6 +15,11 @@
 
 #ifdef TEST
 
+// A convenient way to run the main function
+TEST_CASE("run_main", "[.]") {
+    std::cout << "oskar: " << "main" << std::endl;
+}
+
 TEST_CASE("learning") {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file("sample.xml");
