@@ -21,6 +21,8 @@ public:
     std::vector<std::string> get_meanings();
     std::vector<std::string> get_kun_readings();
     std::vector<std::string> get_on_readings();
+
+    std::string as_string();
 };
 
 #endif

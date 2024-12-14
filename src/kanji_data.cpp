@@ -54,3 +54,34 @@ std::vector<std::string> kanji_data::get_kun_readings() {
 std::vector<std::string> kanji_data::get_on_readings() {
     return this->on_readings;
 }
+
+std::string kanji_data::as_string() {
+    std::string string {};
+
+    string += "Kanji: " + kanji + "\n";
+
+    string += "Meanings: ";
+    for (auto meaning : meanings) {
+        string += meaning + ", ";
+    }
+    string.pop_back();
+    string.pop_back();
+    string += "\n";
+
+    string += "Kun readings: ";
+    for (auto reading : kun_readings) {
+        string += reading + ", ";
+    }
+    string.pop_back();
+    string.pop_back();
+    string += "\n";
+
+    string += "On readings: ";
+    for (auto reading : on_readings) {
+        string += reading + ", ";
+    }
+    string.pop_back();
+    string.pop_back();
+
+    return string;
+}
