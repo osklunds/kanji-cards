@@ -1,6 +1,6 @@
 
-#ifndef HEADER_FREQUENCY_HPP
-#define HEADER_FREQUENCY_HPP
+#ifndef HEADER_KANJI_DATA_HPP
+#define HEADER_KANJI_DATA_HPP
 
 #include <vector>
 #include <string>
