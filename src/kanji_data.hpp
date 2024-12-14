@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <string>
+#include "pugixml.hpp"
 
 class kanji_data {
 private:
@@ -15,7 +16,7 @@ private:
 public:
     kanji_data(std::string kanji);
 
-    bool read_from_file(std::string path);
+    void read_from_file(pugi::xml_document& doc);
 
     std::vector<std::string> get_meanings();
     std::vector<std::string> get_kun_readings();

@@ -2,14 +2,17 @@
 #include "catch.hpp"
 #include <string>
 #include <iostream>
+#include "pugixml.hpp"
 
 #include "kanji_data.hpp"
 
 #ifdef TEST
 
-TEST_CASE("test") {
+TEST_CASE("sample_data") {
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
     kanji_data kanji_data { "日" };
-    kanji_data.read_from_file("../data/kanjidic2.xml");
+    kanji_data.read_from_file(doc);
 
     std::vector<std::string> meanings = kanji_data.get_meanings();
     REQUIRE(meanings.size() == 4);
