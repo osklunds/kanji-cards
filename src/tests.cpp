@@ -22,7 +22,7 @@
 TEST_CASE("run_main", "[.]") {
     std::vector<frequency_entry> entries =
         get_frequency_entries_from_file("../data/kanji_freqency_list.csv");
-    entries.erase(entries.begin() + 20, entries.end());
+    entries.erase(entries.begin() + 800, entries.end());
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
@@ -31,6 +31,8 @@ TEST_CASE("run_main", "[.]") {
     for (auto fe : entries) {
         kanji_data kanji_data { fe.get_kanji() };
         kanji_data.read_from_doc(doc);
+
+        std::cout << kanji_data.as_string() << std::endl << std::endl;
     }
 
 
