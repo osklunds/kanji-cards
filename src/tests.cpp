@@ -171,6 +171,23 @@ TEST_CASE("learning_JMdict_e") {
     pugi::xml_node k_ele = entry.child("k_ele");
     pugi::xml_node keb = k_ele.child("keb");
 
+    // std::cout << "oskar: " << keb.name() << std::endl;
+    // std::cout << "oskar: " << keb.text().get() << std::endl;
+
+    REQUIRE(strcmp(keb.text().get(), "竹馬") == 0);
+}
+
+TEST_CASE("learning_JMdict_e_words_with_kanji") {
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file("../data/JMdict_e.xml");
+    REQUIRE(result == true);
+
+    pugi::xpath_node xpath_entry =
+        doc.select_node("/JMdict/entry[contains(./k_ele/keb,\"竹馬\")]");
+    pugi::xml_node entry = xpath_entry.node();
+    pugi::xml_node k_ele = entry.child("k_ele");
+    pugi::xml_node keb = k_ele.child("keb");
+
     std::cout << "oskar: " << keb.name() << std::endl;
     std::cout << "oskar: " << keb.text().get() << std::endl;
 
