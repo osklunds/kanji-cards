@@ -8,10 +8,10 @@
 
 TEST_CASE("word_data_sample_data") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/JMdict_e.xml");
+    pugi::xml_parse_result result = doc.load_file("../data/JMdict_e_sample.xml");
     REQUIRE(result == true);
 
-    std::vector<word_data> word_datas = word_data::read_from_doc(doc, "竹");
+    std::vector<word_data> word_datas = word_data::read_from_doc(doc, "物");
 
     for (word_data word_data : word_datas) {
         std::cout << word_data.as_string() << std::endl;

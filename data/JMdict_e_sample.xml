@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JMdict>
+<entry>
+<k_ele>
+<keb>物語</keb>
+<ke_pri>news2</ke_pri>
+<ke_pri>nf41</ke_pri>
+</k_ele>
+<r_ele>
+<reb>ものがたり</reb>
+<re_pri>news1</re_pri>
+<re_pri>nf2</re_pri>
+</r_ele>
+<r_ele>
+<reb>ほかの</reb>
+</r_ele>
+<sense>
+<gloss>story</gloss>
+<gloss>tale</gloss>
+</sense>
+<sense>
+<gloss>legend</gloss>
+</sense>
+</entry>
+</JMdict>
