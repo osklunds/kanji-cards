@@ -28,12 +28,16 @@ std::vector<word_data> word_data::read_from_doc(pugi::xml_document& doc,
     std::vector<word_data> word_datas {};
 
     for (pugi::xpath_node xpath_entry : xpath_entries) {
+        word_data word_data {};
         pugi::xml_node entry = xpath_entry.node();
+
         pugi::xml_node k_ele = entry.child("k_ele");
         pugi::xml_node keb = k_ele.child("keb");
-
-        word_data word_data {};
         word_data.word = keb.text().get();
+
+        pugi::xml_node r_ele = entry.child("r_ele");
+        pugi::xml_node reb = r_ele.child("reb");
+        word_data.reading = reb.text().get();
 
         for (auto sense : entry.children("sense")) {
             for (auto meaning : sense.children("gloss")) {
