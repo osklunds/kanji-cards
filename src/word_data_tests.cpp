@@ -14,7 +14,7 @@ TEST_CASE("word_data_sample_data") {
     std::vector<word_data> word_datas = word_data::read_from_doc(doc, "竹");
 
     for (word_data word_data : word_datas) {
-        std::cout << "oskar2: " << word_data.as_string() << std::endl;
+        std::cout << word_data.as_string() << std::endl;
     }
 }
 

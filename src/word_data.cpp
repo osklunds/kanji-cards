@@ -42,8 +42,19 @@ std::vector<word_data> word_data::read_from_doc(pugi::xml_document& doc,
         }
 
         for (auto ke_pri : k_ele.children("ke_pri")) {
-            auto text = ke_pri.text().get();
-            // std::cout << "oskar: " << text << std::endl;
+            std::string text = ke_pri.text().get();
+            if (text.find("news") != std::string::npos) {
+                word_data.prio_news = text;
+            }
+            if (text.find("ichi") != std::string::npos) {
+                word_data.prio_ichi = text;
+            }
+            if (text.find("spec") != std::string::npos) {
+                word_data.prio_spec = text;
+            }
+            if (text.find("nf") != std::string::npos) {
+                word_data.prio_nf = text;
+            }
         }
 
         word_datas.push_back(word_data);
@@ -53,5 +64,13 @@ std::vector<word_data> word_data::read_from_doc(pugi::xml_document& doc,
 }
 
 std::string word_data::as_string() {
-    return this->word;
+    std::string string {};
+
+    string += "Word: " + word + "\n";
+    string += "Prio news: " + prio_news + "\n";
+    string += "Prio ichi: " + prio_ichi + "\n";
+    string += "Prio spec: " + prio_spec + "\n";
+    string += "Prio nf: " + prio_nf;
+
+    return string;
 }
