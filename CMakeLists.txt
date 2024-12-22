@@ -14,4 +14,6 @@ add_executable(main src/main.cpp
                     src/frequency_tests.cpp
                     src/kanji_data.cpp
                     src/kanji_data_tests.cpp
+                    src/word_data.cpp
+                    src/word_data_tests.cpp
 )

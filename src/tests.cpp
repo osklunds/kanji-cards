@@ -190,7 +190,7 @@ TEST_CASE("learning_JMdict_e_words_with_kanji") {
         pugi::xml_node k_ele = entry.child("k_ele");
         pugi::xml_node keb = k_ele.child("keb");
 
-        std::cout << "oskar: " << keb.text().get() << std::endl;
+        // std::cout << "oskar: " << keb.text().get() << std::endl;
     }
 }
 
