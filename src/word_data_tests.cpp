@@ -21,10 +21,10 @@ TEST_CASE("word_data_sample_data_read_from_doc_1_match") {
     REQUIRE(word_data.get_meanings() == meanings);
 
     REQUIRE("ものがたり" == word_data.get_reading());
-    REQUIRE("news2" == word_data.get_prio_news());
-    REQUIRE("ichi1" == word_data.get_prio_ichi());
-    REQUIRE("spec2" == word_data.get_prio_spec());
-    REQUIRE("nf41" == word_data.get_prio_nf());
+    REQUIRE(2 == word_data.get_prio_news());
+    REQUIRE(1 == word_data.get_prio_ichi());
+    REQUIRE(2 == word_data.get_prio_spec());
+    REQUIRE(41 == word_data.get_prio_nf());
 }
 
 TEST_CASE("word_data_sample_data_read_from_doc_2_matches") {
@@ -42,10 +42,10 @@ TEST_CASE("word_data_sample_data_read_from_doc_2_matches") {
     REQUIRE(animal.get_meanings() == animal_meanings);
 
     REQUIRE("どうぶつ" == animal.get_reading());
-    REQUIRE("" == animal.get_prio_news());
-    REQUIRE("" == animal.get_prio_ichi());
-    REQUIRE("" == animal.get_prio_spec());
-    REQUIRE("" == animal.get_prio_nf());
+    REQUIRE(std::nullopt == animal.get_prio_news());
+    REQUIRE(std::nullopt == animal.get_prio_ichi());
+    REQUIRE(std::nullopt == animal.get_prio_spec());
+    REQUIRE(std::nullopt == animal.get_prio_nf());
 
     word_data to_move = word_datas[1];
     REQUIRE(to_move.get_word() == "動く");
@@ -54,10 +54,10 @@ TEST_CASE("word_data_sample_data_read_from_doc_2_matches") {
     REQUIRE(to_move.get_meanings() == to_move_meanings);
 
     REQUIRE("うごく" == to_move.get_reading());
-    REQUIRE("" == to_move.get_prio_news());
-    REQUIRE("" == to_move.get_prio_ichi());
-    REQUIRE("" == to_move.get_prio_spec());
-    REQUIRE("" == to_move.get_prio_nf());
+    REQUIRE(std::nullopt == to_move.get_prio_news());
+    REQUIRE(std::nullopt == to_move.get_prio_ichi());
+    REQUIRE(std::nullopt == to_move.get_prio_spec());
+    REQUIRE(std::nullopt == to_move.get_prio_nf());
 }
 
 TEST_CASE("word_data_as_string") {
@@ -72,10 +72,10 @@ TEST_CASE("word_data_as_string") {
     exp_string.append("Word: 物語\n");
     exp_string.append("Reading: ものがたり\n");
     exp_string.append("Meanings: story, tale, legend\n");
-    exp_string.append("Prio news: news2\n");
-    exp_string.append("Prio ichi: ichi1\n");
-    exp_string.append("Prio spec: spec2\n");
-    exp_string.append("Prio nf: nf41");
+    exp_string.append("Prio news: 2\n");
+    exp_string.append("Prio ichi: 1\n");
+    exp_string.append("Prio spec: 2\n");
+    exp_string.append("Prio nf: 41");
 
     REQUIRE(exp_string == string);
 }

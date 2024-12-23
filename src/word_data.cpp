@@ -48,16 +48,16 @@ std::vector<word_data> word_data::read_from_doc(pugi::xml_document& doc,
         for (auto ke_pri : k_ele.children("ke_pri")) {
             std::string text = ke_pri.text().get();
             if (text.find("news") != std::string::npos) {
-                word_data.prio_news = text;
+                word_data.prio_news = std::stoi(text.substr(4, 100));
             }
             if (text.find("ichi") != std::string::npos) {
-                word_data.prio_ichi = text;
+                word_data.prio_ichi = std::stoi(text.substr(4, 100));
             }
             if (text.find("spec") != std::string::npos) {
-                word_data.prio_spec = text;
+                word_data.prio_spec = std::stoi(text.substr(4, 100));
             }
             if (text.find("nf") != std::string::npos) {
-                word_data.prio_nf = text;
+                word_data.prio_nf = std::stoi(text.substr(2, 100));
             }
         }
 
@@ -79,19 +79,19 @@ std::string word_data::get_reading() {
     return reading;
 }
 
-std::string word_data::get_prio_news() {
+std::optional<int> word_data::get_prio_news() {
     return prio_news;
 }
 
-std::string word_data::get_prio_ichi() {
+std::optional<int> word_data::get_prio_ichi() {
     return prio_ichi;
 }
 
-std::string word_data::get_prio_spec() {
+std::optional<int> word_data::get_prio_spec() {
     return prio_spec;
 }
 
-std::string word_data::get_prio_nf() {
+std::optional<int> word_data::get_prio_nf() {
     return prio_nf;
 }
 
@@ -108,10 +108,20 @@ std::string word_data::as_string() {
     string.pop_back();
     string += "\n";
 
-    string += "Prio news: " + prio_news + "\n";
-    string += "Prio ichi: " + prio_ichi + "\n";
-    string += "Prio spec: " + prio_spec + "\n";
-    string += "Prio nf: " + prio_nf;
+    string += "Prio news: ";
+    string += prio_news.transform([](int a) { return std::to_string(a); }).value_or("");
+    string += "\n";
+
+    string += "Prio ichi: ";
+    string += prio_ichi.transform([](int a) { return std::to_string(a); }).value_or("");
+    string += "\n";
+
+    string += "Prio spec: ";
+    string += prio_spec.transform([](int a) { return std::to_string(a); }).value_or("");
+    string += "\n";
+
+    string += "Prio nf: ";
+    string += prio_nf.transform([](int a) { return std::to_string(a); }).value_or("");
 
     return string;
 }

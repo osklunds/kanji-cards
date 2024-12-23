@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <string>
+#include <optional>
 #include "pugixml.hpp"
 
 class word_data {
@@ -12,10 +13,10 @@ private:
     std::vector<std::string> meanings {};
     std::string reading {};
 
-    std::string prio_news {};
-    std::string prio_ichi {};
-    std::string prio_spec {};
-    std::string prio_nf {};
+    std::optional<int> prio_news {};
+    std::optional<int> prio_ichi {};
+    std::optional<int> prio_spec {};
+    std::optional<int> prio_nf {};
 
     word_data();
 
@@ -28,10 +29,10 @@ public:
     std::vector<std::string> get_meanings();
     std::string get_reading();
 
-    std::string get_prio_news();
-    std::string get_prio_ichi();
-    std::string get_prio_spec();
-    std::string get_prio_nf();
+    std::optional<int> get_prio_news();
+    std::optional<int> get_prio_ichi();
+    std::optional<int> get_prio_spec();
+    std::optional<int> get_prio_nf();
 
     std::string as_string();
 };
