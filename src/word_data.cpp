@@ -108,20 +108,26 @@ std::string word_data::as_string() {
     string.pop_back();
     string += "\n";
 
+    auto to_string = [](std::optional<int> prio) {
+        return prio.transform([](int prio) {
+            return std::to_string(prio);
+        }).value_or("");
+    };
+
     string += "Prio news: ";
-    string += prio_news.transform([](int a) { return std::to_string(a); }).value_or("");
+    string += to_string(prio_news);
     string += "\n";
 
     string += "Prio ichi: ";
-    string += prio_ichi.transform([](int a) { return std::to_string(a); }).value_or("");
+    string += to_string(prio_ichi);
     string += "\n";
 
     string += "Prio spec: ";
-    string += prio_spec.transform([](int a) { return std::to_string(a); }).value_or("");
+    string += to_string(prio_spec);
     string += "\n";
 
     string += "Prio nf: ";
-    string += prio_nf.transform([](int a) { return std::to_string(a); }).value_or("");
+    string += to_string(prio_nf);
 
     return string;
 }
