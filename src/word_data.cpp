@@ -100,17 +100,18 @@ std::string word_data::as_string() {
 
     string += "Word: " + word + "\n";
     string += "Reading: " + reading + "\n";
-    string += "Prio news: " + prio_news + "\n";
-    string += "Prio ichi: " + prio_ichi + "\n";
-    string += "Prio spec: " + prio_spec + "\n";
-    string += "Prio nf: " + prio_nf + "\n";
-
-    string += "Meaings: ";
+    string += "Meanings: ";
     for (auto meaning : meanings) {
         string += meaning + ", ";
     }
     string.pop_back();
     string.pop_back();
+    string += "\n";
+
+    string += "Prio news: " + prio_news + "\n";
+    string += "Prio ichi: " + prio_ichi + "\n";
+    string += "Prio spec: " + prio_spec + "\n";
+    string += "Prio nf: " + prio_nf;
 
     return string;
 }

@@ -60,4 +60,24 @@ TEST_CASE("word_data_sample_data_read_from_doc_2_matches") {
     REQUIRE("" == to_move.get_prio_nf());
 }
 
+TEST_CASE("word_data_as_string") {
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file("../data/JMdict_e_sample.xml");
+    REQUIRE(result == true);
+
+    std::vector<word_data> word_datas = word_data::read_from_doc(doc, "語");
+    std::string string = word_datas[0].as_string();
+
+    std::string exp_string {};
+    exp_string.append("Word: 物語\n");
+    exp_string.append("Reading: ものがたり\n");
+    exp_string.append("Meanings: story, tale, legend\n");
+    exp_string.append("Prio news: news2\n");
+    exp_string.append("Prio ichi: ichi1\n");
+    exp_string.append("Prio spec: spec2\n");
+    exp_string.append("Prio nf: nf41");
+
+    REQUIRE(exp_string == string);
+}
+
 #endif
