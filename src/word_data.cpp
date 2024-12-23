@@ -67,6 +67,34 @@ std::vector<word_data> word_data::read_from_doc(pugi::xml_document& doc,
     return word_datas;
 }
 
+std::string word_data::get_word() {
+    return word;
+}
+
+std::vector<std::string> word_data::get_meanings() {
+    return meanings;
+}
+
+std::string word_data::get_reading() {
+    return reading;
+}
+
+std::string word_data::get_prio_news() {
+    return prio_news;
+}
+
+std::string word_data::get_prio_ichi() {
+    return prio_ichi;
+}
+
+std::string word_data::get_prio_spec() {
+    return prio_spec;
+}
+
+std::string word_data::get_prio_nf() {
+    return prio_nf;
+}
+
 std::string word_data::as_string() {
     std::string string {};
 
