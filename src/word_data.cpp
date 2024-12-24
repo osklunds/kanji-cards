@@ -157,6 +157,10 @@ std::ostream& operator<< (std::ostream& os, const word_data& w) {
     return os;
 }
 
+bool operator== (const word_data& w1, const word_data& w2) {
+    return w1 <=> w2 == std::weak_ordering::equivalent;
+}
+
 std::weak_ordering operator<=> (const word_data& w1, const word_data& w2) {
     // nf spec1 ichi1 news1 spec2 ichi2 news2 nfX
 

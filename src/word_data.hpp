@@ -48,10 +48,12 @@ public:
     std::string as_string() const;
 
     friend std::ostream& operator<< (std::ostream& os, const word_data& w);
+    friend bool operator== (const word_data& w1, const word_data& w2);
     friend std::weak_ordering operator<=> (const word_data& w1, const word_data& w2);
 };
 
 std::ostream& operator<< (std::ostream& os, const word_data& w);
+bool operator== (const word_data& w1, const word_data& w2);
 std::weak_ordering operator<=> (const word_data& w1, const word_data& w2);
 
 #endif
