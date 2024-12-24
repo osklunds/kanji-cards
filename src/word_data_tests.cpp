@@ -198,6 +198,7 @@ TEST_CASE("word_data_compare_prio_order") {
     word_data news2 = {};
     news2.set_prio_news(2);
 
+    // maybe strong is needed
     // REQUIRE(spec1 == spec1);
     REQUIRE(spec1 < ichi1);
     REQUIRE(spec1 < news1);
