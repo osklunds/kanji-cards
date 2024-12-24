@@ -259,6 +259,24 @@ TEST_CASE("word_data_compare_prio_order") {
     REQUIRE(news2 == news2);
     REQUIRE(news2 < nf1);
     REQUIRE(news2 < nf2);
+
+    REQUIRE(nf1 > spec1);
+    REQUIRE(nf1 > ichi1);
+    REQUIRE(nf1 > news1);
+    REQUIRE(nf1 > spec2);
+    REQUIRE(nf1 > ichi2);
+    REQUIRE(nf1 > news2);
+    REQUIRE(nf1 == nf1);
+    REQUIRE(nf1 < nf2);
+
+    REQUIRE(nf2 > spec1);
+    REQUIRE(nf2 > ichi1);
+    REQUIRE(nf2 > news1);
+    REQUIRE(nf2 > spec2);
+    REQUIRE(nf2 > ichi2);
+    REQUIRE(nf2 > news2);
+    REQUIRE(nf2 > nf1);
+    REQUIRE(nf2 == nf2);
 }
 
 #endif
