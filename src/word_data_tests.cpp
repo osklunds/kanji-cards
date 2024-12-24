@@ -93,12 +93,79 @@ TEST_CASE("word_data_setters") {
     REQUIRE(2 == word.get_prio_ichi());
     REQUIRE(1 == word.get_prio_spec());
     REQUIRE(12 == word.get_prio_nf());
-
 }
 
-TEST_CASE("word_data_compare") {
+// todo: start with lowest prio, then add.
+// But problem, since lower prio must give other result
+
+TEST_CASE("word_data_compare_nf") {
     word_data w1 = {};
     word_data w2 = {};
+
+    w1.set_prio_nf(12);
+    w2.set_prio_nf(14);
+    REQUIRE(std::weak_ordering::less == w1 <=> w2);
+    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
+}
+
+TEST_CASE("word_data_compare_spec") {
+    word_data w1 = {};
+    word_data w2 = {};
+
+    w1.set_prio_spec(1);
+    w2.set_prio_spec(std::nullopt);
+    REQUIRE(std::weak_ordering::less == w1 <=> w2);
+    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
+
+    w1.set_prio_spec(1);
+    w2.set_prio_spec(1);
+    REQUIRE(std::weak_ordering::equivalent == w1 <=> w2);
+    REQUIRE(std::weak_ordering::equivalent == w2 <=> w1);
+
+    w1.set_prio_spec(1);
+    w2.set_prio_spec(2);
+    REQUIRE(std::weak_ordering::less == w1 <=> w2);
+    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
+}
+
+TEST_CASE("word_data_compare_ichi1") {
+    word_data w1 = {};
+    word_data w2 = {};
+
+    w1.set_prio_ichi(1);
+    w2.set_prio_ichi(std::nullopt);
+    REQUIRE(std::weak_ordering::less == w1 <=> w2);
+    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
+
+    w1.set_prio_ichi(1);
+    w2.set_prio_ichi(1);
+    REQUIRE(std::weak_ordering::equivalent == w1 <=> w2);
+    REQUIRE(std::weak_ordering::equivalent == w2 <=> w1);
+
+    w1.set_prio_ichi(1);
+    w2.set_prio_ichi(2);
+    REQUIRE(std::weak_ordering::less == w1 <=> w2);
+    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
+}
+
+TEST_CASE("word_data_compare_news1") {
+    word_data w1 = {};
+    word_data w2 = {};
+
+    w1.set_prio_news(1);
+    w2.set_prio_news(std::nullopt);
+    REQUIRE(std::weak_ordering::less == w1 <=> w2);
+    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
+
+    w1.set_prio_news(1);
+    w2.set_prio_news(1);
+    REQUIRE(std::weak_ordering::equivalent == w1 <=> w2);
+    REQUIRE(std::weak_ordering::equivalent == w2 <=> w1);
+
+    w1.set_prio_news(1);
+    w2.set_prio_news(2);
+    REQUIRE(std::weak_ordering::less == w1 <=> w2);
+    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
 }
 
 #endif

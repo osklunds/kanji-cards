@@ -153,17 +153,49 @@ std::string word_data::as_string() {
 }
 
 std::weak_ordering operator<=> (const word_data& w1, const word_data& w2) {
-    /*
-      1. if spec exits
-      2. if ichi exists
-      3. if news exists
-      4. if nf exists
-      5. compare nf
-      6. compare news
-      7. compare ichi
-      8. compare spec
-      9. compare word
-     */
+    // nf spec1 ichi1 news1 spec2 ichi2 news2 nfX
 
-    return std::weak_ordering::less;
+    // nf
+    if (w1.prio_nf.has_value() &&
+        w2.prio_nf.has_value() &&
+        w1.prio_nf != w2.prio_nf) {
+        return w1.prio_nf <=> w2.prio_nf;
+    }
+
+    // spec1
+    if (w1.prio_spec == 1 && w2.prio_spec != 1) {
+        return std::weak_ordering::less;
+    }
+    if (w2.prio_spec == 1 && w1.prio_spec != 1) {
+        return std::weak_ordering::greater;
+    }
+    
+    // ichi1
+    if (w1.prio_ichi == 1 && w2.prio_ichi != 1) {
+        return std::weak_ordering::less;
+    } 
+    if (w2.prio_ichi == 1 && w1.prio_ichi != 1) {
+        return std::weak_ordering::greater;
+    } 
+
+    // news1
+    if (w1.prio_news == 1 && w2.prio_news != 1) {
+        return std::weak_ordering::less;
+    } 
+    if (w2.prio_news == 1 && w1.prio_news != 1) {
+        return std::weak_ordering::greater;
+    }
+
+    // spec2
+    if (w1.prio_spec == 2 && w2.prio_spec != 2) {
+        assert(w2.prio_spec != 1);
+        return std::weak_ordering::less;
+    }
+    if (w2.prio_spec == 2 && w1.prio_spec != 2) {
+        assert(w1.prio_spec != 1);
+        return std::weak_ordering::greater;
+    }
+   
+
+    return std::weak_ordering::equivalent;
 }
