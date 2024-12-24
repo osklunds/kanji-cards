@@ -162,6 +162,7 @@ TEST_CASE("word_data_compare_spec1_ichi1_spec2") {
     word_data w1 = {};
     word_data w2 = {};
 
+    // ichi1 decides
     w1.set_prio_ichi(1);
     w2.set_prio_ichi(std::nullopt);
     REQUIRE(w1 < w2);
@@ -175,6 +176,52 @@ TEST_CASE("word_data_compare_spec1_ichi1_spec2") {
     w1.set_prio_spec(std::nullopt);
     w2.set_prio_spec(1);
     REQUIRE(w1 > w2);
+}
+
+// one word_data for spec1, one for ichi1 etc etc
+TEST_CASE("word_data_compare_prio_order") {
+    word_data spec1 = {};
+    spec1.set_prio_spec(1);
+
+    word_data ichi1 = {};
+    ichi1.set_prio_ichi(1);
+
+    word_data news1 = {};
+    news1.set_prio_news(1);
+
+    word_data spec2 = {};
+    spec2.set_prio_spec(2);
+
+    word_data ichi2 = {};
+    ichi2.set_prio_ichi(2);
+
+    word_data news2 = {};
+    news2.set_prio_news(2);
+
+    // REQUIRE(spec1 == spec1);
+    REQUIRE(spec1 < ichi1);
+    REQUIRE(spec1 < news1);
+    REQUIRE(spec1 < spec2);
+    REQUIRE(spec1 < ichi2);
+    REQUIRE(spec1 < news2);
+
+    REQUIRE(ichi1 > spec1);
+    REQUIRE(ichi1 < news1);
+    REQUIRE(ichi1 < spec2);
+    REQUIRE(ichi1 < ichi2);
+    REQUIRE(ichi1 < news2);
+
+    word_data only_nf = {};
+    only_nf.set_prio_nf(1);
+
+    REQUIRE(only_nf > spec1);
+    REQUIRE(only_nf > ichi1);
+    REQUIRE(only_nf > news1);
+    REQUIRE(only_nf > spec2);
+    REQUIRE(only_nf > ichi2);
+    REQUIRE(only_nf > news2);
+
+
 }
 
 #endif
