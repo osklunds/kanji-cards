@@ -198,30 +198,67 @@ TEST_CASE("word_data_compare_prio_order") {
     word_data news2 = {};
     news2.set_prio_news(2);
 
+    word_data nf1 = {};
+    nf1.set_prio_nf(1);
+
+    word_data nf2 = {};
+    nf2.set_prio_nf(2);
+
+    // todo: nf and some other
+
     REQUIRE(spec1 == spec1);
     REQUIRE(spec1 < ichi1);
     REQUIRE(spec1 < news1);
     REQUIRE(spec1 < spec2);
     REQUIRE(spec1 < ichi2);
     REQUIRE(spec1 < news2);
+    REQUIRE(spec1 < nf1);
+    REQUIRE(spec1 < nf2);
 
     REQUIRE(ichi1 > spec1);
+    REQUIRE(ichi1 == ichi1);
     REQUIRE(ichi1 < news1);
     REQUIRE(ichi1 < spec2);
     REQUIRE(ichi1 < ichi2);
     REQUIRE(ichi1 < news2);
+    REQUIRE(ichi1 < nf1);
+    REQUIRE(ichi1 < nf2);
 
-    word_data only_nf = {};
-    only_nf.set_prio_nf(1);
+    REQUIRE(news1 > spec1);
+    REQUIRE(news1 > ichi1);
+    REQUIRE(news1 == news1);
+    REQUIRE(news1 < spec2);
+    REQUIRE(news1 < ichi2);
+    REQUIRE(news1 < news2);
+    REQUIRE(news1 < nf1);
+    REQUIRE(news1 < nf2);
 
-    REQUIRE(only_nf > spec1);
-    REQUIRE(only_nf > ichi1);
-    REQUIRE(only_nf > news1);
-    REQUIRE(only_nf > spec2);
-    REQUIRE(only_nf > ichi2);
-    REQUIRE(only_nf > news2);
+    REQUIRE(spec2 > spec1);
+    REQUIRE(spec2 > ichi1);
+    REQUIRE(spec2 > news1);
+    REQUIRE(spec2 == spec2);
+    REQUIRE(spec2 < ichi2);
+    REQUIRE(spec2 < news2);
+    REQUIRE(spec2 < nf1);
+    REQUIRE(spec2 < nf2);
 
+    REQUIRE(ichi2 > spec1);
+    REQUIRE(ichi2 > ichi1);
+    REQUIRE(ichi2 > news1);
+    REQUIRE(ichi2 > spec2);
+    REQUIRE(ichi2 == ichi2);
+    REQUIRE(ichi2 < news2);
+    REQUIRE(ichi2 < nf1);
+    REQUIRE(ichi2 < nf2);
 
+    REQUIRE(news2 > spec1);
+    REQUIRE(news2 > ichi1);
+    REQUIRE(news2 > news1);
+    REQUIRE(news2 > spec2);
+    REQUIRE(news2 > ichi2);
+    REQUIRE(news2 == news2);
+    REQUIRE(news2 < nf1);
+    REQUIRE(news2 < nf2);
 }
 
 #endif
