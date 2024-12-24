@@ -115,7 +115,7 @@ void word_data::set_prio_nf(std::optional<int> prio_nf) {
     this->prio_nf = prio_nf;
 }
 
-std::string word_data::as_string() {
+std::string word_data::as_string() const {
     std::string string {};
 
     string += "Word: " + word + "\n";
@@ -150,6 +150,11 @@ std::string word_data::as_string() {
     string += to_string(prio_nf);
 
     return string;
+}
+
+std::ostream& operator<< (std::ostream& os, const word_data& w) {
+    os << w.as_string();
+    return os;
 }
 
 std::weak_ordering operator<=> (const word_data& w1, const word_data& w2) {

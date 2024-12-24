@@ -45,11 +45,13 @@ public:
     std::optional<int> get_prio_nf();
     void set_prio_nf(std::optional<int> prio_nf);
 
-    std::string as_string();
+    std::string as_string() const;
 
+    friend std::ostream& operator<< (std::ostream& os, const word_data& w);
     friend std::weak_ordering operator<=> (const word_data& w1, const word_data& w2);
 };
 
+std::ostream& operator<< (std::ostream& os, const word_data& w);
 std::weak_ordering operator<=> (const word_data& w1, const word_data& w2);
 
 #endif
