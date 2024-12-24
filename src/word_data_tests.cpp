@@ -1,6 +1,7 @@
 
 #include "catch.hpp"
 #include <iostream>
+#include <tuple>
 
 #include "word_data.hpp"
 
@@ -109,23 +110,38 @@ TEST_CASE("word_data_compare_nf") {
 }
 
 TEST_CASE("word_data_compare_spec") {
-    word_data w1 = {};
-    word_data w2 = {};
+    std::vector<std::tuple<std::optional<int>, std::optional<int>, std::weak_ordering>>
+        tests = 
+        {
+            std::make_tuple(std::nullopt, std::nullopt, std::weak_ordering::equivalent),
+            std::make_tuple(std::nullopt,            1, std::weak_ordering::greater),
+            std::make_tuple(std::nullopt,            2, std::weak_ordering::greater),
 
-    w1.set_prio_spec(1);
-    w2.set_prio_spec(std::nullopt);
-    REQUIRE(std::weak_ordering::less == w1 <=> w2);
-    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
+            std::make_tuple(1,            std::nullopt, std::weak_ordering::less),
+            std::make_tuple(1,                       1, std::weak_ordering::equivalent),
+            std::make_tuple(1,                       2, std::weak_ordering::less),
 
-    w1.set_prio_spec(1);
-    w2.set_prio_spec(1);
-    REQUIRE(std::weak_ordering::equivalent == w1 <=> w2);
-    REQUIRE(std::weak_ordering::equivalent == w2 <=> w1);
+            std::make_tuple(2,            std::nullopt, std::weak_ordering::less),
+            std::make_tuple(2,                       1, std::weak_ordering::greater),
+            std::make_tuple(2,                       2, std::weak_ordering::equivalent)
+        };
 
-    w1.set_prio_spec(1);
-    w2.set_prio_spec(2);
-    REQUIRE(std::weak_ordering::less == w1 <=> w2);
-    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
+    for (auto test : tests) {
+        word_data w1 = {};
+        word_data w2 = {};
+
+        w1.set_prio_spec(std::get<0>(test));
+        w2.set_prio_spec(std::get<1>(test));
+
+        auto result = w1 <=> w2;
+
+        if (result != std::get<2>(test)) {
+            std::cout << w1 << std::endl << std::endl;
+            std::cout << w2 << std::endl << std::endl;
+        }
+
+        REQUIRE(result == std::get<2>(test));
+    }
 }
 
 TEST_CASE("word_data_compare_ichi1") {
