@@ -71,6 +71,10 @@ std::string word_data::get_word() {
     return word;
 }
 
+void word_data::set_word(std::string word) {
+    this->word = word;
+}
+
 std::vector<std::string> word_data::get_meanings() {
     return meanings;
 }
@@ -83,16 +87,32 @@ std::optional<int> word_data::get_prio_news() {
     return prio_news;
 }
 
+void word_data::set_prio_news(std::optional<int> prio_news) {
+    this->prio_news = prio_news;
+}
+
 std::optional<int> word_data::get_prio_ichi() {
     return prio_ichi;
+}
+
+void word_data::set_prio_ichi(std::optional<int> prio_ichi) {
+    this->prio_ichi = prio_ichi;
 }
 
 std::optional<int> word_data::get_prio_spec() {
     return prio_spec;
 }
 
+void word_data::set_prio_spec(std::optional<int> prio_spec) {
+    this->prio_spec = prio_spec;
+}
+
 std::optional<int> word_data::get_prio_nf() {
     return prio_nf;
+}
+
+void word_data::set_prio_nf(std::optional<int> prio_nf) {
+    this->prio_nf = prio_nf;
 }
 
 std::string word_data::as_string() {
@@ -130,4 +150,20 @@ std::string word_data::as_string() {
     string += to_string(prio_nf);
 
     return string;
+}
+
+std::weak_ordering operator<=> (const word_data& w1, const word_data& w2) {
+    /*
+      1. if spec exits
+      2. if ichi exists
+      3. if news exists
+      4. if nf exists
+      5. compare nf
+      6. compare news
+      7. compare ichi
+      8. compare spec
+      9. compare word
+     */
+
+    return std::weak_ordering::less;
 }

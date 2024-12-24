@@ -80,4 +80,9 @@ TEST_CASE("word_data_as_string") {
     REQUIRE(exp_string == string);
 }
 
+TEST_CASE("word_data_compare") {
+    word_data w1 = {};
+    word_data w2 = {};
+}
+
 #endif
