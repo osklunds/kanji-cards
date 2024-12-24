@@ -80,6 +80,22 @@ TEST_CASE("word_data_as_string") {
     REQUIRE(exp_string == string);
 }
 
+TEST_CASE("word_data_setters") {
+    word_data word = {};
+    word.set_word("日");
+    word.set_prio_news(3);
+    word.set_prio_ichi(2);
+    word.set_prio_spec(1);
+    word.set_prio_nf(12);
+
+    REQUIRE("日" == word.get_word());
+    REQUIRE(3 == word.get_prio_news());
+    REQUIRE(2 == word.get_prio_ichi());
+    REQUIRE(1 == word.get_prio_spec());
+    REQUIRE(12 == word.get_prio_nf());
+
+}
+
 TEST_CASE("word_data_compare") {
     word_data w1 = {};
     word_data w2 = {};
