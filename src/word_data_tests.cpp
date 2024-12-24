@@ -2,6 +2,7 @@
 #include "catch.hpp"
 #include <iostream>
 #include <tuple>
+#include <functional>
 
 #include "word_data.hpp"
 
@@ -99,17 +100,7 @@ TEST_CASE("word_data_setters") {
 // todo: start with lowest prio, then add.
 // But problem, since lower prio must give other result
 
-TEST_CASE("word_data_compare_nf") {
-    word_data w1 = {};
-    word_data w2 = {};
-
-    w1.set_prio_nf(12);
-    w2.set_prio_nf(14);
-    REQUIRE(std::weak_ordering::less == w1 <=> w2);
-    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
-}
-
-TEST_CASE("word_data_compare_spec") {
+TEST_CASE("word_data_compare_one_prio") {
     std::vector<std::tuple<std::optional<int>, std::optional<int>, std::weak_ordering>>
         tests = 
         {
@@ -126,62 +117,32 @@ TEST_CASE("word_data_compare_spec") {
             std::make_tuple(2,                       2, std::weak_ordering::equivalent)
         };
 
-    for (auto test : tests) {
-        word_data w1 = {};
-        word_data w2 = {};
+    std::vector<std::function<void(word_data&, std::optional<int>)>> set_prio_functions =
+        {
+            [](word_data& w, std::optional<int> prio) { w.set_prio_nf(prio); },
+            [](word_data& w, std::optional<int> prio) { w.set_prio_spec(prio); },
+            [](word_data& w, std::optional<int> prio) { w.set_prio_ichi(prio); },
+            [](word_data& w, std::optional<int> prio) { w.set_prio_news(prio); }
+        };
 
-        w1.set_prio_spec(std::get<0>(test));
-        w2.set_prio_spec(std::get<1>(test));
+    for (auto set_prio : set_prio_functions) {
+        for (auto test : tests) {
+            word_data w1 = {};
+            word_data w2 = {};
 
-        auto result = w1 <=> w2;
+            set_prio(w1, std::get<0>(test));
+            set_prio(w2, std::get<1>(test));
 
-        if (result != std::get<2>(test)) {
-            std::cout << w1 << std::endl << std::endl;
-            std::cout << w2 << std::endl << std::endl;
+            auto result = w1 <=> w2;
+
+            if (result != std::get<2>(test)) {
+                std::cout << w1 << std::endl << std::endl;
+                std::cout << w2 << std::endl << std::endl;
+            }
+
+            REQUIRE(result == std::get<2>(test));
         }
-
-        REQUIRE(result == std::get<2>(test));
     }
-}
-
-TEST_CASE("word_data_compare_ichi1") {
-    word_data w1 = {};
-    word_data w2 = {};
-
-    w1.set_prio_ichi(1);
-    w2.set_prio_ichi(std::nullopt);
-    REQUIRE(std::weak_ordering::less == w1 <=> w2);
-    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
-
-    w1.set_prio_ichi(1);
-    w2.set_prio_ichi(1);
-    REQUIRE(std::weak_ordering::equivalent == w1 <=> w2);
-    REQUIRE(std::weak_ordering::equivalent == w2 <=> w1);
-
-    w1.set_prio_ichi(1);
-    w2.set_prio_ichi(2);
-    REQUIRE(std::weak_ordering::less == w1 <=> w2);
-    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
-}
-
-TEST_CASE("word_data_compare_news1") {
-    word_data w1 = {};
-    word_data w2 = {};
-
-    w1.set_prio_news(1);
-    w2.set_prio_news(std::nullopt);
-    REQUIRE(std::weak_ordering::less == w1 <=> w2);
-    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
-
-    w1.set_prio_news(1);
-    w2.set_prio_news(1);
-    REQUIRE(std::weak_ordering::equivalent == w1 <=> w2);
-    REQUIRE(std::weak_ordering::equivalent == w2 <=> w1);
-
-    w1.set_prio_news(1);
-    w2.set_prio_news(2);
-    REQUIRE(std::weak_ordering::less == w1 <=> w2);
-    REQUIRE(std::weak_ordering::greater == w2 <=> w1);
 }
 
 #endif
