@@ -97,9 +97,8 @@ TEST_CASE("word_data_setters") {
     REQUIRE(12 == word.get_prio_nf());
 }
 
-// todo: start with lowest prio, then add.
-// But problem, since lower prio must give other result
-
+// This test is about comparing one prio metric to the same prio metric
+// in the other word_data.
 TEST_CASE("word_data_compare_one_prio") {
     std::vector<std::tuple<std::optional<int>, std::optional<int>, std::weak_ordering>>
         tests = 
@@ -143,6 +142,39 @@ TEST_CASE("word_data_compare_one_prio") {
             REQUIRE(result == std::get<2>(test));
         }
     }
+}
+
+// These tests are about comparing the order in which prio metrics are checked
+TEST_CASE("word_data_compare_nf_before_spec1") {
+    word_data w1 = {};
+    word_data w2 = {};
+
+    w1.set_prio_spec(1);
+    w2.set_prio_spec(std::nullopt);
+    REQUIRE(w1 < w2);
+
+    w1.set_prio_nf(20);
+    w2.set_prio_nf(19);
+    REQUIRE(w1 > w2);
+}
+
+TEST_CASE("word_data_compare_spec1_ichi1_spec2") {
+    word_data w1 = {};
+    word_data w2 = {};
+
+    w1.set_prio_ichi(1);
+    w2.set_prio_ichi(std::nullopt);
+    REQUIRE(w1 < w2);
+
+    // spec2 doesn't affect ichi1
+    w1.set_prio_spec(std::nullopt);
+    w2.set_prio_spec(2);
+    REQUIRE(w1 < w2);
+
+    // spec1 affects ichi1
+    w1.set_prio_spec(std::nullopt);
+    w2.set_prio_spec(1);
+    REQUIRE(w1 > w2);
 }
 
 #endif
