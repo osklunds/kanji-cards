@@ -178,7 +178,6 @@ TEST_CASE("word_data_compare_spec1_ichi1_spec2") {
     REQUIRE(w1 > w2);
 }
 
-// one word_data for spec1, one for ichi1 etc etc
 TEST_CASE("word_data_compare_prio_order") {
     word_data spec1 = {};
     spec1.set_prio_spec(1);
@@ -204,8 +203,9 @@ TEST_CASE("word_data_compare_prio_order") {
     word_data nf2 = {};
     nf2.set_prio_nf(2);
 
-    // todo: nf and some other
-
+    // This tests priorities because e.g. spec1 vs ichi1, one lacks
+    // spec and one lacks ichi, but spec1 becomes more common than ichi1,
+    // because spec is compared first.
     REQUIRE(spec1 == spec1);
     REQUIRE(spec1 < ichi1);
     REQUIRE(spec1 < news1);
@@ -277,6 +277,29 @@ TEST_CASE("word_data_compare_prio_order") {
     REQUIRE(nf2 > news2);
     REQUIRE(nf2 > nf1);
     REQUIRE(nf2 == nf2);
+
+    // nf overrides other prios, but not until both have nf, since the other
+    // prio indicators by their mere existence indicate some commonness.
+    std::vector<std::function<void(word_data&, std::optional<int>)>> set_prio_functions =
+    {
+        [](word_data& w, std::optional<int> prio) { w.set_prio_spec(prio); },
+        [](word_data& w, std::optional<int> prio) { w.set_prio_ichi(prio); },
+        [](word_data& w, std::optional<int> prio) { w.set_prio_news(prio); }
+    };
+
+    for (auto set_prio : set_prio_functions) {
+        word_data w1 = {};
+        word_data w2 = {};
+
+        set_prio(w1, 1);
+        set_prio(w2, 2);
+
+        REQUIRE(w1 < w2);
+        w1.set_prio_nf(10);
+        REQUIRE(w1 < w2);
+        w2.set_prio_nf(5);
+        REQUIRE(w1 > w2);
+    }
 }
 
 #endif
