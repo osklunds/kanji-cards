@@ -19,8 +19,8 @@ word_data::word_data() :
 }
 
 std::vector<word_data> word_data::read_from_doc(pugi::xml_document& doc,
-                                                       std::string kanji
-                                                       ) {
+                                                std::string kanji
+                                                ) {
     std::string xpath =
         std::format("/JMdict/entry[contains(./k_ele/keb,\"{}\")]", kanji);
     pugi::xpath_node_set xpath_entries = doc.select_nodes(xpath.c_str());
@@ -64,7 +64,6 @@ std::vector<word_data> word_data::read_from_doc(pugi::xml_document& doc,
         word_datas.push_back(word_data);
     }
 
-    // todo: add test
     std::sort(word_datas.begin(), word_datas.end());
 
     return word_datas;

@@ -35,7 +35,19 @@ TEST_CASE("word_data_sample_data_read_from_doc_2_matches") {
     std::vector<word_data> word_datas = word_data::read_from_doc(doc, "動");
     REQUIRE(word_datas.size() == 2);
 
-    word_data animal = word_datas[0];
+    word_data to_move = word_datas[0];
+    REQUIRE(to_move.get_word() == "動く");
+
+    std::vector<std::string> to_move_meanings = { "to move" };
+    REQUIRE(to_move.get_meanings() == to_move_meanings);
+
+    REQUIRE("うごく" == to_move.get_reading());
+    REQUIRE(std::nullopt == to_move.get_prio_news());
+    REQUIRE(std::nullopt == to_move.get_prio_ichi());
+    REQUIRE(std::nullopt == to_move.get_prio_spec());
+    REQUIRE(1 == to_move.get_prio_nf());
+
+    word_data animal = word_datas[1];
     REQUIRE(animal.get_word() == "動物");
 
     std::vector<std::string> animal_meanings = { "animal" };
@@ -46,18 +58,6 @@ TEST_CASE("word_data_sample_data_read_from_doc_2_matches") {
     REQUIRE(std::nullopt == animal.get_prio_ichi());
     REQUIRE(std::nullopt == animal.get_prio_spec());
     REQUIRE(std::nullopt == animal.get_prio_nf());
-
-    word_data to_move = word_datas[1];
-    REQUIRE(to_move.get_word() == "動く");
-
-    std::vector<std::string> to_move_meanings = { "to move" };
-    REQUIRE(to_move.get_meanings() == to_move_meanings);
-
-    REQUIRE("うごく" == to_move.get_reading());
-    REQUIRE(std::nullopt == to_move.get_prio_news());
-    REQUIRE(std::nullopt == to_move.get_prio_ichi());
-    REQUIRE(std::nullopt == to_move.get_prio_spec());
-    REQUIRE(std::nullopt == to_move.get_prio_nf());
 }
 
 TEST_CASE("word_data_as_string") {
