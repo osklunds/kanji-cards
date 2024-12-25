@@ -113,4 +113,10 @@ TEST_CASE("word_data_compare") {
     w1.set_prio_nf(std::nullopt);
     REQUIRE(w1 > w2);
     REQUIRE(w2 < w1);
+
+    w1.set_prio_nf(3);
+    w2.set_prio_nf(3);
+
+    REQUIRE(w1 == w2);
+    REQUIRE(w2 == w1);
 }
