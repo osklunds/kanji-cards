@@ -44,7 +44,7 @@ TEST_CASE("sample_data") {
 
     REQUIRE(words[0].get_word() == "日本");
     REQUIRE(words[0].get_reading() == "にほん");
-    // REQUIRE(words[0].get_meanings() == { "Japan" });
+    REQUIRE(words[0].get_meanings() == (std::vector<std::string>){ "Japan" });
     REQUIRE(words[0].get_prio_news() == std::nullopt);
     REQUIRE(words[0].get_prio_ichi() == 1);
     REQUIRE(words[0].get_prio_spec() == std::nullopt);
@@ -52,7 +52,7 @@ TEST_CASE("sample_data") {
 
     REQUIRE(words[1].get_word() == "日");
     REQUIRE(words[1].get_reading() == "にち");
-    // REQUIRE(words[1].get_meanings() == { "Day" });
+    REQUIRE(words[1].get_meanings() == (std::vector<std::string>){ "Day" });
     REQUIRE(words[1].get_prio_news() == std::nullopt);
     REQUIRE(words[1].get_prio_ichi() == std::nullopt);
     REQUIRE(words[1].get_prio_spec() == std::nullopt);
