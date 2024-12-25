@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "pugixml.hpp"
+#include "word_data.hpp"
 
 class kanji_data {
 private:
@@ -12,6 +13,7 @@ private:
     std::vector<std::string> meanings {};
     std::vector<std::string> kun_readings {};
     std::vector<std::string> on_readings {};
+    std::vector<word_data> words {};
 
     std::string vector_as_string(std::string prefix,
                                  std::vector<std::string>& strings

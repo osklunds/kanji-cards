@@ -10,7 +10,8 @@ kanji_data::kanji_data(std::string kanji) :
     kanji { kanji },
     meanings {},
     kun_readings {},
-    on_readings {}
+    on_readings {},
+    words {}
 {
 
 }
@@ -43,6 +44,8 @@ void kanji_data::read_from_doc(pugi::xml_document& kanjidic2_doc,
             this->on_readings.push_back(reading.text().get());
         }
     }
+
+    this->words = word_data::read_from_doc(jmdict_e_doc, this->kanji);
 }
 
 std::vector<std::string> kanji_data::get_meanings() {
@@ -60,13 +63,18 @@ std::vector<std::string> kanji_data::get_on_readings() {
 std::string kanji_data::as_string() {
     std::string string {};
 
-    string += "Kanji: " + kanji + "\n";
+    string += "-----\nKanji: " + kanji + "\n";
 
     string += vector_as_string("Meanings", this->meanings);
     string += vector_as_string("Kun readings", this->kun_readings);
     string += vector_as_string("On readings", this->on_readings);
 
-    string.pop_back();
+    for (word_data word_data : words) {
+        string += "---\n";
+        string += word_data.as_string();
+        string += "\n";
+    }
+    string += "-----";
 
     return string;
 }

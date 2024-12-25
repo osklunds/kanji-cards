@@ -56,11 +56,28 @@ TEST_CASE("as_string") {
 
     std::string string = kanji_data.as_string();
     std::string exp_string {};
+    exp_string.append("-----\n");
     exp_string.append("Kanji: 日\n");
     exp_string.append("Meanings: day, sun, Japan, counter for days\n");
     exp_string.append("Kun readings: ひ, -び, -か\n");
-    exp_string.append("On readings: ニチ, ジツ");
-
+    exp_string.append("On readings: ニチ, ジツ\n");
+    exp_string.append("---\n");
+    exp_string.append("Word: 日本\n");
+    exp_string.append("Reading: にほん\n");
+    exp_string.append("Meanings: Japan\n");
+    exp_string.append("Prio news: \n");
+    exp_string.append("Prio ichi: \n");
+    exp_string.append("Prio spec: \n");
+    exp_string.append("Prio nf: \n");
+    exp_string.append("---\n");
+    exp_string.append("Word: 日\n");
+    exp_string.append("Reading: にち\n");
+    exp_string.append("Meanings: Day\n");
+    exp_string.append("Prio news: \n");
+    exp_string.append("Prio ichi: \n");
+    exp_string.append("Prio spec: \n");
+    exp_string.append("Prio nf: \n");
+    exp_string.append("-----");
     REQUIRE(exp_string == string);
 }
 
