@@ -110,15 +110,15 @@ std::string kanji_data::as_pretty_string() {
     string += vector_as_string("On readings", on_readings);
 
     auto word_data_it = words.begin();
-    for (int j = 0; j < 5; j++) {
+    for (int i = 0; i < 5; i++) {
         string += word_data_it->get_word() + " (" + word_data_it->get_reading() + ") ";
 
         std::vector<std::string> word_meanings = word_data_it->get_meanings();
-        auto it = word_meanings.begin();
-        for (int i = 0; i < 3; i++) {
-            string += *it + ", ";
-            it++;
-            if (it == word_meanings.end()) {
+        auto meaning_it = word_meanings.begin();
+        for (int j = 0; j < 3; j++) {
+            string += *meaning_it + ", ";
+            meaning_it++;
+            if (meaning_it == word_meanings.end()) {
                 break;
             }
         }
