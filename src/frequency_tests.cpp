@@ -5,8 +5,6 @@
 
 #include "frequency.hpp"
 
-#ifdef TEST
-
 TEST_CASE("get_frequency_entries_from_file") {
     std::vector<frequency_entry> entries =
         get_frequency_entries_from_file("../data/kanji_freqency_list_sample.csv");
@@ -25,5 +23,3 @@ TEST_CASE("get_frequency_entries_from_file") {
 
     REQUIRE(entries.size() == 4);
 }
-
-#endif

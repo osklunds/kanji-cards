@@ -16,8 +16,6 @@
 // #define cimg_display 0
 // #include "CImg.h"
 
-#ifdef TEST
-
 // A convenient way to run the main function
 TEST_CASE("run_main", "[.]") {
     std::vector<frequency_entry> entries =
@@ -193,5 +191,3 @@ TEST_CASE("learning_JMdict_e_words_with_kanji") {
         // std::cout << "oskar: " << keb.text().get() << std::endl;
     }
 }
-
-#endif

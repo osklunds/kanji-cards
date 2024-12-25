@@ -6,8 +6,6 @@
 
 #include "word_data.hpp"
 
-#ifdef TEST
-
 TEST_CASE("word_data_sample_data_read_from_doc_1_match") {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file("../data/JMdict_e_sample.xml");
@@ -301,5 +299,3 @@ TEST_CASE("word_data_compare_prio_order") {
         REQUIRE(w1 > w2);
     }
 }
-
-#endif

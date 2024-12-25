@@ -7,8 +7,6 @@
 
 #include "kanji_data.hpp"
 
-#ifdef TEST
-
 TEST_CASE("sample_data") {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
@@ -50,4 +48,3 @@ TEST_CASE("as_string") {
     REQUIRE(exp_string == string);
 }
 
-#endif
