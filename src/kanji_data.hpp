@@ -29,6 +29,7 @@ public:
     std::vector<std::string> get_meanings();
     std::vector<std::string> get_kun_readings();
     std::vector<std::string> get_on_readings();
+    std::vector<word_data> get_words();
 
     std::string as_string();
 };

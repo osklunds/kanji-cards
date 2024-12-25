@@ -38,6 +38,25 @@ TEST_CASE("sample_data") {
     REQUIRE(on_readings.size() == 2);
     REQUIRE(on_readings[0] == "ニチ");
     REQUIRE(on_readings[1] == "ジツ");
+
+    std::vector<word_data> words = kanji_data.get_words();
+    REQUIRE(words.size() == 2);
+
+    REQUIRE(words[0].get_word() == "日本");
+    REQUIRE(words[0].get_reading() == "にほん");
+    // REQUIRE(words[0].get_meanings() == { "Japan" });
+    REQUIRE(words[0].get_prio_news() == std::nullopt);
+    REQUIRE(words[0].get_prio_ichi() == 1);
+    REQUIRE(words[0].get_prio_spec() == std::nullopt);
+    REQUIRE(words[0].get_prio_nf() == std::nullopt);
+
+    REQUIRE(words[1].get_word() == "日");
+    REQUIRE(words[1].get_reading() == "にち");
+    // REQUIRE(words[1].get_meanings() == { "Day" });
+    REQUIRE(words[1].get_prio_news() == std::nullopt);
+    REQUIRE(words[1].get_prio_ichi() == std::nullopt);
+    REQUIRE(words[1].get_prio_spec() == std::nullopt);
+    REQUIRE(words[1].get_prio_nf() == std::nullopt);
 }
 
 TEST_CASE("as_string") {
@@ -66,7 +85,7 @@ TEST_CASE("as_string") {
     exp_string.append("Reading: にほん\n");
     exp_string.append("Meanings: Japan\n");
     exp_string.append("Prio news: \n");
-    exp_string.append("Prio ichi: \n");
+    exp_string.append("Prio ichi: 1\n");
     exp_string.append("Prio spec: \n");
     exp_string.append("Prio nf: \n");
     exp_string.append("---\n");

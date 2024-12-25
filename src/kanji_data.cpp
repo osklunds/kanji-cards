@@ -60,6 +60,10 @@ std::vector<std::string> kanji_data::get_on_readings() {
     return this->on_readings;
 }
 
+std::vector<word_data> kanji_data::get_words() {
+    return words;
+}
+
 std::string kanji_data::as_string() {
     std::string string {};
 
