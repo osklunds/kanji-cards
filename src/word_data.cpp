@@ -165,81 +165,20 @@ bool operator== (const word_data& w1, const word_data& w2) {
 }
 
 std::weak_ordering operator<=> (const word_data& w1, const word_data& w2) {
-    // nf spec1 ichi1 news1 spec2 ichi2 news2 nfX
-
-    // nf
+    // todo: consider using spec, news and ichi too
+    // could map e.g. spec1 to nf10
     if (w1.prio_nf.has_value() &&
         w2.prio_nf.has_value() &&
         w1.prio_nf != w2.prio_nf) {
         return w1.prio_nf <=> w2.prio_nf;
     }
 
-    // // spec1
-    // if (w1.prio_spec == 1 && w2.prio_spec != 1) {
-    //     return std::weak_ordering::less;
-    // }
-    // if (w2.prio_spec == 1 && w1.prio_spec != 1) {
-    //     return std::weak_ordering::greater;
-    // }
-    
-    // // ichi1
-    // if (w1.prio_ichi == 1 && w2.prio_ichi != 1) {
-    //     return std::weak_ordering::less;
-    // } 
-    // if (w2.prio_ichi == 1 && w1.prio_ichi != 1) {
-    //     return std::weak_ordering::greater;
-    // } 
-
-    // // news1
-    // if (w1.prio_news == 1 && w2.prio_news != 1) {
-    //     return std::weak_ordering::less;
-    // } 
-    // if (w2.prio_news == 1 && w1.prio_news != 1) {
-    //     return std::weak_ordering::greater;
-    // }
-
-    // // spec2
-    // if (w1.prio_spec == 2 && w2.prio_spec != 2) {
-    //     assert(w2.prio_spec != 1);
-    //     return std::weak_ordering::less;
-    // }
-    // if (w2.prio_spec == 2 && w1.prio_spec != 2) {
-    //     assert(w1.prio_spec != 1);
-    //     return std::weak_ordering::greater;
-    // }
-
-    // // ichi2
-    // if (w1.prio_ichi == 2 && w2.prio_ichi != 2) {
-    //     assert(w2.prio_ichi != 1);
-    //     return std::weak_ordering::less;
-    // }
-    // if (w2.prio_ichi == 2 && w1.prio_ichi != 2) {
-    //     assert(w1.prio_ichi != 1);
-    //     return std::weak_ordering::greater;
-    // }
-
-    // // news2
-    // if (w1.prio_news == 2 && w2.prio_news != 2) {
-    //     assert(w2.prio_news != 1);
-    //     return std::weak_ordering::less;
-    // }
-    // if (w2.prio_news == 2 && w1.prio_news != 2) {
-    //     assert(w1.prio_news != 1);
-    //     return std::weak_ordering::greater;
-    // }
-
-    // nfX
     if (w1.prio_nf.has_value() && !w2.prio_nf.has_value()) {
         return std::weak_ordering::less;
     }
     if (!w1.prio_nf.has_value() && w2.prio_nf.has_value()) {
         return std::weak_ordering::greater;
     }
-
-    // assert(w1.prio_nf == w2.prio_nf);
-    // assert(w1.prio_spec == w2.prio_spec);
-    // assert(w1.prio_ichi == w2.prio_ichi);
-    // assert(w1.prio_news == w2.prio_news);
 
     return std::weak_ordering::equivalent;
 }
