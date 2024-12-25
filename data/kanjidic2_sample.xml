@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kanjidic2>
+<character>
+<literal>日</literal>
+<reading_meaning>
+<rmgroup>
+<reading r_type="pinyin">ri4</reading>
+<reading r_type="ja_on">ニチ</reading>
+<reading r_type="ja_on">ジツ</reading>
+<reading r_type="ja_kun">ひ</reading>
+<reading r_type="ja_kun">-び</reading>
+<reading r_type="ja_kun">-か</reading>
+<meaning>day</meaning>
+<meaning>sun</meaning>
+<meaning>Japan</meaning>
+<meaning>counter for days</meaning>
+<meaning m_lang="fr">jour</meaning>
+</rmgroup>
+<nanori>あ</nanori>
+</reading_meaning>
+</character>
+</kanjidic2>
