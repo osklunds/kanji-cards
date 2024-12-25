@@ -26,12 +26,14 @@ public:
                        pugi::xml_document& jmdict_e_doc
                        );
 
+    std::string get_kanji();
     std::vector<std::string> get_meanings();
     std::vector<std::string> get_kun_readings();
     std::vector<std::string> get_on_readings();
     std::vector<word_data> get_words();
 
     std::string as_string();
+    std::string as_pretty_string();
 };
 
 #endif

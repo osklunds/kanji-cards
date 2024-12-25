@@ -46,6 +46,7 @@ public:
     void set_prio_nf(std::optional<int> prio_nf);
 
     std::string as_string() const;
+    std::string as_pretty_string() const;
 
     friend std::ostream& operator<< (std::ostream& os, const word_data& w);
     friend bool operator== (const word_data& w1, const word_data& w2);

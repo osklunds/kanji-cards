@@ -20,20 +20,24 @@
 TEST_CASE("run_main", "[.]") {
     std::vector<frequency_entry> entries =
         get_frequency_entries_from_file("../data/kanji_freqency_list.csv");
-    entries.erase(entries.begin() + 800, entries.end());
+    entries.erase(entries.begin() + 20, entries.end());
 
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
+    pugi::xml_document kanjidic2_doc;
+    pugi::xml_parse_result result_kanjidic2 =
+        kanjidic2_doc.load_file("../data/kanjidic2.xml");
+    REQUIRE(result_kanjidic2 == true);
 
+    pugi::xml_document jmdict_e_doc;
+    pugi::xml_parse_result result_jmdict_e =
+        jmdict_e_doc.load_file("../data/JMdict_e.xml");
+    REQUIRE(result_jmdict_e == true);
 
-    // for (auto fe : entries) {
-    //     kanji_data kanji_data { fe.get_kanji() };
-    //     kanji_data.read_from_doc(doc);
+    for (auto fe : entries) {
+        kanji_data kanji_data { fe.get_kanji() };
+        kanji_data.read_from_doc(kanjidic2_doc, jmdict_e_doc);
 
-    //     std::cout << kanji_data.as_string() << std::endl << std::endl;
-    // }
-
-
+        std::cout << kanji_data.as_pretty_string() << std::endl;
+    }
 }
 
 TEST_CASE("learning") {
