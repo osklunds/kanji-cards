@@ -8,10 +8,18 @@
 #include "kanji_data.hpp"
 
 TEST_CASE("sample_data") {
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
+    pugi::xml_document kanjidic2_doc;
+    pugi::xml_parse_result result_kanjidic2 =
+        kanjidic2_doc.load_file("../data/kanjidic2.xml");
+    REQUIRE(result_kanjidic2 == true);
+
+    pugi::xml_document jmdict_e_doc;
+    pugi::xml_parse_result result_jmdict_e =
+        jmdict_e_doc.load_file("../data/JMdict_e_sample.xml");
+    REQUIRE(result_jmdict_e == true);
+    
     kanji_data kanji_data { "日" };
-    kanji_data.read_from_doc(doc);
+    kanji_data.read_from_doc(kanjidic2_doc, jmdict_e_doc);
 
     std::vector<std::string> meanings = kanji_data.get_meanings();
     REQUIRE(meanings.size() == 4);
@@ -33,10 +41,18 @@ TEST_CASE("sample_data") {
 }
 
 TEST_CASE("as_string") {
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
+    pugi::xml_document kanjidic2_doc;
+    pugi::xml_parse_result result_kanjidic2 =
+        kanjidic2_doc.load_file("../data/kanjidic2.xml");
+    REQUIRE(result_kanjidic2 == true);
+
+    pugi::xml_document jmdict_e_doc;
+    pugi::xml_parse_result result_jmdict_e =
+        jmdict_e_doc.load_file("../data/JMdict_e_sample.xml");
+    REQUIRE(result_jmdict_e == true);
+
     kanji_data kanji_data { "日" };
-    kanji_data.read_from_doc(doc);
+    kanji_data.read_from_doc(kanjidic2_doc, jmdict_e_doc);
 
     std::string string = kanji_data.as_string();
     std::string exp_string {};

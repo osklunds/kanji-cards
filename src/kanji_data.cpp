@@ -15,10 +15,12 @@ kanji_data::kanji_data(std::string kanji) :
 
 }
 
-void kanji_data::read_from_doc(pugi::xml_document& doc) {
+void kanji_data::read_from_doc(pugi::xml_document& kanjidic2_doc,
+                               pugi::xml_document& jmdict_e_doc
+                               ) {
     std::string xpath =
         std::format("/kanjidic2/character[./literal = \"{}\"]", this->kanji);
-    pugi::xpath_node xpath_character_node = doc.select_node(xpath.c_str());
+    pugi::xpath_node xpath_character_node = kanjidic2_doc.select_node(xpath.c_str());
     pugi::xml_node character_node = xpath_character_node.node();
 
     pugi::xml_node literal_node = character_node.child("literal");

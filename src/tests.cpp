@@ -26,12 +26,12 @@ TEST_CASE("run_main", "[.]") {
     pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
 
 
-    for (auto fe : entries) {
-        kanji_data kanji_data { fe.get_kanji() };
-        kanji_data.read_from_doc(doc);
+    // for (auto fe : entries) {
+    //     kanji_data kanji_data { fe.get_kanji() };
+    //     kanji_data.read_from_doc(doc);
 
-        std::cout << kanji_data.as_string() << std::endl << std::endl;
-    }
+    //     std::cout << kanji_data.as_string() << std::endl << std::endl;
+    // }
 
 
 }
