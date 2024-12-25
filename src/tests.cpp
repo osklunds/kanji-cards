@@ -33,8 +33,7 @@ TEST_CASE("run_main", "[.]") {
     REQUIRE(result_jmdict_e == true);
 
     for (auto fe : entries) {
-        kanji_data kanji_data { fe.get_kanji() };
-        kanji_data.read_from_doc(kanjidic2_doc, jmdict_e_doc);
+        kanji_data kanji_data { fe.get_kanji(), kanjidic2_doc, jmdict_e_doc };
 
         std::cout << kanji_data.as_pretty_string() << std::endl;
     }

@@ -6,19 +6,16 @@
 
 #include "kanji_data.hpp"
 
-kanji_data::kanji_data(std::string kanji) :
+kanji_data::kanji_data(std::string kanji,
+                       pugi::xml_document& kanjidic2_doc,
+                       pugi::xml_document& jmdict_e_doc
+                       )  :
     kanji { kanji },
     meanings {},
     kun_readings {},
     on_readings {},
     words {}
 {
-
-}
-
-void kanji_data::read_from_doc(pugi::xml_document& kanjidic2_doc,
-                               pugi::xml_document& jmdict_e_doc
-                               ) {
     std::string xpath =
         std::format("/kanjidic2/character[./literal = \"{}\"]", this->kanji);
     pugi::xpath_node xpath_character_node = kanjidic2_doc.select_node(xpath.c_str());

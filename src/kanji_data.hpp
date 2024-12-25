@@ -20,11 +20,10 @@ private:
                                  );
 
 public:
-    kanji_data(std::string kanji);
-
-    void read_from_doc(pugi::xml_document& kanjidic2_doc,
-                       pugi::xml_document& jmdict_e_doc
-                       );
+    kanji_data(std::string kanji,
+               pugi::xml_document& kanjidic2_doc,
+               pugi::xml_document& jmdict_e_doc
+               );
 
     std::string get_kanji();
     std::vector<std::string> get_meanings();
