@@ -6,14 +6,14 @@ project(KanjiCards)
 include(ExternalProject)
 
 # Main executable
-add_executable(main 
-                    src/tests.cpp
-                    src/frequency.cpp
-                    src/frequency_tests.cpp
-                    src/kanji_data.cpp
-                    src/kanji_data_tests.cpp
-                    src/word_data.cpp
-                    src/word_data_tests.cpp
+add_executable(main
+src/tests.cpp
+src/frequency.cpp
+src/frequency_tests.cpp
+src/kanji_data.cpp
+src/kanji_data_tests.cpp
+src/word_data.cpp
+src/word_data_tests.cpp
 )
 
 # pugixml
@@ -22,14 +22,13 @@ set(PUGIXML_DIR ${CMAKE_BINARY_DIR}/pugixml)
 ExternalProject_add(pugixml
   GIT_REPOSITORY https://github.com/zeux/pugixml.git
   GIT_TAG 4bc1441
-  PREFIX ${CMAKE_BINARY_DIR}/_deps
+  PREFIX ${CMAKE_BINARY_DIR}/pugixml_git
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${PUGIXML_DIR}
 )
 
 include_directories(${PUGIXML_DIR}/include)
-
-add_dependencies(main pugixml)
 target_link_libraries(main ${PUGIXML_DIR}/lib64/libpugixml.a)
+add_dependencies(main pugixml)
 
 # catch2
 set(CATCH2_DIR ${CMAKE_BINARY_DIR}/catch2)
@@ -42,7 +41,7 @@ ExternalProject_add(catch2
 )
 
 include_directories(${CATCH2_DIR}/include)
-
-add_dependencies(main catch2)
 target_link_libraries(main ${CATCH2_DIR}/lib64/libCatch2Main.a)
 target_link_libraries(main ${CATCH2_DIR}/lib64/libCatch2.a)
+
+add_dependencies(main catch2)
