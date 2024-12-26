@@ -20,30 +20,29 @@ private:
     std::optional<int> prio_nf {};
 
 public:
-    static std::vector<word_data> read_from_doc(pugi::xml_document& doc,
-                                                std::string kanji
+    static std::vector<word_data> read_from_doc(const pugi::xml_document& doc,
+                                                const std::string &kanji
                                                 );
 
     word_data();
 
-    std::string get_word();
-    void set_word(std::string word);
+    const std::string& get_word() const;
+    void set_word(const std::string& word);
     
-    std::vector<std::string> get_meanings();
+    const std::vector<std::string>& get_meanings() const;
+    const std::string& get_reading() const;
 
-    std::string get_reading();
-
-    std::optional<int> get_prio_news();
-    void set_prio_news(std::optional<int> prio_news);
+    const std::optional<int>& get_prio_news() const;
+    void set_prio_news(const std::optional<int>& prio_news);
     
-    std::optional<int> get_prio_ichi();
-    void set_prio_ichi(std::optional<int> prio_ichi);
+    const std::optional<int>& get_prio_ichi() const;
+    void set_prio_ichi(const std::optional<int>& prio_ichi);
 
-    std::optional<int> get_prio_spec();
-    void set_prio_spec(std::optional<int> prio_spec);
+    const std::optional<int>& get_prio_spec() const;
+    void set_prio_spec(const std::optional<int>& prio_spec);
 
-    std::optional<int> get_prio_nf();
-    void set_prio_nf(std::optional<int> prio_nf);
+    const std::optional<int>& get_prio_nf() const;
+    void set_prio_nf(const std::optional<int>& prio_nf);
 
     std::string as_string() const;
     std::string as_pretty_string() const;

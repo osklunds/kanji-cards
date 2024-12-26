@@ -18,8 +18,8 @@ word_data::word_data() :
 
 }
 
-std::vector<word_data> word_data::read_from_doc(pugi::xml_document& doc,
-                                                std::string kanji
+std::vector<word_data> word_data::read_from_doc(const pugi::xml_document& doc,
+                                                const std::string& kanji
                                                 ) {
     std::string xpath =
         std::format("/JMdict/entry[contains(./k_ele/keb,\"{}\")]", kanji);
@@ -69,51 +69,51 @@ std::vector<word_data> word_data::read_from_doc(pugi::xml_document& doc,
     return word_datas;
 }
 
-std::string word_data::get_word() {
+const std::string& word_data::get_word() const {
     return word;
 }
 
-void word_data::set_word(std::string word) {
+void word_data::set_word(const std::string& word) {
     this->word = word;
 }
 
-std::vector<std::string> word_data::get_meanings() {
+const std::vector<std::string>& word_data::get_meanings() const {
     return meanings;
 }
 
-std::string word_data::get_reading() {
+const std::string& word_data::get_reading() const {
     return reading;
 }
 
-std::optional<int> word_data::get_prio_news() {
+const std::optional<int>& word_data::get_prio_news() const {
     return prio_news;
 }
 
-void word_data::set_prio_news(std::optional<int> prio_news) {
+void word_data::set_prio_news(const std::optional<int>& prio_news) {
     this->prio_news = prio_news;
 }
 
-std::optional<int> word_data::get_prio_ichi() {
+const std::optional<int>& word_data::get_prio_ichi() const {
     return prio_ichi;
 }
 
-void word_data::set_prio_ichi(std::optional<int> prio_ichi) {
+void word_data::set_prio_ichi(const std::optional<int>& prio_ichi) {
     this->prio_ichi = prio_ichi;
 }
 
-std::optional<int> word_data::get_prio_spec() {
+const std::optional<int>& word_data::get_prio_spec() const {
     return prio_spec;
 }
 
-void word_data::set_prio_spec(std::optional<int> prio_spec) {
+void word_data::set_prio_spec(const std::optional<int>& prio_spec) {
     this->prio_spec = prio_spec;
 }
 
-std::optional<int> word_data::get_prio_nf() {
+const std::optional<int>& word_data::get_prio_nf() const {
     return prio_nf;
 }
 
-void word_data::set_prio_nf(std::optional<int> prio_nf) {
+void word_data::set_prio_nf(const std::optional<int>& prio_nf) {
     this->prio_nf = prio_nf;
 }
 
