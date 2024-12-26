@@ -15,24 +15,24 @@ private:
     std::vector<std::string> on_readings {};
     std::vector<word_data> words {};
 
-    std::string vector_as_string(std::string prefix,
-                                 std::vector<std::string>& strings
-                                 );
+    std::string vector_as_string(const std::string& prefix,
+                                 const std::vector<std::string>& strings
+                                 ) const;
 
 public:
-    kanji_data(std::string kanji,
-               pugi::xml_document& kanjidic2_doc,
-               pugi::xml_document& jmdict_e_doc
+    kanji_data(const std::string& kanji,
+               const pugi::xml_document& kanjidic2_doc,
+               const pugi::xml_document& jmdict_e_doc
                );
 
-    std::string get_kanji();
-    std::vector<std::string> get_meanings();
-    std::vector<std::string> get_kun_readings();
-    std::vector<std::string> get_on_readings();
-    std::vector<word_data> get_words();
+    const std::string& get_kanji() const;
+    const std::vector<std::string>& get_meanings() const;
+    const std::vector<std::string>& get_kun_readings() const;
+    const std::vector<std::string>& get_on_readings() const;
+    const std::vector<word_data>& get_words() const;
 
-    std::string as_string();
-    std::string as_pretty_string();
+    std::string as_string() const;
+    std::string as_pretty_string() const;
 };
 
 #endif

@@ -6,9 +6,9 @@
 
 #include "kanji_data.hpp"
 
-kanji_data::kanji_data(std::string kanji,
-                       pugi::xml_document& kanjidic2_doc,
-                       pugi::xml_document& jmdict_e_doc
+kanji_data::kanji_data(const std::string& kanji,
+                       const pugi::xml_document& kanjidic2_doc,
+                       const pugi::xml_document& jmdict_e_doc
                        )  :
     kanji { kanji },
     meanings {},
@@ -45,34 +45,34 @@ kanji_data::kanji_data(std::string kanji,
     this->words = word_data::read_from_doc(jmdict_e_doc, this->kanji);
 }
 
-std::string kanji_data::get_kanji() {
+const std::string& kanji_data::get_kanji() const {
     return kanji;
 }
 
-std::vector<std::string> kanji_data::get_meanings() {
-    return this->meanings;
+const std::vector<std::string>& kanji_data::get_meanings() const {
+    return meanings;
 }
 
-std::vector<std::string> kanji_data::get_kun_readings() {
-    return this->kun_readings;
+const std::vector<std::string>& kanji_data::get_kun_readings() const {
+    return kun_readings;
 }
 
-std::vector<std::string> kanji_data::get_on_readings() {
-    return this->on_readings;
+const std::vector<std::string>& kanji_data::get_on_readings() const {
+    return on_readings;
 }
 
-std::vector<word_data> kanji_data::get_words() {
+const std::vector<word_data>& kanji_data::get_words() const {
     return words;
 }
 
-std::string kanji_data::as_string() {
+std::string kanji_data::as_string() const {
     std::string string {};
 
     string += "-----\nKanji: " + kanji + "\n";
 
-    string += vector_as_string("Meanings", this->meanings);
-    string += vector_as_string("Kun readings", this->kun_readings);
-    string += vector_as_string("On readings", this->on_readings);
+    string += vector_as_string("Meanings", meanings);
+    string += vector_as_string("Kun readings", kun_readings);
+    string += vector_as_string("On readings", on_readings);
 
     for (word_data word_data : words) {
         string += "---\n";
@@ -84,9 +84,9 @@ std::string kanji_data::as_string() {
     return string;
 }
 
-std::string kanji_data::vector_as_string(std::string prefix,
-                                         std::vector<std::string>& strings
-                                         ) {
+std::string kanji_data::vector_as_string(const std::string& prefix,
+                                         const std::vector<std::string>& strings
+                                         ) const {
     std::string string {};
 
     string += prefix + ": ";
@@ -100,7 +100,7 @@ std::string kanji_data::vector_as_string(std::string prefix,
     return string;
 }
 
-std::string kanji_data::as_pretty_string() {
+std::string kanji_data::as_pretty_string() const {
     std::string string {};
 
     string += "Kanji: " + kanji + "\n";
