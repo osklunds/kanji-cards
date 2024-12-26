@@ -7,20 +7,22 @@
 
 #include "frequency.hpp"
 
-frequency_entry::frequency_entry(std::string kanji, int frequency) {
-    this->kanji = kanji;
-    this->frequency = frequency;
+frequency_entry::frequency_entry(const std::string& kanji, int frequency) :
+    kanji { kanji },
+    frequency { frequency }
+{
+
 }
 
-int frequency_entry::get_frequency() {
+int frequency_entry::get_frequency() const {
     return frequency;
 }
 
-std::string frequency_entry::get_kanji() {
+const std::string& frequency_entry::get_kanji() const {
     return kanji;
 }
 
-std::vector<frequency_entry> get_frequency_entries_from_file(std::string file_path) {
+std::vector<frequency_entry> get_frequency_entries_from_file(const std::string& file_path) {
     std::ifstream file(file_path);
     assert(file.is_open());
 

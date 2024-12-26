@@ -10,15 +10,15 @@ private:
     int frequency;
 
 public:
-    frequency_entry(std::string kanji, int frequency);
+    frequency_entry(const std::string& kanji, int frequency);
 
-    int get_frequency();
-    std::string get_kanji();
+    int get_frequency() const;
+    const std::string& get_kanji() const;
 
     friend bool operator< (const frequency_entry& fe1, const frequency_entry& fe2);
 };
 
-std::vector<frequency_entry> get_frequency_entries_from_file(std::string file_path);
+std::vector<frequency_entry> get_frequency_entries_from_file(const std::string& file_path);
 
 #endif
 
