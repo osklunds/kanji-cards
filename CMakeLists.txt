@@ -8,7 +8,6 @@ include(ExternalProject)
 # Main executable
 add_executable(main 
                     src/tests.cpp
-                    src/tests_main.cpp
                     src/frequency.cpp
                     src/frequency_tests.cpp
                     src/kanji_data.cpp
@@ -37,11 +36,13 @@ set(CATCH2_DIR ${CMAKE_BINARY_DIR}/catch2)
 
 ExternalProject_add(catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2
-  GIT_TAG ee1450f268dfd5c13aa8670ba97e93cabaf2e15d
+  GIT_TAG 0321d2f
   PREFIX ${CMAKE_BINARY_DIR}/catch2_git
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CATCH2_DIR}
 )
 
-include_directories(${CATCH2_DIR}/include/catch2)
+include_directories(${CATCH2_DIR}/include)
 
 add_dependencies(main catch2)
+target_link_libraries(main ${CATCH2_DIR}/lib64/libCatch2Main.a)
+target_link_libraries(main ${CATCH2_DIR}/lib64/libCatch2.a)
