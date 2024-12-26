@@ -1,8 +1,22 @@
+
+# General
 cmake_minimum_required(VERSION 3.10)
+set(CMAKE_CXX_STANDARD 23)
 project(KanjiCards)
 
-set(CMAKE_CXX_STANDARD 23)
+# Main executable
+add_executable(main 
+                    src/tests.cpp
+                    src/tests_main.cpp
+                    src/frequency.cpp
+                    src/frequency_tests.cpp
+                    src/kanji_data.cpp
+                    src/kanji_data_tests.cpp
+                    src/word_data.cpp
+                    src/word_data_tests.cpp
+)
 
+# pugixml
 set(PUGIXML_DIR ${CMAKE_BINARY_DIR}/pugixml)
 
 include(ExternalProject)
@@ -14,17 +28,6 @@ ExternalProject_add(pugixml
 )
 
 include_directories(${PUGIXML_DIR}/include)
-
-add_executable(main 
-                    src/tests.cpp
-                    src/tests_main.cpp
-                    src/frequency.cpp
-                    src/frequency_tests.cpp
-                    src/kanji_data.cpp
-                    src/kanji_data_tests.cpp
-                    src/word_data.cpp
-                    src/word_data_tests.cpp
-)
 
 add_dependencies(main pugixml)
 target_link_libraries(main ${PUGIXML_DIR}/lib64/libpugixml.a)
