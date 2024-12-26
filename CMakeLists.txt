@@ -3,6 +3,7 @@
 cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 23)
 project(KanjiCards)
+include(ExternalProject)
 
 # Main executable
 add_executable(main 
@@ -19,7 +20,6 @@ add_executable(main
 # pugixml
 set(PUGIXML_DIR ${CMAKE_BINARY_DIR}/pugixml)
 
-include(ExternalProject)
 ExternalProject_add(pugixml
   GIT_REPOSITORY https://github.com/zeux/pugixml.git
   GIT_TAG 4bc1441
@@ -31,3 +31,17 @@ include_directories(${PUGIXML_DIR}/include)
 
 add_dependencies(main pugixml)
 target_link_libraries(main ${PUGIXML_DIR}/lib64/libpugixml.a)
+
+# catch2
+set(CATCH2_DIR ${CMAKE_BINARY_DIR}/catch2)
+
+ExternalProject_add(catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2
+  GIT_TAG ee1450f268dfd5c13aa8670ba97e93cabaf2e15d
+  PREFIX ${CMAKE_BINARY_DIR}/catch2_git
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CATCH2_DIR}
+)
+
+include_directories(${CATCH2_DIR}/include/catch2)
+
+add_dependencies(main catch2)
