@@ -196,18 +196,31 @@ TEST_CASE("learning_JMdict_e_words_with_kanji") {
 TEST_CASE("learning_libharu") {
     HPDF_Doc pdf = HPDF_New(NULL, NULL);
     REQUIRE(pdf != NULL);
+    REQUIRE(HPDF_OK == HPDF_UseUTFEncodings(pdf));
+    REQUIRE(HPDF_OK == HPDF_SetCurrentEncoder(pdf, "UTF-8"));
+    // REQUIRE(HPDF_OK == HPDF_UseJPFonts(pdf));
 
     HPDF_Page page = HPDF_AddPage(pdf);
 
     HPDF_REAL width = HPDF_Page_GetWidth(page);
     HPDF_REAL height = HPDF_Page_GetHeight(page);
 
-    HPDF_Font font = HPDF_GetFont(pdf, "Helvetica", NULL);
+    // REQUIRE(HPDF_OK == HPDF_UseJPFonts(pdf));
+    // REQUIRE(HPDF_OK == HPDF_UseJPEncodings(pdf));
 
+    // HPDF_Font font = HPDF_GetFont(pdf, "MS-Mincyo", "90ms-RKSJ-H");
+
+    const char* font_path = HPDF_LoadTTFontFromFile(pdf, "../font.ttf", HPDF_TRUE);
+    REQUIRE(font_path != NULL);
+    HPDF_Font font = HPDF_GetFont(pdf, font_path, "UTF-8");
+    REQUIRE(font != NULL);
     HPDF_Page_SetFontAndSize(page, font, 24);
 
     HPDF_Page_BeginText(page);
-    HPDF_Page_TextOut(page, 100, height - 100, "Hello pdf world!");
+    // const char8_t* unicode_text = u8"世界";
+    // HPDF_Page_TextOut(page, 100, height - 100, (const char*)unicode_text);
+    HPDF_Page_TextOut(page, 100, height - 100, "åäö世界hej");
+    // HPDF_Page_TextOut(page, 100, height - 100, "Hello pdf world!あ åäö");
     HPDF_Page_EndText(page);
 
     HPDF_SaveToFile(pdf, "example.pdf");
