@@ -14,6 +14,8 @@ src/kanji_data.cpp
 src/kanji_data_tests.cpp
 src/word_data.cpp
 src/word_data_tests.cpp
+src/stroke_order.cpp
+src/stroke_order_tests.cpp
 )
 
 # pugixml

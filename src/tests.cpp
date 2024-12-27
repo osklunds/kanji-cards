@@ -231,7 +231,7 @@ void iterate_node(pugi::xml_node node) {
         if (id.find("-g") != std::string::npos) {
             iterate_node(group_or_stroke);
         } else {
-            std::cout << "oskar: " << id << std::endl;
+            // std::cout << "oskar: " << id << std::endl;
         }
     }
 }
