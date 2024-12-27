@@ -224,3 +224,7 @@ TEST_CASE("learning_libharu") {
     HPDF_Free(pdf);
 }
 
+TEST_CASE("learning_svg") {
+
+}
+
