@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cmake .. && make && ./main "$@"
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .. && make && ./main "$@"
