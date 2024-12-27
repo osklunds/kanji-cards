@@ -1,3 +1,0 @@
-[submodule "deps/CImg"]
-	path = deps/CImg
-	url = https://github.com/GreycLab/CImg.git
