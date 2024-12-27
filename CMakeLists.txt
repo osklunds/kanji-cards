@@ -61,3 +61,5 @@ include_directories(${LIBHARU_DIR}/include)
 target_link_libraries(main ${LIBHARU_DIR}/lib64/libhpdf.so)
 
 add_dependencies(main libharu)
+
+# todo: download non-repos with cmake, e.g. font
