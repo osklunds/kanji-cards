@@ -9,5 +9,6 @@
 // Private API
 // (Exists for white-box testability)
 
+std::string path_for_kanji(const std::string& code_point);
 
 #endif
