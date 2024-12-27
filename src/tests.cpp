@@ -224,7 +224,27 @@ TEST_CASE("learning_libharu") {
     HPDF_Free(pdf);
 }
 
-TEST_CASE("learning_svg") {
+void iterate_node(pugi::xml_node node) {
+    for (pugi::xml_node group_or_stroke : node.children()) {
+        std::string id = group_or_stroke.attribute("id").value();
 
+        if (id.find("-g") != std::string::npos) {
+            iterate_node(group_or_stroke);
+        } else {
+            std::cout << "oskar: " << id << std::endl;
+        }
+    }
+}
+
+TEST_CASE("learning_svg") {
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file("../data/kanji/04fd7.svg");
+    REQUIRE(result == true);
+
+    pugi::xml_node svg = doc.child("svg");
+    pugi::xml_node stroke_paths = svg.child("g");
+    pugi::xml_node root = stroke_paths.child("g");
+
+    iterate_node(root);
 }
 
