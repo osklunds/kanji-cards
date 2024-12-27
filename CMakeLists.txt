@@ -45,3 +45,19 @@ target_link_libraries(main ${CATCH2_DIR}/lib64/libCatch2Main.a)
 target_link_libraries(main ${CATCH2_DIR}/lib64/libCatch2.a)
 
 add_dependencies(main catch2)
+
+# libharu
+
+set(LIBHARU_DIR ${CMAKE_BINARY_DIR}/libharu)
+
+ExternalProject_add(libharu
+  GIT_REPOSITORY https://github.com/libharu/libharu.git
+  GIT_TAG 0c598be
+  PREFIX ${CMAKE_BINARY_DIR}/libharu_git
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${LIBHARU_DIR}
+)
+
+include_directories(${LIBHARU_DIR}/include)
+target_link_libraries(main ${LIBHARU_DIR}/lib64/libhpdf.so)
+
+add_dependencies(main libharu)

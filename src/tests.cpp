@@ -8,13 +8,11 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include "pugixml.hpp"
+#include <hpdf.h>
 
 #include "frequency.hpp"
 #include "kanji_data.hpp"
 
-// #include <cstdlib>
-// #define cimg_display 0
-// #include "CImg.h"
 
 // A convenient way to run the main function
 TEST_CASE("run_main", "[.]") {
@@ -194,3 +192,26 @@ TEST_CASE("learning_JMdict_e_words_with_kanji") {
         // std::cout << "oskar: " << keb.text().get() << std::endl;
     }
 }
+
+TEST_CASE("learning_libharu") {
+    HPDF_Doc pdf = HPDF_New(NULL, NULL);
+    REQUIRE(pdf != NULL);
+
+    HPDF_Page page = HPDF_AddPage(pdf);
+
+    HPDF_REAL width = HPDF_Page_GetWidth(page);
+    HPDF_REAL height = HPDF_Page_GetHeight(page);
+
+    HPDF_Font font = HPDF_GetFont(pdf, "Helvetica", NULL);
+
+    HPDF_Page_SetFontAndSize(page, font, 24);
+
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, 100, height - 100, "Hello pdf world!");
+    HPDF_Page_EndText(page);
+
+    HPDF_SaveToFile(pdf, "example.pdf");
+
+    HPDF_Free(pdf);
+}
+
