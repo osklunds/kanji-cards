@@ -99,3 +99,5 @@ TEST_CASE("temp") {
 
 // for the found stroke nodes, delete them one by one, starting with the latest
 // and write the svg. Then insert the DTD.
+
+// cat 04fd7-4.svg | magick svg:- out.png
