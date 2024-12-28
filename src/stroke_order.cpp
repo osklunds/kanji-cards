@@ -59,30 +59,30 @@ void find_stroke_nodes(
     }
 }
 
-std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
-    pugi::xml_document doc {};
-    pugi::xml_parse_result result = doc.load_file(path.c_str());
-    assert(result);
-
-    std::ifstream ifstream(path.c_str());
-    std::stringstream buffer;
+std::string read_file(std::string path) {
+    std::ifstream ifstream { path.c_str() };
+    std::stringstream buffer {};
     buffer << ifstream.rdbuf();
-    std::string xml_doc_as_string = buffer.str();
+    return buffer.str();
+}
 
-    std::regex regex("<!DOCTYPE[^\\]]+]>");
-    std::smatch match = {};
+std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
+    std::string xml_doc_as_string = read_file(path);
+
+    std::regex regex { "<!DOCTYPE[^\\]]+]>" };
+    std::smatch match {};
     std::regex_search(xml_doc_as_string, match, regex);
     assert(!match.empty());
-
     std::string dtd = match[0];
+
+    pugi::xml_document doc {};
+    assert(doc.load_string(xml_doc_as_string.c_str()));
 
     auto stroke_nodes = find_stroke_nodes(doc);
 
     std::vector<std::string> svg_files = {};
     for (int stroke_index = stroke_nodes.size(); stroke_index > 0; stroke_index--) {
-        std::string path = "04fd7-" + std::to_string(stroke_index) + ".svg";
-
-        std::stringstream ofstream = {};
+        std::stringstream ofstream {};
         ofstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
         ofstream << dtd << std::endl;
 
@@ -90,8 +90,8 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
                  PUGIXML_TEXT("\t"),
                  pugi::format_no_declaration | pugi::format_indent
                  );
-        std::string out = ofstream.str();
-        svg_files.push_back(out);
+        std::string svg_file = ofstream.str();
+        svg_files.push_back(svg_file);
 
         // Prepare for next iteration
         auto tuple = stroke_nodes[stroke_index-1];
