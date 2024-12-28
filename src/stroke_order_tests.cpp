@@ -54,3 +54,6 @@ TEST_CASE("find_stroke_nodes") {
     REQUIRE(get_parent_id(8) == "kvg:04fd7-g1");
     REQUIRE(get_child_id(8) == "kvg:04fd7-s1");
 }
+
+// for the found stroke nodes, delete them one by one, starting with the latest
+// and write the svg. Then insert the DTD.
