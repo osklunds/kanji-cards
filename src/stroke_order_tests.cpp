@@ -7,6 +7,7 @@
 #include <pugixml.hpp>
 #include <vector>
 #include <regex>
+#include <tuple>
 
 TEST_CASE("path_for_kanji") {
     std::string path = path_for_kanji("04fd7");
@@ -14,26 +15,25 @@ TEST_CASE("path_for_kanji") {
     REQUIRE(std::filesystem::exists(path));
 }
 
-void iterate(pugi::xml_node node, const pugi::xml_document& doc) {
-    std::vector<pugi::xml_node> vec {node.children().begin(), node.children().end()};
-    for (pugi::xml_node group_or_stroke : vec) {
+void find_stroke_nodes(
+                       pugi::xml_node current_node,
+                       std::vector<std::tuple<pugi::xml_node, pugi::xml_node>>& stroke_nodes
+                       ) {
+    for (pugi::xml_node group_or_stroke : current_node.children()) {
         std::string id = group_or_stroke.attribute("id").value();
 
-        std::regex regex("kvg:([0-9a-z]+-(s|g)[0-9]+)");
+        std::regex regex("kvg:[0-9a-z]+-(s|g)[0-9]+");
         std::smatch match = {};
         std::regex_search(id, match, regex);
-        assert(match.size() == 3);
-        std::string trimmed_id = match[1];
-        std::string type = match[2];
+        assert(match.size() == 2);
+        std::string type = match[1];
 
         if (type == "s") {
-            std::cout << "oskar: " << id << std::endl;
-            std::string path = trimmed_id + ".svg";
-            node.remove_child(group_or_stroke);
-            doc.save_file(path.c_str());
+            auto tuple = std::make_tuple(current_node, group_or_stroke);
+            stroke_nodes.push_back(tuple);
         } else {
             assert(type == "g");
-            iterate(group_or_stroke, doc);
+            find_stroke_nodes(group_or_stroke, stroke_nodes);
         }
     }
 }
@@ -47,5 +47,15 @@ TEST_CASE("temp") {
     pugi::xml_node stroke_paths = svg.child("g");
     pugi::xml_node root = stroke_paths.child("g");
 
-    iterate(root, doc);
+    std::vector<std::tuple<pugi::xml_node, pugi::xml_node>> stroke_nodes = {};
+
+    find_stroke_nodes(root, stroke_nodes);
+
+    for (auto tuple : stroke_nodes) {
+        auto parent = std::get<0>(tuple);
+        auto node = std::get<1>(tuple);
+
+        std::cout << "oskar: " << node.attribute("id").value() << std::endl;
+
+    }
 }
