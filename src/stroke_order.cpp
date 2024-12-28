@@ -29,7 +29,7 @@ find_stroke_nodes(pugi::xml_document& doc) {
                           auto nodeB = std::get<1>(b);
                           std::string nodeBId = nodeB.attribute("id").value();
 
-                          return nodeAId > nodeBId;
+                          return nodeAId < nodeBId;
                       });
 
     return stroke_nodes;
