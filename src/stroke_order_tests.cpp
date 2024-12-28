@@ -29,32 +29,32 @@ TEST_CASE("find_stroke_nodes") {
         return (std::string)std::get<1>(stroke_nodes[index]).attribute("id").value();
     };
 
-    REQUIRE(get_parent_id(0) == "kvg:04fd7-g5");
-    REQUIRE(get_child_id(0) == "kvg:04fd7-s9");
+    REQUIRE(get_parent_id(0) == "kvg:04fd7-g1");
+    REQUIRE(get_child_id(0) == "kvg:04fd7-s1");
 
-    REQUIRE(get_parent_id(1) == "kvg:04fd7-g5");
-    REQUIRE(get_child_id(1) == "kvg:04fd7-s8");
+    REQUIRE(get_parent_id(1) == "kvg:04fd7-g1");
+    REQUIRE(get_child_id(1) == "kvg:04fd7-s2");
 
-    REQUIRE(get_parent_id(2) == "kvg:04fd7-g5");
-    REQUIRE(get_child_id(2) == "kvg:04fd7-s7");
+    REQUIRE(get_parent_id(2) == "kvg:04fd7-g3");
+    REQUIRE(get_child_id(2) == "kvg:04fd7-s3");
 
-    REQUIRE(get_parent_id(3) == "kvg:04fd7-g4");
-    REQUIRE(get_child_id(3) == "kvg:04fd7-s6");
+    REQUIRE(get_parent_id(3) == "kvg:04fd7-g3");
+    REQUIRE(get_child_id(3) == "kvg:04fd7-s4");
 
     REQUIRE(get_parent_id(4) == "kvg:04fd7-g4");
     REQUIRE(get_child_id(4) == "kvg:04fd7-s5");
 
-    REQUIRE(get_parent_id(5) == "kvg:04fd7-g3");
-    REQUIRE(get_child_id(5) == "kvg:04fd7-s4");
+    REQUIRE(get_parent_id(5) == "kvg:04fd7-g4");
+    REQUIRE(get_child_id(5) == "kvg:04fd7-s6");
 
-    REQUIRE(get_parent_id(6) == "kvg:04fd7-g3");
-    REQUIRE(get_child_id(6) == "kvg:04fd7-s3");
+    REQUIRE(get_parent_id(6) == "kvg:04fd7-g5");
+    REQUIRE(get_child_id(6) == "kvg:04fd7-s7");
 
-    REQUIRE(get_parent_id(7) == "kvg:04fd7-g1");
-    REQUIRE(get_child_id(7) == "kvg:04fd7-s2");
+    REQUIRE(get_parent_id(7) == "kvg:04fd7-g5");
+    REQUIRE(get_child_id(7) == "kvg:04fd7-s8");
 
-    REQUIRE(get_parent_id(8) == "kvg:04fd7-g1");
-    REQUIRE(get_child_id(8) == "kvg:04fd7-s1");
+    REQUIRE(get_parent_id(8) == "kvg:04fd7-g5");
+    REQUIRE(get_child_id(8) == "kvg:04fd7-s9");
 }
 
 TEST_CASE("temp") {
