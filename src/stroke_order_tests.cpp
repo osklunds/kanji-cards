@@ -57,43 +57,28 @@ TEST_CASE("find_stroke_nodes") {
     REQUIRE(get_child_id(8) == "kvg:04fd7-s9");
 }
 
-TEST_CASE("temp") {
-    pugi::xml_document doc {};
-    pugi::xml_parse_result result = doc.load_file(path_for_kanji("04fd7").c_str());
-    REQUIRE(result == true);
+TEST_CASE("generate_stroke_order_svg_files") {
+    std::string path = path_for_kanji("04fd7");
+    auto svg_files = generate_stroke_order_svg_files(path);
+    REQUIRE(svg_files.size() == 9);
 
-    std::ifstream ifstream(path_for_kanji("04fd7").c_str());
-    std::stringstream buffer;
-    buffer << ifstream.rdbuf();
-    std::string xml_doc_as_string = buffer.str();
+    for (int i = 1; i <= 9; i++) {
+        auto file = svg_files[i-1];
 
-    std::regex regex("<!DOCTYPE[^\\]]+]>");
-    std::smatch match = {};
-    std::regex_search(xml_doc_as_string, match, regex);
-    REQUIRE(!match.empty());
+        // Not a perfect test, but test that some key strings appear
+        REQUIRE(file.find("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") !=
+                std::string::npos
+                );
+        REQUIRE(file.find("DOCTYPE") != std::string::npos);
 
-    std::string dtd = match[0];
-
-    auto stroke_nodes = find_stroke_nodes(doc);
-
-    for (int stroke_index = stroke_nodes.size(); stroke_index > 0; stroke_index--) {
-        std::string path = "04fd7-" + std::to_string(stroke_index) + ".svg";
-
-        std::ofstream ofstream(path);
-        ofstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
-        ofstream << dtd << std::endl;
-
-        doc.save(ofstream,
-                 PUGIXML_TEXT("\t"),
-                 pugi::format_no_declaration | pugi::format_indent
-                 );
-        ofstream.close();
-
-        // Prepare for next iteration
-        auto tuple = stroke_nodes[stroke_index-1];
-        auto parent = std::get<0>(tuple);
-        auto child = std::get<1>(tuple);
-        parent.remove_child(child);
+        for (int j = 1; j <= 9; j++) {
+            size_t result = file.find("-s" + std::to_string(j));
+            if (j <= i) {
+                REQUIRE(result != std::string::npos);
+            } else {
+                REQUIRE(result == std::string::npos);
+            }
+        }
     }
 }
 

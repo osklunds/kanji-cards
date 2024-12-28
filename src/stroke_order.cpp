@@ -5,6 +5,7 @@
 #include <cstring>
 #include <regex>
 #include <algorithm>
+#include <fstream>
 
 std::string path_for_kanji(const std::string& code_point) {
     assert(code_point.size() == 5);
@@ -56,4 +57,49 @@ void find_stroke_nodes(
             find_stroke_nodes(child, parent_child_tuples);
         }
     }
+}
+
+std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
+    pugi::xml_document doc {};
+    pugi::xml_parse_result result = doc.load_file(path.c_str());
+    assert(result);
+
+    std::ifstream ifstream(path.c_str());
+    std::stringstream buffer;
+    buffer << ifstream.rdbuf();
+    std::string xml_doc_as_string = buffer.str();
+
+    std::regex regex("<!DOCTYPE[^\\]]+]>");
+    std::smatch match = {};
+    std::regex_search(xml_doc_as_string, match, regex);
+    assert(!match.empty());
+
+    std::string dtd = match[0];
+
+    auto stroke_nodes = find_stroke_nodes(doc);
+
+    std::vector<std::string> svg_files = {};
+    for (int stroke_index = stroke_nodes.size(); stroke_index > 0; stroke_index--) {
+        std::string path = "04fd7-" + std::to_string(stroke_index) + ".svg";
+
+        std::stringstream ofstream = {};
+        ofstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
+        ofstream << dtd << std::endl;
+
+        doc.save(ofstream,
+                 PUGIXML_TEXT("\t"),
+                 pugi::format_no_declaration | pugi::format_indent
+                 );
+        std::string out = ofstream.str();
+        svg_files.push_back(out);
+
+        // Prepare for next iteration
+        auto tuple = stroke_nodes[stroke_index-1];
+        auto parent = std::get<0>(tuple);
+        auto child = std::get<1>(tuple);
+        parent.remove_child(child);
+    }
+
+    std::reverse(svg_files.begin(), svg_files.end());
+    return svg_files;
 }

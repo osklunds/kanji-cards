@@ -20,5 +20,6 @@ void find_stroke_nodes(
                        pugi::xml_node current_node,
                        std::vector<std::tuple<pugi::xml_node, pugi::xml_node>>& parent_child_tuples
                        );
+std::vector<std::string> generate_stroke_order_svg_files(std::string path);
 
 #endif
