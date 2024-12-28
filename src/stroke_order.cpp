@@ -2,7 +2,9 @@
 #include "stroke_order.hpp"
 
 #include <cassert>
+#include <cstring>
 #include <regex>
+#include <algorithm>
 
 std::string path_for_kanji(const std::string& code_point) {
     assert(code_point.size() == 5);
@@ -19,6 +21,16 @@ find_stroke_nodes(pugi::xml_document& doc) {
     std::vector<std::tuple<pugi::xml_node, pugi::xml_node>> stroke_nodes = {};
 
     find_stroke_nodes(root, stroke_nodes);
+
+    std::ranges::sort(stroke_nodes,
+                      [](auto a, auto b) {
+                          auto nodeA = std::get<1>(a);
+                          std::string nodeAId = nodeA.attribute("id").value();
+                          auto nodeB = std::get<1>(b);
+                          std::string nodeBId = nodeB.attribute("id").value();
+
+                          return nodeAId > nodeBId;
+                      });
 
     return stroke_nodes;
 }
