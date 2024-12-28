@@ -11,7 +11,7 @@ TEST_CASE("path_for_kanji") {
     REQUIRE(std::filesystem::exists(path));
 }
 
-TEST_CASE("temp") {
+TEST_CASE("find_stroke_nodes") {
     pugi::xml_document doc {};
     pugi::xml_parse_result result = doc.load_file(path_for_kanji("04fd7").c_str());
     REQUIRE(result == true);
