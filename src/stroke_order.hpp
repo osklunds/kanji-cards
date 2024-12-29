@@ -10,7 +10,7 @@
 
 // Public API
 
-std::vector<std::vector<uint8_t>> code_point_to_jpg_images(const std::string& code_point);
+std::vector<std::vector<uint8_t>> code_point_to_stroke_order_jpgs(const std::string& code_point);
 
 // Private API
 // (Exists for white-box testability)

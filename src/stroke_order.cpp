@@ -23,9 +23,13 @@ std::vector<std::vector<uint8_t>> code_point_to_stroke_order_jpgs(const std::str
 }
 
 std::string path_for_kanji(const std::string& code_point) {
-    assert(code_point.size() == 5);
+    assert(code_point.size() == 4 || code_point.size() == 5);
+    std::string padding {};
+    if (code_point.size() == 4) {
+        padding = "0";
+    }
 
-    return "../data/kanji/" + code_point + ".svg";
+    return "../data/kanji/" + padding + code_point + ".svg";
 }
 
 std::vector<std::tuple<pugi::xml_node, pugi::xml_node>>

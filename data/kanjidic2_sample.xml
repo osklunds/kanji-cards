@@ -2,6 +2,9 @@
 <kanjidic2>
 <character>
 <literal>日</literal>
+<codepoint>
+<cp_value cp_type="ucs">65e5</cp_value>
+</codepoint>
 <reading_meaning>
 <rmgroup>
 <reading r_type="pinyin">ri4</reading>

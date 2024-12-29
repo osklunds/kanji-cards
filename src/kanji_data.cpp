@@ -5,6 +5,7 @@
 #include <format>
 
 #include "kanji_data.hpp"
+#include "stroke_order.hpp"
 
 kanji_data::kanji_data(const std::string& kanji,
                        const pugi::xml_document& kanjidic2_doc,
@@ -14,7 +15,8 @@ kanji_data::kanji_data(const std::string& kanji,
     meanings {},
     kun_readings {},
     on_readings {},
-    words {}
+    words {},
+    stroke_order_jpgs {}
 {
     std::string xpath =
         std::format("/kanjidic2/character[./literal = \"{}\"]", this->kanji);
@@ -42,6 +44,15 @@ kanji_data::kanji_data(const std::string& kanji,
         }
     }
 
+    pugi::xml_node codepoint = character_node.child("codepoint");
+    for (auto cp_value : codepoint.children("cp_value")) {
+        if (strcmp(cp_value.attribute("cp_type").value(), "ucs") == 0) {
+            std::string code_point = cp_value.text().get();
+            stroke_order_jpgs = code_point_to_stroke_order_jpgs(code_point);
+        }
+    }
+    assert(!stroke_order_jpgs.empty());
+
     this->words = word_data::read_from_doc(jmdict_e_doc, this->kanji);
 }
 
@@ -63,6 +74,10 @@ const std::vector<std::string>& kanji_data::get_on_readings() const {
 
 const std::vector<word_data>& kanji_data::get_words() const {
     return words;
+}
+
+const std::vector<std::vector<uint8_t>>& kanji_data::get_stroke_order_jpgs() const {
+    return stroke_order_jpgs;
 }
 
 std::string kanji_data::as_string() const {

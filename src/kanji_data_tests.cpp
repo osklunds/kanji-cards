@@ -18,7 +18,7 @@ TEST_CASE("sample_data") {
         jmdict_e_doc.load_file("../data/JMdict_e_sample.xml");
     REQUIRE(result_jmdict_e == true);
     
-    kanji_data kanji_data { "日", kanjidic2_doc, jmdict_e_doc};
+    kanji_data kanji_data { "日", kanjidic2_doc, jmdict_e_doc };
 
     std::vector<std::string> meanings = kanji_data.get_meanings();
     REQUIRE(meanings.size() == 4);
@@ -56,6 +56,8 @@ TEST_CASE("sample_data") {
     REQUIRE(words[1].get_prio_ichi() == std::nullopt);
     REQUIRE(words[1].get_prio_spec() == std::nullopt);
     REQUIRE(words[1].get_prio_nf() == std::nullopt);
+
+    REQUIRE(kanji_data.get_stroke_order_jpgs().size() == 4);
 }
 
 TEST_CASE("as_string") {
