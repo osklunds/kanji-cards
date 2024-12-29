@@ -2,6 +2,7 @@
 #include "create_card.hpp"
 
 #include <cassert>
+#include <iostream>
 #include <hpdf.h>
 #include "stroke_order.hpp"
 
@@ -33,6 +34,7 @@ void create_card(const kanji_data& kanji_data,
     HPDF_Font font = HPDF_GetFont(pdf, font_path, "UTF-8");
     assert(font);
 
+    // Main kanji
     const double main_kanji_font_size = 160;
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, main_kanji_font_size));
 
@@ -43,6 +45,29 @@ void create_card(const kanji_data& kanji_data,
                                         kanji_data.get_kanji().c_str()
                                         ));
     assert(HPDF_OK == HPDF_Page_EndText(page));
+
+    // Stroke order
+    double offset = 0.0;
+    for (auto jpg : kanji_data.get_stroke_order_jpgs()) {
+        std::cout << "oskar: " << "hej" << std::endl;
+        HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
+                                                     &jpg[0],
+                                                     jpg.size()
+                                                     );
+    
+        double image_width = HPDF_Image_GetWidth(image);
+        double image_height = HPDF_Image_GetHeight(image);
+
+        assert(HPDF_OK == HPDF_Page_DrawImage(page,
+                                              image,
+                                              200 + offset,
+                                              page_height - 50 - image_height,
+                                              image_width,
+                                              image_height
+                                              ));
+
+        offset += image_width + 40;
+    }
 
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
 
