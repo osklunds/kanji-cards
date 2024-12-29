@@ -13,6 +13,7 @@
 #include "frequency.hpp"
 #include "kanji_data.hpp"
 #include "stroke_order.hpp"
+#include "util.hpp"
 
 
 // A convenient way to run the main function
@@ -192,44 +193,6 @@ TEST_CASE("learning_JMdict_e_words_with_kanji") {
 
         // std::cout << "oskar: " << keb.text().get() << std::endl;
     }
-}
-
-// Inspired by https://gist.github.com/meritozh/f0351894a2a4aa92871746bf45879157
-std::vector<uint8_t> exec(std::string cmd) {
-    std::shared_ptr<FILE> pipe { popen(cmd.c_str(), "r"), pclose };
-    assert(pipe);
-
-    std::vector<uint8_t> result {};
-
-    std::cout << "oskar: " << "exec" << std::endl;
-
-    while (!feof(pipe.get())) {
-        result.push_back(fgetc(pipe.get()));
-    }
-
-    // For some reason, 'm' is added in the end
-    result.pop_back();
-
-    return result;
-}
-
-std::vector<uint8_t> read_file2(std::string path) {
-    std::ifstream input { path.c_str(), std::ios::binary };
-    std::vector<uint8_t> buffer(std::istreambuf_iterator<char>(input), {});
-    // for (auto x : buffer) {
-    //     std::cout << x;
-    // }
-    return buffer;
-}
-
-TEST_CASE("exec") {
-    std::string cmd = (std::string)"cat br.sh";
-    auto res = exec(cmd);
-    REQUIRE(res == read_file2("br.sh"));
-
-    std::string cmd2 = "cat out.jpg";
-    auto res2 = exec(cmd2);
-    REQUIRE(res2 == read_file2("out.jpg"));
 }
 
 TEST_CASE("learning_libharu") {

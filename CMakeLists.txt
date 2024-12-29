@@ -17,6 +17,8 @@ src/word_data.cpp
 src/word_data_tests.cpp
 src/stroke_order.cpp
 src/stroke_order_tests.cpp
+src/util.cpp
+src/util_tests.cpp
 )
 
 # pugixml
