@@ -19,6 +19,8 @@ src/stroke_order.cpp
 src/stroke_order_tests.cpp
 src/util.cpp
 src/util_tests.cpp
+src/create_card.cpp
+src/create_card_tests.cpp
 )
 
 # pugixml
