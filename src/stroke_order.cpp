@@ -8,6 +8,20 @@
 #include <fstream>
 #include "util.hpp"
 
+std::vector<std::vector<uint8_t>> code_point_to_stroke_order_jpgs(const std::string& code_point) {
+    std::string path = path_for_kanji(code_point);
+    std::vector<std::string> svgs = generate_stroke_order_svg_files(path);
+    std::vector<std::vector<uint8_t>> jpgs {};
+
+    std::transform(svgs.begin(),
+                   svgs.end(),
+                   std::back_inserter(jpgs),
+                   svg_to_jpg
+                   );
+
+    return jpgs;
+}
+
 std::string path_for_kanji(const std::string& code_point) {
     assert(code_point.size() == 5);
 
