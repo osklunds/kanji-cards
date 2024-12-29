@@ -6,6 +6,9 @@
 #include <fstream>
 #include <filesystem>
 #include <regex>
+#include <cstdlib>
+#include <fstream>
+#include "util.hpp"
 
 TEST_CASE("path_for_kanji") {
     std::string path = path_for_kanji("04fd7");
@@ -82,7 +85,26 @@ TEST_CASE("generate_stroke_order_svg_files") {
     }
 }
 
+TEST_CASE("svg_to_jpg") {
+    std::string path = path_for_kanji("04fd7");
+    auto svg_files = generate_stroke_order_svg_files(path);
+    std::string svg = svg_files[0];
+    std::vector<uint8_t> jpg = svg_to_jpg(svg);
+
+    // Some non-perfect checks to see that the conversion seemed to go OK
+    REQUIRE(jpg.size() > 1000);
+    std::string as_string { jpg.begin(), jpg.end() };
+    REQUIRE(as_string.find("JFIF") != std::string::npos);
+
+    std::ofstream out_file {};
+    out_file.open ("out.jpg");
+    for (auto byte : jpg) {
+        out_file << byte;
+    }
+    out_file.close();
+}
+
 // for the found stroke nodes, delete them one by one, starting with the latest
 // and write the svg. Then insert the DTD.
 
-// cat 04fd7-4.svg | magick svg:- out.png
+// cat 04fd7-4.svg | magick svg:- out.jpg

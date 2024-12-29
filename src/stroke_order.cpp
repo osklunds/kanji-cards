@@ -6,6 +6,7 @@
 #include <regex>
 #include <algorithm>
 #include <fstream>
+#include "util.hpp"
 
 std::string path_for_kanji(const std::string& code_point) {
     assert(code_point.size() == 5);
@@ -102,4 +103,9 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
 
     std::reverse(svg_files.begin(), svg_files.end());
     return svg_files;
+}
+
+std::vector<uint8_t> svg_to_jpg(std::string& svg) {
+    std::string cmd = "echo '" + svg + "' | magick svg:- jpg:-";
+    return exec(cmd);
 }
