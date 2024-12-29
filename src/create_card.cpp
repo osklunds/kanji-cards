@@ -18,8 +18,9 @@ void create_card(const kanji_data& kanji_data,
     HPDF_Page page = HPDF_AddPage(pdf);
     assert(page);
 
+    const double page_height = 2400;
     assert(HPDF_OK == HPDF_Page_SetWidth(page, 1200));
-    assert(HPDF_OK == HPDF_Page_SetHeight(page, 2400));
+    assert(HPDF_OK == HPDF_Page_SetHeight(page, page_height));
 
     // Set up font
     const char* font_path =
@@ -31,27 +32,17 @@ void create_card(const kanji_data& kanji_data,
 
     HPDF_Font font = HPDF_GetFont(pdf, font_path, "UTF-8");
     assert(font);
-    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, 24));
+
+    const double main_kanji_font_size = 160;
+    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, main_kanji_font_size));
 
     assert(HPDF_OK == HPDF_Page_BeginText(page));
-    assert(HPDF_OK == HPDF_Page_TextOut(page, 100, 100, "åäö世界hejこん"));
+    assert(HPDF_OK == HPDF_Page_TextOut(page,
+                                        50,
+                                        page_height - 50 - main_kanji_font_size,
+                                        kanji_data.get_kanji().c_str()
+                                        ));
     assert(HPDF_OK == HPDF_Page_EndText(page));
-
-    std::string path = path_for_kanji("04fd7");
-    auto svg_files = generate_stroke_order_svg_files(path);
-    assert(svg_files.size() == 9);
-
-    std::string file = svg_files[7];
-    auto jpg = svg_to_jpg(file);
-
-    HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
-                                                 &jpg[0],
-                                                 jpg.size()
-                                                 );
-    
-    double iw = HPDF_Image_GetWidth(image);
-    double ih = HPDF_Image_GetHeight(image);
-    assert(HPDF_OK == HPDF_Page_DrawImage(page, image, 10, 500, iw, ih));
 
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
 
