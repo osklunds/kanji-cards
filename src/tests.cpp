@@ -258,6 +258,26 @@ TEST_CASE("learning_libharu") {
     REQUIRE(HPDF_OK == HPDF_Page_TextOut(page, 100, height - 100, "åäö世界hejこん"));
     REQUIRE(HPDF_OK == HPDF_Page_EndText(page));
 
+    std::string path = path_for_kanji("04fd7");
+    auto svg_files = generate_stroke_order_svg_files(path);
+    REQUIRE(svg_files.size() == 9);
+
+    std::string file = svg_files[7];
+    std::string cmd = "echo '" + file + "' | magick svg:- jpg:-";
+
+    auto result = exec(cmd);
+    HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
+                                                 &result[0],
+                                                 result.size()
+                                                 );
+    // HPDF_Image image = HPDF_LoadJpegImageFromFile(pdf, "out.jpg");
+
+    std::cout << "oskar: " << image << std::endl;
+    
+    double iw = HPDF_Image_GetWidth (image);
+    double ih = HPDF_Image_GetHeight (image);
+    REQUIRE(HPDF_OK == HPDF_Page_DrawImage(page, image, 10, 500, iw, ih));
+
     REQUIRE(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
 
     HPDF_Free(pdf);
