@@ -226,19 +226,15 @@ TEST_CASE("learning_libharu") {
     REQUIRE(svg_files.size() == 9);
 
     std::string file = svg_files[7];
-    std::string cmd = "echo '" + file + "' | magick svg:- jpg:-";
+    auto jpg = svg_to_jpg(file);
 
-    auto result = exec(cmd);
     HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
-                                                 &result[0],
-                                                 result.size()
+                                                 &jpg[0],
+                                                 jpg.size()
                                                  );
-    // HPDF_Image image = HPDF_LoadJpegImageFromFile(pdf, "out.jpg");
-
-    std::cout << "oskar: " << image << std::endl;
     
-    double iw = HPDF_Image_GetWidth (image);
-    double ih = HPDF_Image_GetHeight (image);
+    double iw = HPDF_Image_GetWidth(image);
+    double ih = HPDF_Image_GetHeight(image);
     REQUIRE(HPDF_OK == HPDF_Page_DrawImage(page, image, 10, 500, iw, ih));
 
     REQUIRE(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
