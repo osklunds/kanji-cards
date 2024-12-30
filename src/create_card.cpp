@@ -49,7 +49,6 @@ void create_card(const kanji_data& kanji_data,
     // Stroke order
     double offset = 0.0;
     for (auto jpg : kanji_data.get_stroke_order_jpgs()) {
-        std::cout << "oskar: " << "hej" << std::endl;
         HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
                                                      &jpg[0],
                                                      jpg.size()
@@ -68,6 +67,27 @@ void create_card(const kanji_data& kanji_data,
 
         offset += image_width + 40;
     }
+
+    // Meanings
+    const double meanings_font_size = 40;
+    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, meanings_font_size));
+
+    assert(HPDF_OK == HPDF_Page_BeginText(page));
+
+    std::string meanings = "Meanings: ";
+    for (auto meaning : kanji_data.get_meanings()) {
+        meanings += meaning + ", ";
+    }
+    meanings.pop_back();
+    meanings.pop_back();
+
+    assert(HPDF_OK == HPDF_Page_TextOut(page,
+                                        50,
+                                        page_height - 300 - meanings_font_size,
+                                        meanings.c_str()
+                                        ));
+    assert(HPDF_OK == HPDF_Page_EndText(page));
+
 
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
 
