@@ -112,7 +112,7 @@ void create_card(const kanji_data& kanji_data,
         stroke_order_x_end - stroke_order_x_start;
 
     HPDF_REAL x_offset = 0.0;
-    HPDF_REAL y_offset = 0.0;
+    HPDF_REAL y_offset = left_right_margin;
 
     for (auto jpg : kanji_data.get_stroke_order_jpgs()) {
         HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
@@ -132,7 +132,7 @@ void create_card(const kanji_data& kanji_data,
         }
 
         HPDF_REAL x_pos = stroke_order_x_start + x_offset;
-        HPDF_REAL y_pos = page_height - 50 - stroke_order_size - y_offset;
+        HPDF_REAL y_pos = page_height - stroke_order_size - y_offset;
 
         assert(HPDF_OK == HPDF_Page_DrawImage(page,
                                               image,
@@ -145,7 +145,7 @@ void create_card(const kanji_data& kanji_data,
         x_offset += image_width + 40;
     }
 
-    HPDF_REAL height_offset = 300;
+    y_offset += stroke_order_size + stroke_order_spacing;
 
     // Meanings
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
@@ -157,9 +157,9 @@ void create_card(const kanji_data& kanji_data,
     meanings.pop_back();
     meanings.pop_back();
 
-    height_offset += multiline_text_out(page,
+    y_offset += multiline_text_out(page,
                                         meanings,
-                                        page_height - height_offset,
+                                        page_height - y_offset,
                                         font
                                         );
 
@@ -173,9 +173,9 @@ void create_card(const kanji_data& kanji_data,
     on_readings.pop_back();
     on_readings.pop_back();
 
-    height_offset += multiline_text_out(page,
+    y_offset += multiline_text_out(page,
                                         on_readings,
-                                        page_height - height_offset,
+                                        page_height - y_offset,
                                         font
                                         );
 
@@ -189,9 +189,9 @@ void create_card(const kanji_data& kanji_data,
     kun_readings.pop_back();
     kun_readings.pop_back();
 
-    height_offset += multiline_text_out(page,
+    y_offset += multiline_text_out(page,
                                         kun_readings,
-                                        page_height - height_offset,
+                                        page_height - y_offset,
                                         font
                                         );
 
@@ -207,12 +207,12 @@ void create_card(const kanji_data& kanji_data,
         word_string.pop_back();
         word_string.pop_back();
 
-        height_offset += multiline_text_out(page,
+        y_offset += multiline_text_out(page,
                                             word_string,
-                                            page_height - height_offset,
+                                            page_height - y_offset,
                                             font
                                             );
-        height_offset += 10;
+        y_offset += 10;
     }
 
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
