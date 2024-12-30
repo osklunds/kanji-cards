@@ -127,11 +127,10 @@ void create_card(const kanji_data& kanji_data,
     assert(HPDF_OK == HPDF_Page_EndText(page));
 
     // Words
-
     double word_offset = 0.0;
 
+    assert(HPDF_OK == HPDF_Page_BeginText(page));
     for (word_data word_data : kanji_data.get_words()) {
-        assert(HPDF_OK == HPDF_Page_BeginText(page));
 
         std::string word_string = word_data.get_word();
 
@@ -143,16 +142,42 @@ void create_card(const kanji_data& kanji_data,
         word_string.pop_back();
         word_string.pop_back();
 
-        double word_y = page_height - 500 - body_font_size - word_offset;
-        assert(HPDF_OK == HPDF_Page_TextOut(page,
-                                            50,
-                                            word_y,
-                                            word_string.c_str()
-                                            ));
-        assert(HPDF_OK == HPDF_Page_EndText(page));
+        while (!word_string.empty()) {
+            HPDF_UINT num_bytes =
+                HPDF_Font_MeasureText(font,
+                                      (const HPDF_BYTE*)word_string.c_str(),
+                                      word_string.size(),
+                                      1200 - 50 - 50,
+                                      body_font_size,
+                                      0.0,
+                                      0.0,
+                                      HPDF_FALSE,
+                                      NULL
+                                      );
 
-        word_offset += 50;
+            std::string this_round {};
+
+            if (num_bytes < word_string.size()) {
+                this_round = word_string.substr(0, num_bytes);
+                word_string.erase(0, num_bytes);
+            } else {
+                this_round = word_string;
+                word_string = {};
+            }
+
+            double word_y = page_height - 500 - body_font_size - word_offset;
+            auto res = HPDF_Page_TextOut(page,
+                                                50,
+                                                word_y,
+                                                this_round.c_str()
+                                         );
+            std::cout << "oskar: " << res << std::endl;
+            assert(HPDF_OK == res);
+
+            word_offset += 50;
+        }
     }
+    assert(HPDF_OK == HPDF_Page_EndText(page));
 
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
 
