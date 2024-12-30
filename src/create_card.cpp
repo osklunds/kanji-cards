@@ -13,11 +13,11 @@ const HPDF_REAL body_line_spacing = 50;
 const HPDF_REAL left_right_margin = 50;
 
 HPDF_REAL multiline_text_out(HPDF_Page page,
-                        std::string text,
-                        HPDF_REAL xpos,
-                        HPDF_REAL ypos,
-                        HPDF_Font font
-                        ) {
+                             std::string text,
+                             HPDF_REAL xpos,
+                             HPDF_REAL ypos,
+                             HPDF_Font font
+                             ) {
     HPDF_REAL offset = 0;
     while (!text.empty()) {
         HPDF_UINT num_bytes =
@@ -34,14 +34,8 @@ HPDF_REAL multiline_text_out(HPDF_Page page,
 
         std::string text_this_iteration {};
 
-        if (num_bytes < text.size()) {
-            text_this_iteration = text.substr(0, num_bytes);
-            text.erase(0, num_bytes);
-        } else {
-            // todo: might be possible to remove this clause
-            text_this_iteration = text;
-            text = {};
-        }
+        text_this_iteration = text.substr(0, num_bytes);
+        text.erase(0, num_bytes);
 
         assert(HPDF_OK == HPDF_Page_BeginText(page));
         auto res = HPDF_Page_TextOut(page,
