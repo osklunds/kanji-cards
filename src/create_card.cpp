@@ -14,7 +14,6 @@ const HPDF_REAL left_right_margin = 50;
 
 HPDF_REAL multiline_text_out(HPDF_Page page,
                              std::string text,
-                             HPDF_REAL xpos,
                              HPDF_REAL ypos,
                              HPDF_Font font
                              ) {
@@ -128,7 +127,6 @@ void create_card(const kanji_data& kanji_data,
 
     height_offset += multiline_text_out(page,
                                         meanings,
-                                        left_right_margin,
                                         page_height - height_offset,
                                         font
                                         );
@@ -145,7 +143,6 @@ void create_card(const kanji_data& kanji_data,
 
     height_offset += multiline_text_out(page,
                                         on_readings,
-                                        left_right_margin,
                                         page_height - height_offset,
                                         font
                                         );
@@ -162,7 +159,6 @@ void create_card(const kanji_data& kanji_data,
 
     height_offset += multiline_text_out(page,
                                         kun_readings,
-                                        left_right_margin,
                                         page_height - height_offset,
                                         font
                                         );
@@ -181,7 +177,6 @@ void create_card(const kanji_data& kanji_data,
 
         height_offset += multiline_text_out(page,
                                             word_string,
-                                            left_right_margin,
                                             page_height - height_offset,
                                             font
                                             );
