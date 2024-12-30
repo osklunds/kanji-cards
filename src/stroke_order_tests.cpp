@@ -18,12 +18,12 @@ TEST_CASE("path_for_kanji") {
 
 TEST_CASE("find_stroke_nodes") {
     pugi::xml_document doc {};
-    pugi::xml_parse_result result = doc.load_file(path_for_kanji("04fd7").c_str());
+    pugi::xml_parse_result result = doc.load_file(path_for_kanji("050cd").c_str());
     REQUIRE(result == true);
 
     auto stroke_nodes = find_stroke_nodes(doc);
 
-    REQUIRE(stroke_nodes.size() == 9);
+    REQUIRE(stroke_nodes.size() == 13);
 
     auto get_parent_id = [stroke_nodes](auto index) {
         return (std::string)std::get<0>(stroke_nodes[index]).attribute("id").value();
@@ -32,32 +32,33 @@ TEST_CASE("find_stroke_nodes") {
         return (std::string)std::get<1>(stroke_nodes[index]).attribute("id").value();
     };
 
-    REQUIRE(get_parent_id(0) == "kvg:04fd7-g1");
-    REQUIRE(get_child_id(0) == "kvg:04fd7-s1");
+    REQUIRE(get_child_id(0) == "kvg:050cd-s1");
+    REQUIRE(get_child_id(1) == "kvg:050cd-s2");
+    REQUIRE(get_child_id(2) == "kvg:050cd-s3");
+    REQUIRE(get_child_id(3) == "kvg:050cd-s4");
+    REQUIRE(get_child_id(4) == "kvg:050cd-s5");
+    REQUIRE(get_child_id(5) == "kvg:050cd-s6");
+    REQUIRE(get_child_id(6) == "kvg:050cd-s7");
+    REQUIRE(get_child_id(7) == "kvg:050cd-s8");
+    REQUIRE(get_child_id(8) == "kvg:050cd-s9");
+    REQUIRE(get_child_id(9) == "kvg:050cd-s10");
+    REQUIRE(get_child_id(10) == "kvg:050cd-s11");
+    REQUIRE(get_child_id(11) == "kvg:050cd-s12");
+    REQUIRE(get_child_id(12) == "kvg:050cd-s13");
 
-    REQUIRE(get_parent_id(1) == "kvg:04fd7-g1");
-    REQUIRE(get_child_id(1) == "kvg:04fd7-s2");
-
-    REQUIRE(get_parent_id(2) == "kvg:04fd7-g3");
-    REQUIRE(get_child_id(2) == "kvg:04fd7-s3");
-
-    REQUIRE(get_parent_id(3) == "kvg:04fd7-g3");
-    REQUIRE(get_child_id(3) == "kvg:04fd7-s4");
-
-    REQUIRE(get_parent_id(4) == "kvg:04fd7-g4");
-    REQUIRE(get_child_id(4) == "kvg:04fd7-s5");
-
-    REQUIRE(get_parent_id(5) == "kvg:04fd7-g4");
-    REQUIRE(get_child_id(5) == "kvg:04fd7-s6");
-
-    REQUIRE(get_parent_id(6) == "kvg:04fd7-g5");
-    REQUIRE(get_child_id(6) == "kvg:04fd7-s7");
-
-    REQUIRE(get_parent_id(7) == "kvg:04fd7-g5");
-    REQUIRE(get_child_id(7) == "kvg:04fd7-s8");
-
-    REQUIRE(get_parent_id(8) == "kvg:04fd7-g5");
-    REQUIRE(get_child_id(8) == "kvg:04fd7-s9");
+    REQUIRE(get_parent_id(0) == "kvg:050cd-g1");
+    REQUIRE(get_parent_id(1) == "kvg:050cd-g1");
+    REQUIRE(get_parent_id(2) == "kvg:050cd-g5");
+    REQUIRE(get_parent_id(3) == "kvg:050cd-g6");
+    REQUIRE(get_parent_id(4) == "kvg:050cd-g7");
+    REQUIRE(get_parent_id(5) == "kvg:050cd-g7");
+    REQUIRE(get_parent_id(6) == "kvg:050cd-g7");
+    REQUIRE(get_parent_id(7) == "kvg:050cd-g7");
+    REQUIRE(get_parent_id(8) == "kvg:050cd-g9");
+    REQUIRE(get_parent_id(9) == "kvg:050cd-g7");
+    REQUIRE(get_parent_id(10) == "kvg:050cd-g7");
+    REQUIRE(get_parent_id(11) == "kvg:050cd-g10");
+    REQUIRE(get_parent_id(12) == "kvg:050cd-g10");
 }
 
 TEST_CASE("generate_stroke_order_svg_files") {
