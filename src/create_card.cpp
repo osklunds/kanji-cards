@@ -144,6 +144,16 @@ void create_card(const kanji_data& kanji_data,
                                               stroke_order_size
                                               ));
 
+        assert(HPDF_OK == HPDF_Page_SetRGBStroke(page, 0.5, 0.5, 0.5));
+        assert(HPDF_OK == HPDF_Page_Rectangle(page,
+                                              x_pos,
+                                              y_pos,
+                                              stroke_order_size,
+                                              stroke_order_size
+                                              ));
+
+        assert(HPDF_OK == HPDF_Page_Stroke(page));
+
         x_offset += image_width + 40;
     }
 
@@ -165,10 +175,10 @@ void create_card(const kanji_data& kanji_data,
     meanings.pop_back();
 
     y_offset += multiline_text_out(page,
-                                        meanings,
-                                        page_height - y_offset,
-                                        font
-                                        );
+                                   meanings,
+                                   page_height - y_offset,
+                                   font
+                                   );
 
     // On readings
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
@@ -181,10 +191,10 @@ void create_card(const kanji_data& kanji_data,
     on_readings.pop_back();
 
     y_offset += multiline_text_out(page,
-                                        on_readings,
-                                        page_height - y_offset,
-                                        font
-                                        );
+                                   on_readings,
+                                   page_height - y_offset,
+                                   font
+                                   );
 
     // Kun readings
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
@@ -197,10 +207,10 @@ void create_card(const kanji_data& kanji_data,
     kun_readings.pop_back();
 
     y_offset += multiline_text_out(page,
-                                        kun_readings,
-                                        page_height - y_offset,
-                                        font
-                                        );
+                                   kun_readings,
+                                   page_height - y_offset,
+                                   font
+                                   );
 
     // Words
     for (word_data word_data : kanji_data.get_words()) {
@@ -215,10 +225,10 @@ void create_card(const kanji_data& kanji_data,
         word_string.pop_back();
 
         y_offset += multiline_text_out(page,
-                                            word_string,
-                                            page_height - y_offset,
-                                            font
-                                            );
+                                       word_string,
+                                       page_height - y_offset,
+                                       font
+                                       );
         y_offset += 10;
     }
 
