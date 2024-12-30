@@ -96,10 +96,12 @@ void create_card(const kanji_data& kanji_data,
     // Main kanji
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, main_kanji_font_size));
 
+    const HPDF_REAL main_kanji_y_offset = left_right_margin + main_kanji_font_size;
+
     assert(HPDF_OK == HPDF_Page_BeginText(page));
     assert(HPDF_OK == HPDF_Page_TextOut(page,
-                                        50,
-                                        page_height - 50 - main_kanji_font_size,
+                                        left_right_margin,
+                                        page_height - main_kanji_y_offset,
                                         kanji_data.get_kanji().c_str()
                                         ));
     assert(HPDF_OK == HPDF_Page_EndText(page));
@@ -145,7 +147,12 @@ void create_card(const kanji_data& kanji_data,
         x_offset += image_width + 40;
     }
 
-    y_offset += stroke_order_size + stroke_order_spacing;
+    y_offset += stroke_order_size + left_right_margin;
+
+    HPDF_REAL offset_due_to_main_kanji = main_kanji_y_offset + left_right_margin;
+    if (y_offset < offset_due_to_main_kanji) {
+        y_offset = offset_due_to_main_kanji;
+    }
 
     // Meanings
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
