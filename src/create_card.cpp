@@ -74,6 +74,17 @@ HPDF_REAL multiline_text_out(HPDF_Page page,
     return offset;
 }
 
+void draw_line(HPDF_Page page,
+               HPDF_REAL x_start,
+               HPDF_REAL y_start,
+               HPDF_REAL x_stop,
+               HPDF_REAL y_stop
+               ) {
+    ASSERT_HPDF_OK(HPDF_Page_MoveTo(page, x_start, y_start));
+    ASSERT_HPDF_OK(HPDF_Page_LineTo(page,  x_stop, y_stop));
+    ASSERT_HPDF_OK(HPDF_Page_Stroke(page));
+}
+
 void create_card(const kanji_data& kanji_data,
                  const std::string& dir_path
                  ) {
@@ -174,16 +185,12 @@ void create_card(const kanji_data& kanji_data,
     }
 
     // Meanings
-    ASSERT_HPDF_OK(HPDF_Page_MoveTo(page,
-                                    left_right_margin,
-                                    page_height - y_offset
-                                    ));
-    ASSERT_HPDF_OK(HPDF_Page_LineTo(page,
-                                    page_width - left_right_margin,
-                                    page_height - y_offset
-                                    ));
-    ASSERT_HPDF_OK(HPDF_Page_Stroke(page));
-
+    draw_line(page,
+              left_right_margin,
+              page_height - y_offset,
+              page_width - left_right_margin,
+              page_height - y_offset
+              );
     y_offset += left_right_margin;
 
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
@@ -234,20 +241,15 @@ void create_card(const kanji_data& kanji_data,
                                    page_height - y_offset,
                                    font
                                    );
-
-    // Words
     y_offset += left_right_margin;
 
-    ASSERT_HPDF_OK(HPDF_Page_MoveTo(page,
-                                    left_right_margin,
-                                    page_height - y_offset
-                                    ));
-    ASSERT_HPDF_OK(HPDF_Page_LineTo(page,
-                                    page_width - left_right_margin,
-                                    page_height - y_offset
-                                    ));
-    ASSERT_HPDF_OK(HPDF_Page_Stroke(page));
-
+    // Words
+    draw_line(page,
+              left_right_margin,
+              page_height - y_offset,
+              page_width - left_right_margin,
+              page_height - y_offset
+              );
     y_offset += left_right_margin;
 
     for (word_data word_data : kanji_data.get_words()) {
