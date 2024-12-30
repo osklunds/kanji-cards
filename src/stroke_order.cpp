@@ -106,11 +106,13 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
     pugi::xml_document doc {};
     assert(doc.load_string(xml_doc_as_string.c_str()));
 
+    pugi::xml_node svg = doc.child("svg");
     pugi::xpath_node xpath_stroke_numbers =
-        doc.select_node("/svg/g[@id[contains(.,\"StrokeNumbers\")]]");
+        svg.select_node("g[@id[contains(.,\"StrokeNumbers\")]]");
     pugi::xml_node entry = xpath_stroke_numbers.node();
     pugi::xml_node stroke_numbers = xpath_stroke_numbers.node();
-    std::cout << "oskar: " << stroke_numbers.first_attribute().value() << std::endl;
+    assert(!stroke_numbers.empty());
+    svg.remove_child(stroke_numbers);
 
     auto stroke_nodes = find_stroke_nodes(doc);
 
