@@ -15,12 +15,15 @@ const HPDF_REAL stroke_order_spacing = 10;
 const HPDF_REAL stroke_order_size = 109;
 const HPDF_REAL main_kanji_font_size = 160;
 
-#define ASSERT_HPDF_OK(function_call)                                          \
-  auto result = function_call;                                                 \
-  if (result != HPDF_OK) {                                                     \
-      std::cout << "libharu call failed: " << std::hex << result << std::endl; \
-    assert(result == HPDF_OK);                                                 \
-  }
+#define ASSERT_HPDF_OK(function_call)                                       \
+    {                                                                       \
+        auto R_E_S_U_L_T = function_call;                                   \
+        if (R_E_S_U_L_T != HPDF_OK) {                                       \
+            std::cout << "libharu call failed: " << std::hex << R_E_S_U_L_T \
+                      << std::endl;                                         \
+            assert(R_E_S_U_L_T == HPDF_OK);                                 \
+        }                                                                   \
+    }
 
 HPDF_REAL multiline_text_out(HPDF_Page page,
                              std::string text,
@@ -58,13 +61,12 @@ HPDF_REAL multiline_text_out(HPDF_Page page,
         }
 
         ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
-        auto res = HPDF_Page_TextOut(page,
-                                     left_right_margin,
-                                     ypos - body_font_size - offset,
-                                     text_this_iteration.c_str()
-                                     );
-        assert(HPDF_OK == res);
-        assert(HPDF_OK == HPDF_Page_EndText(page));
+        ASSERT_HPDF_OK(HPDF_Page_TextOut(page,
+                                         left_right_margin,
+                                         ypos - body_font_size - offset,
+                                         text_this_iteration.c_str()
+                                         ));
+        ASSERT_HPDF_OK(HPDF_Page_EndText(page));
 
         offset += body_line_spacing;
     }
@@ -78,16 +80,16 @@ void create_card(const kanji_data& kanji_data,
     // Set up pdf document
     HPDF_Doc pdf = HPDF_New(NULL, NULL);
     assert(pdf);
-    assert(HPDF_OK == HPDF_UseUTFEncodings(pdf));
-    assert(HPDF_OK == HPDF_SetCurrentEncoder(pdf, "UTF-8"));
+    ASSERT_HPDF_OK(HPDF_UseUTFEncodings(pdf));
+    ASSERT_HPDF_OK(HPDF_SetCurrentEncoder(pdf, "UTF-8"));
 
     // Set up page
     HPDF_Page page = HPDF_AddPage(pdf);
     assert(page);
 
     const double page_height = 2400;
-    assert(HPDF_OK == HPDF_Page_SetWidth(page, 1200));
-    assert(HPDF_OK == HPDF_Page_SetHeight(page, page_height));
+    ASSERT_HPDF_OK(HPDF_Page_SetWidth(page, 1200));
+    ASSERT_HPDF_OK(HPDF_Page_SetHeight(page, page_height));
 
     // Set up font
     const char* font_path =
@@ -101,17 +103,17 @@ void create_card(const kanji_data& kanji_data,
     assert(font);
 
     // Main kanji
-    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, main_kanji_font_size));
+    ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, main_kanji_font_size));
 
     const HPDF_REAL main_kanji_y_offset = left_right_margin + main_kanji_font_size;
 
-    assert(HPDF_OK == HPDF_Page_BeginText(page));
-    assert(HPDF_OK == HPDF_Page_TextOut(page,
+    ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
+    ASSERT_HPDF_OK(HPDF_Page_TextOut(page,
                                         left_right_margin,
                                         page_height - main_kanji_y_offset,
                                         kanji_data.get_kanji().c_str()
                                         ));
-    assert(HPDF_OK == HPDF_Page_EndText(page));
+    ASSERT_HPDF_OK(HPDF_Page_EndText(page));
 
     // Stroke order
     const HPDF_REAL stroke_order_x_start =
@@ -143,7 +145,7 @@ void create_card(const kanji_data& kanji_data,
         HPDF_REAL x_pos = stroke_order_x_start + x_offset;
         HPDF_REAL y_pos = page_height - stroke_order_size - y_offset;
 
-        assert(HPDF_OK == HPDF_Page_DrawImage(page,
+        ASSERT_HPDF_OK(HPDF_Page_DrawImage(page,
                                               image,
                                               x_pos,
                                               y_pos,
@@ -151,15 +153,15 @@ void create_card(const kanji_data& kanji_data,
                                               stroke_order_size
                                               ));
 
-        assert(HPDF_OK == HPDF_Page_SetRGBStroke(page, 0.5, 0.5, 0.5));
-        assert(HPDF_OK == HPDF_Page_Rectangle(page,
+        ASSERT_HPDF_OK(HPDF_Page_SetRGBStroke(page, 0.5, 0.5, 0.5));
+        ASSERT_HPDF_OK(HPDF_Page_Rectangle(page,
                                               x_pos,
                                               y_pos,
                                               stroke_order_size,
                                               stroke_order_size
                                               ));
 
-        assert(HPDF_OK == HPDF_Page_Stroke(page));
+        ASSERT_HPDF_OK(HPDF_Page_Stroke(page));
 
         x_offset += image_width + 40;
     }
@@ -172,7 +174,7 @@ void create_card(const kanji_data& kanji_data,
     }
 
     // Meanings
-    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
+    ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string meanings = "Meanings: ";
     for (auto meaning : kanji_data.get_meanings()) {
@@ -188,7 +190,7 @@ void create_card(const kanji_data& kanji_data,
                                    );
 
     // On readings
-    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
+    ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string on_readings = "On_readings: ";
     for (auto on_reading : kanji_data.get_on_readings()) {
@@ -204,7 +206,7 @@ void create_card(const kanji_data& kanji_data,
                                    );
 
     // Kun readings
-    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
+    ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string kun_readings = "Kun_readings: ";
     for (auto kun_reading : kanji_data.get_kun_readings()) {
@@ -239,7 +241,7 @@ void create_card(const kanji_data& kanji_data,
         y_offset += 10;
     }
 
-    assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
+    ASSERT_HPDF_OK(HPDF_SaveToFile(pdf, "example.pdf"));
 
     HPDF_Free(pdf);
 }
