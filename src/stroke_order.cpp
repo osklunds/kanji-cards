@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <fstream>
 #include "util.hpp"
+#include <iostream>
 
 std::vector<std::vector<uint8_t>> code_point_to_stroke_order_jpgs(const std::string& code_point) {
     std::string path = path_for_kanji(code_point);
@@ -42,15 +43,23 @@ find_stroke_nodes(pugi::xml_document& doc) {
 
     find_stroke_nodes(root, stroke_nodes);
 
-    std::ranges::sort(stroke_nodes,
-                      [](auto a, auto b) {
-                          auto nodeA = std::get<1>(a);
-                          std::string nodeAId = nodeA.attribute("id").value();
-                          auto nodeB = std::get<1>(b);
-                          std::string nodeBId = nodeB.attribute("id").value();
+    auto node_to_integer_index = [](pugi::xml_node node) {
+        std::string id = node.attribute("id").value();
+        std::regex regex("kvg:[0-9a-z]+-s([0-9]+)");
+        std::smatch match = {};
+        std::regex_search(id, match, regex);
+        assert(match.size() == 2);
+        std::string index = match[1];
+        // Need stoi so that 1 < 2 < 10
+        return std::stoi(index);
+    };
 
-                          return nodeAId < nodeBId;
-                      });
+    std::ranges::sort(stroke_nodes, [node_to_integer_index](auto a, auto b) {
+        auto nodeA = std::get<1>(a);
+        auto nodeB = std::get<1>(b);
+
+        return node_to_integer_index(nodeA) < node_to_integer_index(nodeB);
+    });
 
     return stroke_nodes;
 }
