@@ -124,6 +124,29 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
         ofstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
         ofstream << dtd << std::endl;
 
+        auto tuple = stroke_nodes[stroke_index-1];
+        auto parent = std::get<0>(tuple);
+        auto child = std::get<1>(tuple);
+
+        // Example
+        // path attribute of M30.5,17.89c0.12,1.12-0.03...
+        // Should result in the below extra node
+        // <circle cx="30.5" cy="17.89" r="4" fill="red" stroke-width="0"></circle>
+        std::string path = child.attribute("d").value();
+        std::regex regex("M([0-9]+\\.?[0-9]*),([0-9]+\\.?[0-9]*)c");
+        std::smatch match {};
+        std::regex_search(path, match, regex);
+        assert(match.size() == 3);
+        std::string x_pos = match[1];
+        std::string y_pos = match[2];
+
+        pugi::xml_node circle = parent.append_child("circle");
+        circle.append_attribute("cx") = x_pos;
+        circle.append_attribute("cy") = y_pos;
+        circle.append_attribute("r") = "4";
+        circle.append_attribute("fill") = "red";
+        circle.append_attribute("stroke-width") = "0";
+
         doc.save(ofstream,
                  PUGIXML_TEXT("\t"),
                  pugi::format_no_declaration | pugi::format_indent
@@ -131,10 +154,7 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
         std::string svg_file = ofstream.str();
         svg_files.push_back(svg_file);
 
-        // Prepare for next iteration
-        auto tuple = stroke_nodes[stroke_index-1];
-        auto parent = std::get<0>(tuple);
-        auto child = std::get<1>(tuple);
+        parent.remove_child(circle);
         parent.remove_child(child);
     }
 
