@@ -33,8 +33,19 @@ HPDF_REAL multiline_text_out(HPDF_Page page,
 
         std::string text_this_iteration {};
 
-        text_this_iteration = text.substr(0, num_bytes);
-        text.erase(0, num_bytes);
+        if (num_bytes < text.size()) {
+            auto line_break_pos = text.rfind(",", num_bytes);
+            if (line_break_pos == std::string::npos) {
+                text_this_iteration = text.substr(0, num_bytes);
+                text.erase(0, num_bytes);
+            } else {
+                text_this_iteration = text.substr(0, line_break_pos);
+                text.erase(0, line_break_pos+1);
+            }
+        } else {
+            text_this_iteration = text;
+            text = {};
+        }
 
         assert(HPDF_OK == HPDF_Page_BeginText(page));
         auto res = HPDF_Page_TextOut(page,
