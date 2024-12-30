@@ -12,6 +12,8 @@ const HPDF_REAL body_font_size = 40;
 const HPDF_REAL body_line_spacing = 50;
 const HPDF_REAL left_right_margin = 50;
 const HPDF_REAL stroke_order_spacing = 10;
+const HPDF_REAL stroke_order_size = 109;
+const HPDF_REAL main_kanji_font_size = 160;
 
 HPDF_REAL multiline_text_out(HPDF_Page page,
                              std::string text,
@@ -92,7 +94,6 @@ void create_card(const kanji_data& kanji_data,
     assert(font);
 
     // Main kanji
-    const double main_kanji_font_size = 160;
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, main_kanji_font_size));
 
     assert(HPDF_OK == HPDF_Page_BeginText(page));
@@ -104,17 +105,15 @@ void create_card(const kanji_data& kanji_data,
     assert(HPDF_OK == HPDF_Page_EndText(page));
 
     // Stroke order
+    const HPDF_REAL stroke_order_x_start =
+        left_right_margin + main_kanji_font_size + left_right_margin;
+    const HPDF_REAL stroke_order_x_end = page_width - left_right_margin;
+    const HPDF_REAL stroke_order_total_width =
+        stroke_order_x_end - stroke_order_x_start;
+
     HPDF_REAL x_offset = 0.0;
     HPDF_REAL y_offset = 0.0;
 
-    const HPDF_REAL stroke_order_x_start =
-        left_right_margin + main_kanji_font_size + left_right_margin;
-        
-    HPDF_REAL total_stroke_order_width =
-        page_width -
-        stroke_order_x_start -
-        left_right_margin;
-    
     for (auto jpg : kanji_data.get_stroke_order_jpgs()) {
         HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
                                                      &jpg[0],
@@ -123,20 +122,24 @@ void create_card(const kanji_data& kanji_data,
     
         HPDF_UINT image_width = HPDF_Image_GetWidth(image);
         HPDF_UINT image_height = HPDF_Image_GetHeight(image);
+        assert(image_width == stroke_order_size);
+        assert(image_height == stroke_order_size);
 
-        HPDF_REAL remaining_width = total_stroke_order_width - x_offset;
-        if (image_width + stroke_order_spacing > remaining_width) {
+        HPDF_REAL remaining_width = stroke_order_total_width - x_offset;
+        if (stroke_order_size + stroke_order_spacing > remaining_width) {
             x_offset = 0.0;
-            y_offset += image_height + stroke_order_spacing;
-            // todo: fixed sizes for all images
+            y_offset += stroke_order_size + stroke_order_spacing;
         }
+
+        HPDF_REAL x_pos = stroke_order_x_start + x_offset;
+        HPDF_REAL y_pos = page_height - 50 - stroke_order_size - y_offset;
 
         assert(HPDF_OK == HPDF_Page_DrawImage(page,
                                               image,
-                                              stroke_order_x_start + x_offset,
-                                              page_height - 50 - image_height - y_offset,
-                                              image_width,
-                                              image_height
+                                              x_pos,
+                                              y_pos,
+                                              stroke_order_size,
+                                              stroke_order_size
                                               ));
 
         x_offset += image_width + 40;
