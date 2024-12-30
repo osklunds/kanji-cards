@@ -62,7 +62,7 @@ TEST_CASE("find_stroke_nodes") {
 }
 
 TEST_CASE("generate_stroke_order_svg_files") {
-    std::string path = path_for_kanji("04fd7");
+    std::string path = path_for_kanji("04fd7"); // 俗
     auto svg_files = generate_stroke_order_svg_files(path);
     REQUIRE(svg_files.size() == 9);
 
