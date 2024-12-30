@@ -22,3 +22,5 @@ TEST_CASE("create_card") {
 // good kanji to test with are
 // 生 for lots of words, and word wrapping
 // 働 for multiple lines of stroke order graphs
+
+// todo: old lines in stroke order should be gray
