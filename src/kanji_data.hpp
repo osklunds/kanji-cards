@@ -10,6 +10,7 @@
 
 class kanji_data {
 private:
+    // todo: add frequency number
     std::string kanji {};
     std::vector<std::string> meanings {};
     std::vector<std::string> kun_readings {};
