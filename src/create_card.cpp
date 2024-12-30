@@ -15,6 +15,13 @@ const HPDF_REAL stroke_order_spacing = 10;
 const HPDF_REAL stroke_order_size = 109;
 const HPDF_REAL main_kanji_font_size = 160;
 
+#define ASSERT_HPDF_OK(function_call)                                          \
+  auto result = function_call;                                                 \
+  if (result != HPDF_OK) {                                                     \
+      std::cout << "libharu call failed: " << std::hex << result << std::endl; \
+    assert(result == HPDF_OK);                                                 \
+  }
+
 HPDF_REAL multiline_text_out(HPDF_Page page,
                              std::string text,
                              HPDF_REAL ypos,
@@ -50,7 +57,7 @@ HPDF_REAL multiline_text_out(HPDF_Page page,
             text = {};
         }
 
-        assert(HPDF_OK == HPDF_Page_BeginText(page));
+        ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
         auto res = HPDF_Page_TextOut(page,
                                      left_right_margin,
                                      ypos - body_font_size - offset,
