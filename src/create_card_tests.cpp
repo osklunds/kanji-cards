@@ -14,7 +14,11 @@ TEST_CASE("create_card") {
         jmdict_e_doc.load_file("../data/JMdict_e.xml");
     REQUIRE(result_jmdict_e == true);
 
-    kanji_data kanji_data { "生", kanjidic2_doc, jmdict_e_doc };
+    kanji_data kanji_data { "動", kanjidic2_doc, jmdict_e_doc };
 
     create_card(kanji_data, "create_card.pdf");
 }
+
+// good kanji to test with are
+// 生 for lots of words, and word wrapping
+// 動 for multiple lines of stroke order graphs
