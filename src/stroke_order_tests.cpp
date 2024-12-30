@@ -84,6 +84,17 @@ TEST_CASE("generate_stroke_order_svg_files") {
             }
         }
     }
+
+    // Check all attributes once. Assume they work for the others too. For the
+    // others, it's more interesting to check the values that vary.
+    REQUIRE(svg_files[0].find("<circle cx=\"30.5\" "
+                              "cy=\"17.89\" "
+                              "r=\"4\" "
+                              "fill=\"red\" "
+                              "stroke-width=\"0\"") != std::string::npos);
+    REQUIRE(svg_files[1].find("<circle cx=\"24.03\" cy=\"41\"") != std::string::npos);
+    REQUIRE(svg_files[2].find("<circle cx=\"52.49\" cy=\"20.23\"") != std::string::npos);
+    REQUIRE(svg_files[8].find("<circle cx=\"53.4\" cy=\"90.6\"") != std::string::npos);
 }
 
 TEST_CASE("svg_to_jpg") {
