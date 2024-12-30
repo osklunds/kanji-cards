@@ -69,10 +69,8 @@ void create_card(const kanji_data& kanji_data,
     }
 
     // Meanings
-    const double meanings_font_size = 40;
-    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, meanings_font_size));
-
-    assert(HPDF_OK == HPDF_Page_BeginText(page));
+    const double body_font_size = 40;
+    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string meanings = "Meanings: ";
     for (auto meaning : kanji_data.get_meanings()) {
@@ -81,13 +79,52 @@ void create_card(const kanji_data& kanji_data,
     meanings.pop_back();
     meanings.pop_back();
 
+    assert(HPDF_OK == HPDF_Page_BeginText(page));
+
     assert(HPDF_OK == HPDF_Page_TextOut(page,
                                         50,
-                                        page_height - 300 - meanings_font_size,
+                                        page_height - 300 - body_font_size,
                                         meanings.c_str()
                                         ));
     assert(HPDF_OK == HPDF_Page_EndText(page));
 
+    // On readings
+    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
+
+    std::string on_readings = "On_readings: ";
+    for (auto on_reading : kanji_data.get_on_readings()) {
+        on_readings += on_reading + ", ";
+    }
+    on_readings.pop_back();
+    on_readings.pop_back();
+
+    assert(HPDF_OK == HPDF_Page_BeginText(page));
+
+    assert(HPDF_OK == HPDF_Page_TextOut(page,
+                                        50,
+                                        page_height - 350 - body_font_size,
+                                        on_readings.c_str()
+                                        ));
+    assert(HPDF_OK == HPDF_Page_EndText(page));
+
+    // Kun readings
+    assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
+
+    std::string kun_readings = "Kun_readings: ";
+    for (auto kun_reading : kanji_data.get_kun_readings()) {
+        kun_readings += kun_reading + ", ";
+    }
+    kun_readings.pop_back();
+    kun_readings.pop_back();
+
+    assert(HPDF_OK == HPDF_Page_BeginText(page));
+
+    assert(HPDF_OK == HPDF_Page_TextOut(page,
+                                        50,
+                                        page_height - 400 - body_font_size,
+                                        kun_readings.c_str()
+                                        ));
+    assert(HPDF_OK == HPDF_Page_EndText(page));
 
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
 
