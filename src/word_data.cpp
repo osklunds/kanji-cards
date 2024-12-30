@@ -166,6 +166,7 @@ bool operator== (const word_data& w1, const word_data& w2) {
 std::weak_ordering operator<=> (const word_data& w1, const word_data& w2) {
     // todo: consider using spec, news and ichi too
     // could map e.g. spec1 to nf10
+    // if spec1, news1, etc, map to the smallest of all indicator
     if (w1.prio_nf.has_value() &&
         w2.prio_nf.has_value() &&
         w1.prio_nf != w2.prio_nf) {
