@@ -114,8 +114,9 @@ void create_card(const kanji_data& kanji_data,
         offset += image_width + 40;
     }
 
+    HPDF_REAL height_offset = 300;
+
     // Meanings
-    const double body_font_size = 40;
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string meanings = "Meanings: ";
@@ -125,14 +126,12 @@ void create_card(const kanji_data& kanji_data,
     meanings.pop_back();
     meanings.pop_back();
 
-    assert(HPDF_OK == HPDF_Page_BeginText(page));
-
-    assert(HPDF_OK == HPDF_Page_TextOut(page,
-                                        50,
-                                        page_height - 300 - body_font_size,
-                                        meanings.c_str()
-                                        ));
-    assert(HPDF_OK == HPDF_Page_EndText(page));
+    height_offset += multiline_text_out(page,
+                                        meanings,
+                                        left_right_margin,
+                                        page_height - height_offset,
+                                        font
+                                        );
 
     // On readings
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
@@ -144,14 +143,12 @@ void create_card(const kanji_data& kanji_data,
     on_readings.pop_back();
     on_readings.pop_back();
 
-    assert(HPDF_OK == HPDF_Page_BeginText(page));
-
-    assert(HPDF_OK == HPDF_Page_TextOut(page,
-                                        50,
-                                        page_height - 350 - body_font_size,
-                                        on_readings.c_str()
-                                        ));
-    assert(HPDF_OK == HPDF_Page_EndText(page));
+    height_offset += multiline_text_out(page,
+                                        on_readings,
+                                        left_right_margin,
+                                        page_height - height_offset,
+                                        font
+                                        );
 
     // Kun readings
     assert(HPDF_OK == HPDF_Page_SetFontAndSize(page, font, body_font_size));
@@ -163,18 +160,14 @@ void create_card(const kanji_data& kanji_data,
     kun_readings.pop_back();
     kun_readings.pop_back();
 
-    assert(HPDF_OK == HPDF_Page_BeginText(page));
-
-    assert(HPDF_OK == HPDF_Page_TextOut(page,
-                                        50,
-                                        page_height - 400 - body_font_size,
-                                        kun_readings.c_str()
-                                        ));
-    assert(HPDF_OK == HPDF_Page_EndText(page));
+    height_offset += multiline_text_out(page,
+                                        kun_readings,
+                                        left_right_margin,
+                                        page_height - height_offset,
+                                        font
+                                        );
 
     // Words
-    HPDF_REAL word_offset = 0.0;
-
     for (word_data word_data : kanji_data.get_words()) {
         std::string word_string = word_data.get_word();
 
@@ -186,13 +179,13 @@ void create_card(const kanji_data& kanji_data,
         word_string.pop_back();
         word_string.pop_back();
 
-        word_offset += multiline_text_out(page,
-                                          word_string,
-                                          left_right_margin,
-                                          page_height - 500 - word_offset,
-                                          font
-                                          );
-        word_offset += 10;
+        height_offset += multiline_text_out(page,
+                                            word_string,
+                                            left_right_margin,
+                                            page_height - height_offset,
+                                            font
+                                            );
+        height_offset += 10;
     }
 
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
