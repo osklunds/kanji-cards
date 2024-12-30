@@ -126,6 +126,34 @@ void create_card(const kanji_data& kanji_data,
                                         ));
     assert(HPDF_OK == HPDF_Page_EndText(page));
 
+    // Words
+
+    double word_offset = 0.0;
+
+    for (word_data word_data : kanji_data.get_words()) {
+        assert(HPDF_OK == HPDF_Page_BeginText(page));
+
+        std::string word_string = word_data.get_word();
+
+        word_string += " ( " + word_data.get_reading() + " ) ";
+
+        for (auto meaning : word_data.get_meanings()) {
+            word_string += meaning + ", ";
+        }
+        word_string.pop_back();
+        word_string.pop_back();
+
+        double word_y = page_height - 500 - body_font_size - word_offset;
+        assert(HPDF_OK == HPDF_Page_TextOut(page,
+                                            50,
+                                            word_y,
+                                            word_string.c_str()
+                                            ));
+        assert(HPDF_OK == HPDF_Page_EndText(page));
+
+        word_offset += 50;
+    }
+
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
 
     HPDF_Free(pdf);
