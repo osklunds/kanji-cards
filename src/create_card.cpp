@@ -174,6 +174,18 @@ void create_card(const kanji_data& kanji_data,
     }
 
     // Meanings
+    ASSERT_HPDF_OK(HPDF_Page_MoveTo(page,
+                                    left_right_margin,
+                                    page_height - y_offset
+                                    ));
+    ASSERT_HPDF_OK(HPDF_Page_LineTo(page,
+                                    page_width - left_right_margin,
+                                    page_height - y_offset
+                                    ));
+    ASSERT_HPDF_OK(HPDF_Page_Stroke(page));
+
+    y_offset += left_right_margin;
+
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string meanings = "Meanings: ";
@@ -190,6 +202,7 @@ void create_card(const kanji_data& kanji_data,
                                    );
 
     // On readings
+    y_offset += left_right_margin;
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string on_readings = "On_readings: ";
@@ -206,6 +219,7 @@ void create_card(const kanji_data& kanji_data,
                                    );
 
     // Kun readings
+    y_offset += left_right_margin;
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string kun_readings = "Kun_readings: ";
@@ -222,6 +236,20 @@ void create_card(const kanji_data& kanji_data,
                                    );
 
     // Words
+    y_offset += left_right_margin;
+
+    ASSERT_HPDF_OK(HPDF_Page_MoveTo(page,
+                                    left_right_margin,
+                                    page_height - y_offset
+                                    ));
+    ASSERT_HPDF_OK(HPDF_Page_LineTo(page,
+                                    page_width - left_right_margin,
+                                    page_height - y_offset
+                                    ));
+    ASSERT_HPDF_OK(HPDF_Page_Stroke(page));
+
+    y_offset += left_right_margin;
+
     for (word_data word_data : kanji_data.get_words()) {
         std::string word_string = word_data.get_word();
 
