@@ -192,6 +192,7 @@ void create_card(const kanji_data& kanji_data,
                                           page_height - 500 - word_offset,
                                           font
                                           );
+        word_offset += 10;
     }
 
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
