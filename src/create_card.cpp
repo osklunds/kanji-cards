@@ -10,7 +10,7 @@ const HPDF_REAL page_width = 1200;
 const HPDF_REAL page_height = 2400;
 const HPDF_REAL body_font_size = 40;
 const HPDF_REAL body_line_spacing = 50;
-const HPDF_REAL left_right_margin = 50;
+const HPDF_REAL margin = 50;
 const HPDF_REAL line_break_distance = 10;
 const HPDF_REAL stroke_order_spacing = 0;
 const HPDF_REAL stroke_order_size = 109;
@@ -37,7 +37,7 @@ HPDF_REAL multiline_text_out(HPDF_Page page,
             HPDF_Font_MeasureText(font,
                                   (const HPDF_BYTE*)text.c_str(),
                                   text.size(),
-                                  page_width - left_right_margin*2,
+                                  page_width - margin*2,
                                   body_font_size,
                                   0.0,
                                   0.0,
@@ -63,7 +63,7 @@ HPDF_REAL multiline_text_out(HPDF_Page page,
 
         ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
         ASSERT_HPDF_OK(HPDF_Page_TextOut(page,
-                                         left_right_margin,
+                                         margin,
                                          ypos - body_font_size - offset,
                                          text_this_iteration.c_str()
                                          ));
@@ -117,11 +117,11 @@ void create_card(const kanji_data& kanji_data,
     // Main kanji
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, main_kanji_font_size));
 
-    const HPDF_REAL main_kanji_y_offset = left_right_margin + main_kanji_font_size;
+    const HPDF_REAL main_kanji_y_offset = margin + main_kanji_font_size;
 
     ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
     ASSERT_HPDF_OK(HPDF_Page_TextOut(page,
-                                     left_right_margin,
+                                     margin,
                                      page_height - main_kanji_y_offset,
                                      kanji_data.get_kanji().c_str()
                                      ));
@@ -129,13 +129,13 @@ void create_card(const kanji_data& kanji_data,
 
     // Stroke order
     const HPDF_REAL stroke_order_x_start =
-        left_right_margin + main_kanji_font_size + left_right_margin;
-    const HPDF_REAL stroke_order_x_end = page_width - left_right_margin;
+        margin + main_kanji_font_size + margin;
+    const HPDF_REAL stroke_order_x_end = page_width - margin;
     const HPDF_REAL stroke_order_total_width =
         stroke_order_x_end - stroke_order_x_start;
 
     HPDF_REAL x_offset = 0.0;
-    HPDF_REAL y_offset = left_right_margin;
+    HPDF_REAL y_offset = margin;
 
     for (auto jpg : kanji_data.get_stroke_order_jpgs()) {
         HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
@@ -178,21 +178,21 @@ void create_card(const kanji_data& kanji_data,
         x_offset += image_width + stroke_order_spacing;
     }
 
-    y_offset += stroke_order_size + left_right_margin;
+    y_offset += stroke_order_size + margin;
 
-    HPDF_REAL offset_due_to_main_kanji = main_kanji_y_offset + left_right_margin;
+    HPDF_REAL offset_due_to_main_kanji = main_kanji_y_offset + margin;
     if (y_offset < offset_due_to_main_kanji) {
         y_offset = offset_due_to_main_kanji;
     }
 
     // Meanings
     draw_line(page,
-              left_right_margin,
+              margin,
               page_height - y_offset,
-              page_width - left_right_margin,
+              page_width - margin,
               page_height - y_offset
               );
-    y_offset += left_right_margin;
+    y_offset += margin;
 
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
@@ -210,7 +210,7 @@ void create_card(const kanji_data& kanji_data,
                                    );
 
     // On readings
-    y_offset += left_right_margin;
+    y_offset += margin;
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string on_readings = "On_readings: ";
@@ -227,7 +227,7 @@ void create_card(const kanji_data& kanji_data,
                                    );
 
     // Kun readings
-    y_offset += left_right_margin;
+    y_offset += margin;
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
     std::string kun_readings = "Kun_readings: ";
@@ -242,16 +242,16 @@ void create_card(const kanji_data& kanji_data,
                                    page_height - y_offset,
                                    font
                                    );
-    y_offset += left_right_margin;
+    y_offset += margin;
 
     // Words
     draw_line(page,
-              left_right_margin,
+              margin,
               page_height - y_offset,
-              page_width - left_right_margin,
+              page_width - margin,
               page_height - y_offset
               );
-    y_offset += left_right_margin;
+    y_offset += margin;
 
     for (word_data word_data : kanji_data.get_words()) {
         std::string word_string = word_data.get_word();
