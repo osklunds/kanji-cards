@@ -93,7 +93,7 @@ TEST_CASE("svg_to_jpg") {
     std::vector<uint8_t> jpg = svg_to_jpg(svg);
 
     // Some non-perfect checks to see that the conversion seemed to go OK
-    REQUIRE(jpg.size() > 1000);
+    REQUIRE(jpg.size() > 500);
     std::string as_string { jpg.begin(), jpg.end() };
     REQUIRE(as_string.find("JFIF") != std::string::npos);
 

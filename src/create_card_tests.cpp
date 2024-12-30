@@ -14,8 +14,8 @@ TEST_CASE("create_card") {
         jmdict_e_doc.load_file("../data/JMdict_e.xml");
     REQUIRE(result_jmdict_e == true);
 
-    // kanji_data kanji_data { "働", kanjidic2_doc, jmdict_e_doc };
-    kanji_data kanji_data { "生", kanjidic2_doc, jmdict_e_doc };
+    kanji_data kanji_data { "働", kanjidic2_doc, jmdict_e_doc };
+    // kanji_data kanji_data { "生", kanjidic2_doc, jmdict_e_doc };
 
     create_card(kanji_data, "create_card.pdf");
 }

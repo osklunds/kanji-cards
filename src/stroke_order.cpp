@@ -36,7 +36,10 @@ std::string path_for_kanji(const std::string& code_point) {
 std::vector<std::tuple<pugi::xml_node, pugi::xml_node>>
 find_stroke_nodes(pugi::xml_document& doc) {
     pugi::xml_node svg = doc.child("svg");
-    pugi::xml_node stroke_paths = svg.child("g");
+    pugi::xpath_node xpath_stroke_paths =
+        svg.select_node("g[@id[contains(.,\"StrokePaths\")]]");
+    pugi::xml_node stroke_paths = xpath_stroke_paths.node();
+    assert(!stroke_paths.empty());
     pugi::xml_node root = stroke_paths.child("g");
 
     std::vector<std::tuple<pugi::xml_node, pugi::xml_node>> stroke_nodes = {};
@@ -109,7 +112,6 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
     pugi::xml_node svg = doc.child("svg");
     pugi::xpath_node xpath_stroke_numbers =
         svg.select_node("g[@id[contains(.,\"StrokeNumbers\")]]");
-    pugi::xml_node entry = xpath_stroke_numbers.node();
     pugi::xml_node stroke_numbers = xpath_stroke_numbers.node();
     assert(!stroke_numbers.empty());
     svg.remove_child(stroke_numbers);
