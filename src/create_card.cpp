@@ -133,10 +133,11 @@ void create_card(const kanji_data& kanji_data,
     ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
 
     HPDF_REAL frequency_y_offset = main_kanji_y_offset + body_font_size + margin;
+    std::string frequency_string = "No. " + std::to_string(kanji_data.get_frequency());
     ASSERT_HPDF_OK(HPDF_Page_TextOut(page,
                                      margin,
                                      page_height - frequency_y_offset,
-                                     "No. 123"
+                                     frequency_string.c_str()
                                      ));
     ASSERT_HPDF_OK(HPDF_Page_EndText(page));
 

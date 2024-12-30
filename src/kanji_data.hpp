@@ -10,8 +10,8 @@
 
 class kanji_data {
 private:
-    // todo: add frequency number
     std::string kanji {};
+    uint16_t frequency {};
     std::vector<std::string> meanings {};
     std::vector<std::string> kun_readings {};
     std::vector<std::string> on_readings {};
@@ -24,11 +24,13 @@ private:
 
 public:
     kanji_data(const std::string& kanji,
+               uint16_t frequency,
                const pugi::xml_document& kanjidic2_doc,
                const pugi::xml_document& jmdict_e_doc
                );
 
     const std::string& get_kanji() const;
+    uint16_t get_frequency() const;
     const std::vector<std::string>& get_meanings() const;
     const std::vector<std::string>& get_kun_readings() const;
     const std::vector<std::string>& get_on_readings() const;

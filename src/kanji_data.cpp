@@ -8,6 +8,7 @@
 #include "stroke_order.hpp"
 
 kanji_data::kanji_data(const std::string& kanji,
+                       uint16_t frequency,
                        const pugi::xml_document& kanjidic2_doc,
                        const pugi::xml_document& jmdict_e_doc
                        )  :
@@ -16,7 +17,8 @@ kanji_data::kanji_data(const std::string& kanji,
     kun_readings {},
     on_readings {},
     words {},
-    stroke_order_jpgs {}
+    stroke_order_jpgs {},
+    frequency { frequency }
 {
     std::string xpath =
         std::format("/kanjidic2/character[./literal = \"{}\"]", this->kanji);
@@ -58,6 +60,10 @@ kanji_data::kanji_data(const std::string& kanji,
 
 const std::string& kanji_data::get_kanji() const {
     return kanji;
+}
+
+uint16_t kanji_data::get_frequency() const {
+    return frequency;
 }
 
 const std::vector<std::string>& kanji_data::get_meanings() const {
