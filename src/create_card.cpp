@@ -11,6 +11,7 @@ const HPDF_REAL page_height = 2400;
 const HPDF_REAL body_font_size = 40;
 const HPDF_REAL body_line_spacing = 50;
 const HPDF_REAL left_right_margin = 50;
+const HPDF_REAL stroke_order_spacing = 10;
 
 HPDF_REAL multiline_text_out(HPDF_Page page,
                              std::string text,
@@ -103,25 +104,42 @@ void create_card(const kanji_data& kanji_data,
     assert(HPDF_OK == HPDF_Page_EndText(page));
 
     // Stroke order
-    double offset = 0.0;
+    HPDF_REAL x_offset = 0.0;
+    HPDF_REAL y_offset = 0.0;
+
+    const HPDF_REAL stroke_order_x_start =
+        left_right_margin + main_kanji_font_size + left_right_margin;
+        
+    HPDF_REAL total_stroke_order_width =
+        page_width -
+        stroke_order_x_start -
+        left_right_margin;
+    
     for (auto jpg : kanji_data.get_stroke_order_jpgs()) {
         HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
                                                      &jpg[0],
                                                      jpg.size()
                                                      );
     
-        double image_width = HPDF_Image_GetWidth(image);
-        double image_height = HPDF_Image_GetHeight(image);
+        HPDF_UINT image_width = HPDF_Image_GetWidth(image);
+        HPDF_UINT image_height = HPDF_Image_GetHeight(image);
+
+        HPDF_REAL remaining_width = total_stroke_order_width - x_offset;
+        if (image_width + stroke_order_spacing > remaining_width) {
+            x_offset = 0.0;
+            y_offset += image_height + stroke_order_spacing;
+            // todo: fixed sizes for all images
+        }
 
         assert(HPDF_OK == HPDF_Page_DrawImage(page,
                                               image,
-                                              200 + offset,
-                                              page_height - 50 - image_height,
+                                              stroke_order_x_start + x_offset,
+                                              page_height - 50 - image_height - y_offset,
                                               image_width,
                                               image_height
                                               ));
 
-        offset += image_width + 40;
+        x_offset += image_width + 40;
     }
 
     HPDF_REAL height_offset = 300;
