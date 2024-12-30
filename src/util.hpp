@@ -9,4 +9,6 @@
 std::vector<uint8_t> exec(std::string cmd);
 std::vector<uint8_t> read_file_bin(std::string path);
 
+bool regex_matches(std::string subject, std::string regex);
+
 #endif

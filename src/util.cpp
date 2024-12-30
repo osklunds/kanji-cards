@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <fstream>
+#include <regex>
 
 // Inspired by https://gist.github.com/meritozh/f0351894a2a4aa92871746bf45879157
 std::vector<uint8_t> exec(std::string cmd) {
@@ -27,4 +28,11 @@ std::vector<uint8_t> read_file_bin(std::string path) {
     std::ifstream input { path.c_str(), std::ios::binary };
     std::vector<uint8_t> buffer(std::istreambuf_iterator<char>(input), {});
     return buffer;
+}
+
+bool regex_matches(std::string subject, std::string regex_string) {
+    std::regex regex(regex_string);
+    std::smatch match {};
+    regex_search(subject, match, regex);
+    return !match.empty();
 }

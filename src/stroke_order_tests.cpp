@@ -85,6 +85,8 @@ TEST_CASE("generate_stroke_order_svg_files") {
         }
     }
 
+    // Circles
+
     // Check all attributes once. Assume they work for the others too. For the
     // others, it's more interesting to check the values that vary.
     REQUIRE(svg_files[0].find("<circle cx=\"30.5\" "
@@ -95,6 +97,23 @@ TEST_CASE("generate_stroke_order_svg_files") {
     REQUIRE(svg_files[1].find("<circle cx=\"24.03\" cy=\"41\"") != std::string::npos);
     REQUIRE(svg_files[2].find("<circle cx=\"52.49\" cy=\"20.23\"") != std::string::npos);
     REQUIRE(svg_files[8].find("<circle cx=\"53.4\" cy=\"90.6\"") != std::string::npos);
+
+    // Grayed out stroke paths
+
+    // For the last file, all paths except the last are grayed out
+    REQUIRE( regex_matches(svg_files[8], "-s1[^\n]+stroke=\"rgb\\(180, 180, 180\\)\""));
+    REQUIRE( regex_matches(svg_files[8], "-s2[^\n]+stroke"));
+    REQUIRE( regex_matches(svg_files[8], "-s3[^\n]+stroke"));
+    REQUIRE( regex_matches(svg_files[8], "-s4[^\n]+stroke"));
+    REQUIRE( regex_matches(svg_files[8], "-s5[^\n]+stroke"));
+    REQUIRE( regex_matches(svg_files[8], "-s6[^\n]+stroke"));
+    REQUIRE( regex_matches(svg_files[8], "-s7[^\n]+stroke"));
+    REQUIRE( regex_matches(svg_files[8], "-s8[^\n]+stroke"));
+    REQUIRE(!regex_matches(svg_files[8], "-s9[^\n]+stroke"));
+
+    // For the second file, only the first path is grayed out
+    REQUIRE( regex_matches(svg_files[1], "-s1[^\n]+stroke"));
+    REQUIRE(!regex_matches(svg_files[1], "-s2[^\n]+stroke"));
 }
 
 TEST_CASE("svg_to_jpg") {
