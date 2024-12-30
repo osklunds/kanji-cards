@@ -118,6 +118,11 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
 
     auto stroke_nodes = find_stroke_nodes(doc);
 
+    for (auto tuple : stroke_nodes) {
+        auto child = std::get<1>(tuple);
+        child.append_attribute("stroke") = "rgb(180, 180, 180)";
+    }
+
     std::vector<std::string> svg_files = {};
     for (int stroke_index = stroke_nodes.size(); stroke_index > 0; stroke_index--) {
         std::stringstream ofstream {};
@@ -146,6 +151,8 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
         circle.append_attribute("r") = "4";
         circle.append_attribute("fill") = "red";
         circle.append_attribute("stroke-width") = "0";
+
+        child.remove_attribute("stroke");
 
         doc.save(ofstream,
                  PUGIXML_TEXT("\t"),
