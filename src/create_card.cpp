@@ -11,6 +11,7 @@ const HPDF_REAL page_height = 2400;
 const HPDF_REAL body_font_size = 40;
 const HPDF_REAL body_line_spacing = 50;
 const HPDF_REAL left_right_margin = 50;
+const HPDF_REAL line_break_distance = 10;
 const HPDF_REAL stroke_order_spacing = 0;
 const HPDF_REAL stroke_order_size = 109;
 const HPDF_REAL main_kanji_font_size = 160;
@@ -268,7 +269,7 @@ void create_card(const kanji_data& kanji_data,
                                        page_height - y_offset,
                                        font
                                        );
-        y_offset += 10;
+        y_offset += line_break_distance;
     }
 
     ASSERT_HPDF_OK(HPDF_SaveToFile(pdf, "example.pdf"));
