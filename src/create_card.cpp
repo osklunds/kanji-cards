@@ -109,10 +109,10 @@ void create_card(const kanji_data& kanji_data,
 
     ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
     ASSERT_HPDF_OK(HPDF_Page_TextOut(page,
-                                        left_right_margin,
-                                        page_height - main_kanji_y_offset,
-                                        kanji_data.get_kanji().c_str()
-                                        ));
+                                     left_right_margin,
+                                     page_height - main_kanji_y_offset,
+                                     kanji_data.get_kanji().c_str()
+                                     ));
     ASSERT_HPDF_OK(HPDF_Page_EndText(page));
 
     // Stroke order
@@ -146,20 +146,20 @@ void create_card(const kanji_data& kanji_data,
         HPDF_REAL y_pos = page_height - stroke_order_size - y_offset;
 
         ASSERT_HPDF_OK(HPDF_Page_DrawImage(page,
-                                              image,
-                                              x_pos,
-                                              y_pos,
-                                              stroke_order_size,
-                                              stroke_order_size
-                                              ));
+                                           image,
+                                           x_pos,
+                                           y_pos,
+                                           stroke_order_size,
+                                           stroke_order_size
+                                           ));
 
-        ASSERT_HPDF_OK(HPDF_Page_SetRGBStroke(page, 0.5, 0.5, 0.5));
+        ASSERT_HPDF_OK(HPDF_Page_SetRGBStroke(page, 0.7, 0.7, 0.7));
         ASSERT_HPDF_OK(HPDF_Page_Rectangle(page,
-                                              x_pos,
-                                              y_pos,
-                                              stroke_order_size,
-                                              stroke_order_size
-                                              ));
+                                           x_pos,
+                                           y_pos,
+                                           stroke_order_size,
+                                           stroke_order_size
+                                           ));
 
         ASSERT_HPDF_OK(HPDF_Page_Stroke(page));
 
