@@ -97,6 +97,7 @@ TEST_CASE("svg_to_jpg") {
     std::string as_string { jpg.begin(), jpg.end() };
     REQUIRE(as_string.find("JFIF") != std::string::npos);
 
+    // todo: delete file first, and check that check fails
     std::ofstream out_file {};
     out_file.open ("out.jpg");
     for (auto byte : jpg) {
