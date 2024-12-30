@@ -6,6 +6,58 @@
 #include <hpdf.h>
 #include "stroke_order.hpp"
 
+const HPDF_REAL page_width = 1200;
+const HPDF_REAL page_height = 2400;
+const HPDF_REAL body_font_size = 40;
+const HPDF_REAL body_line_spacing = 50;
+const HPDF_REAL left_right_margin = 50;
+
+HPDF_REAL multiline_text_out(HPDF_Page page,
+                        std::string text,
+                        HPDF_REAL xpos,
+                        HPDF_REAL ypos,
+                        HPDF_Font font
+                        ) {
+    HPDF_REAL offset = 0;
+    while (!text.empty()) {
+        HPDF_UINT num_bytes =
+            HPDF_Font_MeasureText(font,
+                                  (const HPDF_BYTE*)text.c_str(),
+                                  text.size(),
+                                  page_width - left_right_margin*2,
+                                  body_font_size,
+                                  0.0,
+                                  0.0,
+                                  HPDF_FALSE,
+                                  NULL
+                                  );
+
+        std::string text_this_iteration {};
+
+        if (num_bytes < text.size()) {
+            text_this_iteration = text.substr(0, num_bytes);
+            text.erase(0, num_bytes);
+        } else {
+            // todo: might be possible to remove this clause
+            text_this_iteration = text;
+            text = {};
+        }
+
+        assert(HPDF_OK == HPDF_Page_BeginText(page));
+        auto res = HPDF_Page_TextOut(page,
+                                     left_right_margin,
+                                     ypos - body_font_size - offset,
+                                     text_this_iteration.c_str()
+                                     );
+        assert(HPDF_OK == res);
+        assert(HPDF_OK == HPDF_Page_EndText(page));
+
+        offset += body_line_spacing;
+    }
+
+    return offset;
+}
+
 void create_card(const kanji_data& kanji_data,
                  const std::string& dir_path
                  ) {
@@ -127,11 +179,9 @@ void create_card(const kanji_data& kanji_data,
     assert(HPDF_OK == HPDF_Page_EndText(page));
 
     // Words
-    double word_offset = 0.0;
+    HPDF_REAL word_offset = 0.0;
 
-    assert(HPDF_OK == HPDF_Page_BeginText(page));
     for (word_data word_data : kanji_data.get_words()) {
-
         std::string word_string = word_data.get_word();
 
         word_string += " ( " + word_data.get_reading() + " ) ";
@@ -142,42 +192,13 @@ void create_card(const kanji_data& kanji_data,
         word_string.pop_back();
         word_string.pop_back();
 
-        while (!word_string.empty()) {
-            HPDF_UINT num_bytes =
-                HPDF_Font_MeasureText(font,
-                                      (const HPDF_BYTE*)word_string.c_str(),
-                                      word_string.size(),
-                                      1200 - 50 - 50,
-                                      body_font_size,
-                                      0.0,
-                                      0.0,
-                                      HPDF_FALSE,
-                                      NULL
-                                      );
-
-            std::string this_round {};
-
-            if (num_bytes < word_string.size()) {
-                this_round = word_string.substr(0, num_bytes);
-                word_string.erase(0, num_bytes);
-            } else {
-                this_round = word_string;
-                word_string = {};
-            }
-
-            double word_y = page_height - 500 - body_font_size - word_offset;
-            auto res = HPDF_Page_TextOut(page,
-                                                50,
-                                                word_y,
-                                                this_round.c_str()
-                                         );
-            std::cout << "oskar: " << res << std::endl;
-            assert(HPDF_OK == res);
-
-            word_offset += 50;
-        }
+        word_offset += multiline_text_out(page,
+                                          word_string,
+                                          left_right_margin,
+                                          page_height - 500 - word_offset,
+                                          font
+                                          );
     }
-    assert(HPDF_OK == HPDF_Page_EndText(page));
 
     assert(HPDF_OK == HPDF_SaveToFile(pdf, "example.pdf"));
 
