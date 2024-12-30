@@ -127,6 +127,19 @@ void create_card(const kanji_data& kanji_data,
                                      ));
     ASSERT_HPDF_OK(HPDF_Page_EndText(page));
 
+    // Frequency
+    ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
+
+    ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
+
+    HPDF_REAL frequency_y_offset = main_kanji_y_offset + body_font_size + margin;
+    ASSERT_HPDF_OK(HPDF_Page_TextOut(page,
+                                     margin,
+                                     page_height - frequency_y_offset,
+                                     "No. 123"
+                                     ));
+    ASSERT_HPDF_OK(HPDF_Page_EndText(page));
+
     // Stroke order
     const HPDF_REAL stroke_order_x_start =
         margin + main_kanji_font_size + margin;
@@ -180,9 +193,9 @@ void create_card(const kanji_data& kanji_data,
 
     y_offset += stroke_order_size + margin;
 
-    HPDF_REAL offset_due_to_main_kanji = main_kanji_y_offset + margin;
-    if (y_offset < offset_due_to_main_kanji) {
-        y_offset = offset_due_to_main_kanji;
+    HPDF_REAL offset_due_to_frequency = frequency_y_offset + margin;
+    if (y_offset < offset_due_to_frequency) {
+        y_offset = offset_due_to_frequency;
     }
 
     // Meanings
