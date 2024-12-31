@@ -99,8 +99,8 @@ std::string read_file(std::string path) {
     return buffer.str();
 }
 
-std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
-    std::string xml_doc_as_string = read_file(path);
+std::vector<std::string> generate_stroke_order_svg_files(std::string file_path) {
+    std::string xml_doc_as_string = read_file(file_path);
 
     std::regex regex { "<!DOCTYPE[^\\]]+]>" };
     std::smatch match {};
@@ -144,10 +144,12 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
         // Should result in the below extra node
         // <circle cx="30.5" cy="17.89" r="4" fill="red" stroke-width="0"></circle>
         std::string path = child.attribute("d").value();
-        std::regex regex("M([0-9]+\\.?[0-9]*),([0-9]+\\.?[0-9]*)c");
+        // todo: test for c and C. Failed for 04e2d
+        // check if point is located corretly
+        std::regex regex("M([0-9]+\\.?[0-9]*),([0-9]+\\.?[0-9]*)(c|C)");
         std::smatch match {};
         std::regex_search(path, match, regex);
-        assert(match.size() == 3);
+        assert(match.size() == 4);
         std::string x_pos = match[1];
         std::string y_pos = match[2];
 
