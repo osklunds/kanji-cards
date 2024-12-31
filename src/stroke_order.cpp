@@ -112,6 +112,10 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
     assert(doc.load_string(xml_doc_as_string.c_str()));
 
     pugi::xml_node svg = doc.child("svg");
+    assert((std::string)svg.attribute("width").value() == "109");
+    assert((std::string)svg.attribute("height").value() == "109");
+    assert((std::string)svg.attribute("viewBox").value() == "0 0 109 109");
+
     pugi::xpath_node xpath_stroke_numbers =
         svg.select_node("g[@id[contains(.,\"StrokeNumbers\")]]");
     pugi::xml_node stroke_numbers = xpath_stroke_numbers.node();
@@ -172,7 +176,6 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
 }
 
 std::vector<uint8_t> svg_to_jpg(std::string& svg) {
-    // todo: check that source image is 109x109
     std::string cmd = std::format("echo '{}' | magick -size {}x{} svg:- jpg:-",
                                   svg,
                                   stroke_order_image_size,
