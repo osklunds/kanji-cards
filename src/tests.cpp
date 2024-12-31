@@ -15,34 +15,6 @@
 #include "stroke_order.hpp"
 #include "util.hpp"
 
-
-// A convenient way to run the main function
-TEST_CASE("run_main", "[.]") {
-    std::vector<frequency_entry> entries =
-        get_frequency_entries_from_file("../data/kanji_freqency_list.csv");
-    entries.erase(entries.begin() + 20, entries.end());
-
-    pugi::xml_document kanjidic2_doc;
-    pugi::xml_parse_result result_kanjidic2 =
-        kanjidic2_doc.load_file("../data/kanjidic2.xml");
-    REQUIRE(result_kanjidic2 == true);
-
-    pugi::xml_document jmdict_e_doc;
-    pugi::xml_parse_result result_jmdict_e =
-        jmdict_e_doc.load_file("../data/JMdict_e.xml");
-    REQUIRE(result_jmdict_e == true);
-
-    for (auto fe : entries) {
-        kanji_data kanji_data { fe.get_kanji(),
-                                (uint16_t)fe.get_frequency(), // todo: change fe type
-                                kanjidic2_doc,
-                                jmdict_e_doc
-        };
-
-        std::cout << kanji_data.as_pretty_string() << std::endl;
-    }
-}
-
 TEST_CASE("learning") {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file("sample.xml");
