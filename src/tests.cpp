@@ -184,7 +184,7 @@ TEST_CASE("learning_libharu") {
 
     const char* font_path =
         HPDF_LoadTTFontFromFile(pdf,
-                                "../data/NotoSansJP-VariableFont_wght.ttf",
+                                "../data/Noto_Sans_JP/NotoSansJP-VariableFont_wght.ttf",
                                 HPDF_TRUE
                                 );
 
