@@ -47,6 +47,23 @@ function(extract_if_needed archive_path extract_path)
     endif()
 endfunction()
 
+function(unzip_if_needed archive_path extract_path)
+    if (EXISTS ${extract_path})
+        message(STATUS "'${archive_path}' already unzipped, skipping")
+    else()
+        execute_process(
+            COMMAND gunzip -c -k ${archive_path}
+            RESULT_VARIABLE result
+            OUTPUT_FILE ${extract_path}
+            ERROR_VARIABLE error
+        )
+        if(result)
+            message(FATAL_ERROR "Failed to unzip '${archive_path}'. Error: ${error}")
+        endif()
+        message(STATUS "'${archive_path}' unzipped")
+    endif()
+endfunction()
+
 # noto-sans-jp
 set(NOTO_SANS_JP_URL "https://font.download/dl/font/noto-sans-jp.zip")
 set(NOTO_SANS_JP_ARCHIVE ${CMAKE_BINARY_DIR}/noto-sans-jp.zip)
@@ -54,48 +71,26 @@ set(NOTO_SANS_JP_EXTRACTED ${CMAKE_BINARY_DIR}/noto-sans-jp)
 download_if_needed(${NOTO_SANS_JP_URL} ${NOTO_SANS_JP_ARCHIVE})
 extract_if_needed(${NOTO_SANS_JP_ARCHIVE} ${NOTO_SANS_JP_EXTRACTED})
 
+# kanjidic2
+set(KANJIDIC2_URL "http://www.edrdg.org/kanjidic/kanjidic2.xml.gz")
+set(KANJIDIC2_ARCHIVE ${CMAKE_BINARY_DIR}/kanjidic2.xml.gz)
+set(KANJIDIC2_EXTARCTED ${CMAKE_BINARY_DIR}/kanjidic2.xml)
+download_if_needed(${KANJIDIC2_URL} ${KANJIDIC2_ARCHIVE})
+unzip_if_needed(${KANJIDIC2_ARCHIVE} ${KANJIDIC2_EXTARCTED})
 
-# # kanjidic2
-# execute_process(
-#   COMMAND gunzip -c -k ${CMAKE_BINARY_DIR}/../ext_assets/kanjidic2.xml.gz
-#   RESULT_VARIABLE result
-#   OUTPUT_VARIABLE output
-#   OUTPUT_FILE ${CMAKE_BINARY_DIR}/../data/kanjidic2.xml
-#   ERROR_VARIABLE error
-# )
+# JMdict_e
+set(JMDICT_E_URL "http://ftp.edrdg.org/pub/Nihongo/JMdict_e.gz")
+set(JMDICT_E_ARCHIVE ${CMAKE_BINARY_DIR}/JMdict_e.gz)
+set(JMDICT_E_EXTARCTED ${CMAKE_BINARY_DIR}/JMdict_e.xml)
+download_if_needed(${JMDICT_E_URL} ${JMDICT_E_ARCHIVE})
+unzip_if_needed(${JMDICT_E_ARCHIVE} ${JMDICT_E_EXTARCTED})
 
-# if(result)
-#   message(FATAL_ERROR "Failed to extract the .gz file. Error: ${error}")
-# else()
-#   message(STATUS "Extraction successful: ${output}")
-# endif()
-
-# # JMdict_e
-# execute_process(
-#   COMMAND gunzip -c -k ${CMAKE_BINARY_DIR}/../ext_assets/JMdict_e.gz
-#   RESULT_VARIABLE result
-#   OUTPUT_VARIABLE output
-#   OUTPUT_FILE ${CMAKE_BINARY_DIR}/../data/JMdict_e.xml
-#   ERROR_VARIABLE error
-# )
-
-# if(result)
-#   message(FATAL_ERROR "Failed to extract the .gz file. Error: ${error}")
-# else()
-#   message(STATUS "Extraction successful: ${output}")
-# endif()
-
-# # KanjiVG
-# if(NOT EXISTS ${CMAKE_BINARY_DIR}/../data)
-# file(ARCHIVE_EXTRACT
-#      INPUT ${CMAKE_BINARY_DIR}/../ext_assets/kanjivg-20240807-all.zip
-#      DESTINATION ${CMAKE_BINARY_DIR}/../data
-#      VERBOSE
-#     )
-#     message(STATUS "KanjiVG extracted")
-# else()
-#     message(STATUS "KanjiVG already extracted, skipping")
-# endif()
+# kanjivg
+set(KANJIVG_URL "https://github.com/KanjiVG/kanjivg/releases/download/r20240807/kanjivg-20240807-all.zip")
+set(KANJIVG_ARCHIVE ${CMAKE_BINARY_DIR}/kanjivg.zip)
+set(KANJIVG_EXTRACTED ${CMAKE_BINARY_DIR}/kanjivg)
+download_if_needed(${KANJIVG_URL} ${KANJIVG_ARCHIVE})
+extract_if_needed(${KANJIVG_ARCHIVE} ${KANJIVG_EXTRACTED})
 
 # pugixml
 set(PUGIXML_DIR ${CMAKE_BINARY_DIR}/pugixml)
