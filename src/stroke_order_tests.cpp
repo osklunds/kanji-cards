@@ -12,7 +12,7 @@
 
 TEST_CASE("path_for_kanji") {
     std::string path = path_for_kanji("04fd7");
-    REQUIRE("../data/kanji/04fd7.svg" == path);
+    REQUIRE("kanjivg/kanji/04fd7.svg" == path);
     REQUIRE(std::filesystem::exists(path));
 }
 

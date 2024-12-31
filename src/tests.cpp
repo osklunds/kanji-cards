@@ -78,7 +78,7 @@ TEST_CASE("learning") {
 
 TEST_CASE("learning_kanjidic2") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
+    pugi::xml_parse_result result = doc.load_file("kanjidic2.xml");
     REQUIRE(result == true);
 
     pugi::xpath_node xpath_node = doc.select_node("/kanjidic2/character/literal");
@@ -93,7 +93,7 @@ TEST_CASE("learning_kanjidic2") {
 
 TEST_CASE("learning_lookup_by_kanji") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/kanjidic2.xml");
+    pugi::xml_parse_result result = doc.load_file("kanjidic2.xml");
     REQUIRE(result == true);
 
     pugi::xpath_node xpath_character_node =
@@ -140,7 +140,7 @@ TEST_CASE("learning_frequency_list") {
 
 TEST_CASE("learning_JMdict_e") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/JMdict_e.xml");
+    pugi::xml_parse_result result = doc.load_file("JMdict_e.xml");
     REQUIRE(result == true);
 
     pugi::xpath_node xpath_entry = doc.select_node("/JMdict/entry[./k_ele/keb = \"竹馬\"]");
@@ -156,7 +156,7 @@ TEST_CASE("learning_JMdict_e") {
 
 TEST_CASE("learning_JMdict_e_words_with_kanji") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/JMdict_e.xml");
+    pugi::xml_parse_result result = doc.load_file("JMdict_e.xml");
     REQUIRE(result == true);
 
     pugi::xpath_node_set xpath_entries =
@@ -184,7 +184,7 @@ TEST_CASE("learning_libharu") {
 
     const char* font_path =
         HPDF_LoadTTFontFromFile(pdf,
-                                "../data/Noto_Sans_JP/NotoSansJP-VariableFont_wght.ttf",
+                                "noto-sans-jp/NotoSansJP[wght].ttf",
                                 HPDF_TRUE
                                 );
 
@@ -232,7 +232,7 @@ void iterate_node(pugi::xml_node node) {
 
 TEST_CASE("learning_svg") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/kanji/04fd7.svg");
+    pugi::xml_parse_result result = doc.load_file("kanjivg/kanji/04fd7.svg");
     REQUIRE(result == true);
 
     pugi::xml_node svg = doc.child("svg");

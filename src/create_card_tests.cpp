@@ -9,12 +9,12 @@
 TEST_CASE("create_card") {
     pugi::xml_document kanjidic2_doc {};
     pugi::xml_parse_result result_kanjidic2 =
-        kanjidic2_doc.load_file("../data/kanjidic2.xml");
+        kanjidic2_doc.load_file("kanjidic2.xml");
     REQUIRE(result_kanjidic2 == true);
 
     pugi::xml_document jmdict_e_doc {};
     pugi::xml_parse_result result_jmdict_e =
-        jmdict_e_doc.load_file("../data/JMdict_e.xml");
+        jmdict_e_doc.load_file("JMdict_e.xml");
     REQUIRE(result_jmdict_e == true);
 
     // 生 has lots of words and words wrapping lines
@@ -51,12 +51,12 @@ TEST_CASE("run_main", "[.]") {
 
     pugi::xml_document kanjidic2_doc {};
     pugi::xml_parse_result result_kanjidic2 =
-        kanjidic2_doc.load_file("../data/kanjidic2.xml");
+        kanjidic2_doc.load_file("kanjidic2.xml");
     REQUIRE(result_kanjidic2);
 
     pugi::xml_document jmdict_e_doc {};
     pugi::xml_parse_result result_jmdict_e =
-        jmdict_e_doc.load_file("../data/JMdict_e.xml");
+        jmdict_e_doc.load_file("JMdict_e.xml");
     REQUIRE(result_jmdict_e);
 
     // todo: constant for out dir

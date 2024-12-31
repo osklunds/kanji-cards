@@ -31,7 +31,7 @@ std::string path_for_kanji(const std::string& code_point) {
         padding = "0";
     }
 
-    return "../data/kanji/" + padding + code_point + ".svg";
+    return "kanjivg/kanji/" + padding + code_point + ".svg";
 }
 
 std::vector<std::tuple<pugi::xml_node, pugi::xml_node>>
