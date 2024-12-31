@@ -5,6 +5,7 @@
 #include <iostream>
 #include <hpdf.h>
 #include "stroke_order.hpp"
+#include "constants.hpp"
 
 const HPDF_REAL page_width = 1200;
 const HPDF_REAL page_height = 2400;
@@ -159,8 +160,8 @@ void create_card(const kanji_data& kanji_data,
     
         HPDF_UINT image_width = HPDF_Image_GetWidth(image);
         HPDF_UINT image_height = HPDF_Image_GetHeight(image);
-        // assert(image_width == stroke_order_size);
-        // assert(image_height == stroke_order_size);
+        assert(image_width == stroke_order_image_size);
+        assert(image_height == stroke_order_image_size);
 
         HPDF_REAL remaining_width = stroke_order_total_width - x_offset;
         if (stroke_order_size + stroke_order_spacing > remaining_width) {

@@ -8,6 +8,8 @@
 #include <fstream>
 #include "util.hpp"
 #include <iostream>
+#include <format>
+#include "constants.hpp"
 
 std::vector<std::vector<uint8_t>> code_point_to_stroke_order_jpgs(const std::string& code_point) {
     std::string path = path_for_kanji(code_point);
@@ -170,6 +172,11 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
 }
 
 std::vector<uint8_t> svg_to_jpg(std::string& svg) {
-    std::string cmd = "echo '" + svg + "' | magick -size 400x400 svg:- jpg:-";
+    // todo: check that source image is 109x109
+    std::string cmd = std::format("echo '{}' | magick -size {}x{} svg:- jpg:-",
+                                  svg,
+                                  stroke_order_image_size,
+                                  stroke_order_image_size
+                                  );
     return exec(cmd);
 }
