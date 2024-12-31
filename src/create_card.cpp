@@ -5,7 +5,6 @@
 #include <iostream>
 #include <hpdf.h>
 #include "stroke_order.hpp"
-#include "constants.hpp"
 
 const HPDF_REAL page_width = 1200;
 const HPDF_REAL page_height = 2400;

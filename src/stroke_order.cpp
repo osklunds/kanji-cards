@@ -9,7 +9,6 @@
 #include "util.hpp"
 #include <iostream>
 #include <format>
-#include "constants.hpp"
 
 std::vector<std::vector<uint8_t>> code_point_to_stroke_order_jpgs(const std::string& code_point) {
     std::string path = path_for_kanji(code_point);

@@ -10,6 +10,8 @@
 
 // Public API
 
+const uint16_t stroke_order_image_size = 400;
+
 std::vector<std::vector<uint8_t>> code_point_to_stroke_order_jpgs(const std::string& code_point);
 
 // Private API

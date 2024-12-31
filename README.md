@@ -15,8 +15,6 @@ Use magick++ instead of system() call
 
 Put header description of all hpp files that give a high-level understanding of what the file/class does.
 
-Move constants.h content to approriate more specifc header
-
 Sort also using spec1, news1 etc
 
 Documentation
