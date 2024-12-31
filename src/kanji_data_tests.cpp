@@ -10,7 +10,7 @@
 TEST_CASE("sample_data") {
     pugi::xml_document kanjidic2_doc;
     pugi::xml_parse_result result_kanjidic2 =
-        kanjidic2_doc.load_file("../data/kanjidic2_sample.xml");
+        kanjidic2_doc.load_file("../data/kanjidic2.xml");
     REQUIRE(result_kanjidic2 == true);
 
     pugi::xml_document jmdict_e_doc;
@@ -66,7 +66,7 @@ TEST_CASE("sample_data") {
 TEST_CASE("as_string") {
     pugi::xml_document kanjidic2_doc;
     pugi::xml_parse_result result_kanjidic2 =
-        kanjidic2_doc.load_file("../data/kanjidic2_sample.xml");
+        kanjidic2_doc.load_file("../data/kanjidic2.xml");
     REQUIRE(result_kanjidic2 == true);
 
     pugi::xml_document jmdict_e_doc;
