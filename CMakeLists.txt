@@ -1,6 +1,6 @@
 
 # General
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.18)
 set(CMAKE_CXX_STANDARD 23)
 project(KanjiCards)
 include(ExternalProject)
@@ -22,6 +22,62 @@ src/util_tests.cpp
 src/create_card.cpp
 src/create_card_tests.cpp
 )
+
+# external assets
+
+# Noto Sans
+if (NOT EXISTS ${CMAKE_BINARY_DIR}/../data/Noto_Sans_JP)
+file(ARCHIVE_EXTRACT
+     INPUT ${CMAKE_BINARY_DIR}/../ext_assets/Noto_Sans_JP.zip
+     DESTINATION ${CMAKE_BINARY_DIR}/../data/Noto_Sans_JP
+     VERBOSE
+    )
+    message(STATUS "Noto_Sans_JP extracted")
+else()
+    message(STATUS "Noto_Sans_JP already extracted, skipping")
+endif()
+
+# kanjidic2
+execute_process(
+  COMMAND gunzip -c -k ${CMAKE_BINARY_DIR}/../ext_assets/kanjidic2.xml.gz
+  RESULT_VARIABLE result
+  OUTPUT_VARIABLE output
+  OUTPUT_FILE ${CMAKE_BINARY_DIR}/../data/kanjidic2.xml
+  ERROR_VARIABLE error
+)
+
+if(result)
+  message(FATAL_ERROR "Failed to extract the .gz file. Error: ${error}")
+else()
+  message(STATUS "Extraction successful: ${output}")
+endif()
+
+# JMdict_e
+execute_process(
+  COMMAND gunzip -c -k ${CMAKE_BINARY_DIR}/../ext_assets/JMdict_e.gz
+  RESULT_VARIABLE result
+  OUTPUT_VARIABLE output
+  OUTPUT_FILE ${CMAKE_BINARY_DIR}/../data/JMdict_e.xml
+  ERROR_VARIABLE error
+)
+
+if(result)
+  message(FATAL_ERROR "Failed to extract the .gz file. Error: ${error}")
+else()
+  message(STATUS "Extraction successful: ${output}")
+endif()
+
+# KanjiVG
+if(NOT EXISTS ${CMAKE_BINARY_DIR}/../data)
+file(ARCHIVE_EXTRACT
+     INPUT ${CMAKE_BINARY_DIR}/../ext_assets/kanjivg-20240807-all.zip
+     DESTINATION ${CMAKE_BINARY_DIR}/../data
+     VERBOSE
+    )
+    message(STATUS "KanjiVG extracted")
+else()
+    message(STATUS "KanjiVG already extracted, skipping")
+endif()
 
 # pugixml
 set(PUGIXML_DIR ${CMAKE_BINARY_DIR}/pugixml)
