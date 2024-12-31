@@ -26,5 +26,3 @@ License and copyright
 Enable more warnings
 
 Fix todos
-
-Move main kanji due to iOS file app

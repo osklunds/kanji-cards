@@ -11,6 +11,7 @@ const HPDF_REAL page_width = 1200;
 const HPDF_REAL page_height = 2400;
 const HPDF_REAL body_font_size = 40;
 const HPDF_REAL body_line_spacing = 50;
+const HPDF_REAL top_margin = 200;
 const HPDF_REAL margin = 50;
 const HPDF_REAL line_break_distance = 10;
 const HPDF_REAL stroke_order_spacing = 0;
@@ -127,7 +128,9 @@ std::string create_card(const kanji_data& kanji_data,
     // Main kanji
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, main_kanji_font_size));
 
-    const HPDF_REAL main_kanji_y_offset = margin + main_kanji_font_size;
+    // top_margin to compensate for iOS app having a banner temporarily
+    // covering this area
+    const HPDF_REAL main_kanji_y_offset = top_margin + main_kanji_font_size;
 
     ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
     ASSERT_HPDF_OK(HPDF_Page_TextOut(page,
@@ -159,7 +162,7 @@ std::string create_card(const kanji_data& kanji_data,
         stroke_order_x_end - stroke_order_x_start;
 
     HPDF_REAL x_offset = 0.0;
-    HPDF_REAL y_offset = margin;
+    HPDF_REAL y_offset = top_margin;
 
     for (auto jpg : kanji_data.get_stroke_order_jpgs()) {
         HPDF_Image image = HPDF_LoadJpegImageFromMem(pdf,
