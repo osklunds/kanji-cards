@@ -170,6 +170,6 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string path) {
 }
 
 std::vector<uint8_t> svg_to_jpg(std::string& svg) {
-    std::string cmd = "echo '" + svg + "' | magick svg:- jpg:-";
+    std::string cmd = "echo '" + svg + "' | magick -size 400x400 svg:- jpg:-";
     return exec(cmd);
 }
