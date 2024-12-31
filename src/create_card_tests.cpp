@@ -65,6 +65,8 @@ TEST_CASE("run_main", "[.]") {
     REQUIRE(!std::filesystem::exists(out_dir));
     REQUIRE(std::filesystem::create_directory(out_dir));
 
+    // Since this loop is by far the bottleneck, consider using multiple
+    // threads.
     for (int i = 0; i < entries.size(); i++) {
         auto fe = entries[i];
         kanji_data kanji_data { fe.get_kanji(),
