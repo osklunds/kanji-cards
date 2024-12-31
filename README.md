@@ -22,3 +22,7 @@ Sort also using spec1, news1 etc
 Documentation
 
 License and copyright
+
+Enable more warnings
+
+Fix todos
