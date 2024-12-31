@@ -25,27 +25,35 @@ src/create_card_tests.cpp
 
 # external assets
 
-# Noto Sans
-set(NOTO_SANS_URL "https://font.download/dl/font/noto-sans-jp.zip")
-set(NOTO_SANS_ARCHIVE ${CMAKE_BINARY_DIR}/noto-sans-jp.zip)
-set(NOTO_SANS_EXTRACTED ${CMAKE_BINARY_DIR}/noto-sans-jp)
-if (EXISTS ${NOTO_SANS_ARCHIVE})
-    message(STATUS "Noto Sans already downloaded, skipping")
-else()
-    file(DOWNLOAD ${NOTO_SANS_URL} ${NOTO_SANS_ARCHIVE})
-    message(STATUS "Noto Sans downloaded")
-endif()
+function(download_if_needed url local_path)
+    if (EXISTS ${local_path})
+        message(STATUS "'${url}' already downloaded, skipping")
+    else()
+        file(DOWNLOAD ${url} ${local_path})
+        message(STATUS "'${url}' downloaded")
+    endif()
+endfunction()
 
-if (EXISTS ${NOTO_SANS_EXTRACTED})
-    message(STATUS "Noto Sans already extracted, skipping")
-else()
-    file(ARCHIVE_EXTRACT
-         INPUT ${NOTO_SANS_ARCHIVE}
-         DESTINATION ${NOTO_SANS_EXTRACTED}
-         VERBOSE
-        )
-    message(STATUS "Noto Sans extracted")
-endif()
+function(extract_if_needed archive_path extract_path)
+    if (EXISTS ${extract_path})
+        message(STATUS "'${archive_path}' already extracted, skipping")
+    else()
+        file(ARCHIVE_EXTRACT
+             INPUT ${archive_path}
+             DESTINATION ${extract_path}
+             VERBOSE
+            )
+        message(STATUS "'${archive_path}' extracted")
+    endif()
+endfunction()
+
+# noto-sans-jp
+set(NOTO_SANS_JP_URL "https://font.download/dl/font/noto-sans-jp.zip")
+set(NOTO_SANS_JP_ARCHIVE ${CMAKE_BINARY_DIR}/noto-sans-jp.zip)
+set(NOTO_SANS_JP_EXTRACTED ${CMAKE_BINARY_DIR}/noto-sans-jp)
+download_if_needed(${NOTO_SANS_JP_URL} ${NOTO_SANS_JP_ARCHIVE})
+extract_if_needed(${NOTO_SANS_JP_ARCHIVE} ${NOTO_SANS_JP_EXTRACTED})
+
 
 # # kanjidic2
 # execute_process(
