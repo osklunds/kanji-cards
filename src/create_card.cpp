@@ -13,7 +13,7 @@ const HPDF_REAL body_line_spacing = 50;
 const HPDF_REAL margin = 50;
 const HPDF_REAL line_break_distance = 10;
 const HPDF_REAL stroke_order_spacing = 0;
-const HPDF_REAL stroke_order_size = 109;
+const HPDF_REAL stroke_order_size = 140;
 const HPDF_REAL main_kanji_font_size = 160;
 
 #define ASSERT_HPDF_OK(function_call)                                       \
@@ -159,8 +159,8 @@ void create_card(const kanji_data& kanji_data,
     
         HPDF_UINT image_width = HPDF_Image_GetWidth(image);
         HPDF_UINT image_height = HPDF_Image_GetHeight(image);
-        assert(image_width == stroke_order_size);
-        assert(image_height == stroke_order_size);
+        // assert(image_width == stroke_order_size);
+        // assert(image_height == stroke_order_size);
 
         HPDF_REAL remaining_width = stroke_order_total_width - x_offset;
         if (stroke_order_size + stroke_order_spacing > remaining_width) {
@@ -189,7 +189,7 @@ void create_card(const kanji_data& kanji_data,
 
         ASSERT_HPDF_OK(HPDF_Page_Stroke(page));
 
-        x_offset += image_width + stroke_order_spacing;
+        x_offset += stroke_order_size + stroke_order_spacing;
     }
 
     y_offset += stroke_order_size + margin;
