@@ -2,6 +2,7 @@
 #include "create_card.hpp"
 
 #include <catch2/catch_test_macros.hpp>
+#include <filesystem>
 
 TEST_CASE("create_card") {
     pugi::xml_document kanjidic2_doc {};
@@ -14,14 +15,28 @@ TEST_CASE("create_card") {
         jmdict_e_doc.load_file("../data/JMdict_e.xml");
     REQUIRE(result_jmdict_e == true);
 
-    // kanji_data kanji_data { "働", 1234, kanjidic2_doc, jmdict_e_doc };
-    kanji_data kanji_data { "生", 1, kanjidic2_doc, jmdict_e_doc };
+    // 生 has lots of words and words wrapping lines
+    kanji_data kanji_data1 { "生", 1, kanjidic2_doc, jmdict_e_doc };
 
-    create_card(kanji_data, "create_card.pdf");
+    // 働 has multiple lines of stroker order graphs
+    kanji_data kanji_data2 { "働", 1234, kanjidic2_doc, jmdict_e_doc };
+
+    std::string out_dir = "out";
+    std::filesystem::remove_all(out_dir);
+    REQUIRE(!std::filesystem::exists(out_dir));
+    REQUIRE(std::filesystem::create_directory(out_dir));
+
+    std::string kanji1 = out_dir + "/0001-生.pdf";
+    std::string kanji2 = out_dir + "/1234-働.pdf";
+
+    REQUIRE(std::filesystem::exists(out_dir));
+    REQUIRE(!std::filesystem::exists(kanji1));
+    REQUIRE(!std::filesystem::exists(kanji2));
+
+    create_card(kanji_data1, out_dir);
+    create_card(kanji_data2, out_dir);
+
+    REQUIRE(std::filesystem::exists(out_dir));
+    REQUIRE(std::filesystem::exists(kanji1));
+    REQUIRE(std::filesystem::exists(kanji2));
 }
-
-// good kanji to test with are
-// 生 for lots of words, and word wrapping
-// 働 for multiple lines of stroke order graphs
-
-// todo: old lines in stroke order should be gray

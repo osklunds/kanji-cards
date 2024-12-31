@@ -299,7 +299,13 @@ void create_card(const kanji_data& kanji_data,
         y_offset += line_break_distance;
     }
 
-    ASSERT_HPDF_OK(HPDF_SaveToFile(pdf, "example.pdf"));
+    std::string path = std::format("{}/{:0>4}-{}.pdf",
+                                   dir_path,
+                                   kanji_data.get_frequency(),
+                                   kanji_data.get_kanji()
+                                   );
+
+    ASSERT_HPDF_OK(HPDF_SaveToFile(pdf, path.c_str()));
 
     HPDF_Free(pdf);
 }
