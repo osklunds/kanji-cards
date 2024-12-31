@@ -10,3 +10,7 @@ For each stroke in the svg file, delete one by one, and save as new svg file. Al
 Convert the new svg files to png. Now they can be drawn using libharu.
 
 Use magick++ instead of system() call
+
+# todos
+
+Put header description of all hpp files that give a high-level understanding of what the file/class does.
