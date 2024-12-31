@@ -55,7 +55,9 @@ HPDF_REAL multiline_text_out(HPDF_Page page,
                 text_this_iteration = text.substr(0, num_bytes);
                 text.erase(0, num_bytes);
             } else {
-                text_this_iteration = text.substr(0, line_break_pos);
+                // If num_bytes == line_break_pos, too much text might be
+                // printed. But if that rare case happens, it's not a big deal.
+                text_this_iteration = text.substr(0, line_break_pos+1);
                 text.erase(0, line_break_pos+1);
             }
         } else {
