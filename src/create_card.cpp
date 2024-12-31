@@ -96,9 +96,9 @@ void draw_line(HPDF_Page page,
     ASSERT_HPDF_OK(HPDF_Page_Stroke(page));
 }
 
-void create_card(const kanji_data& kanji_data,
-                 const std::string& dir_path
-                 ) {
+std::string create_card(const kanji_data& kanji_data,
+                        const std::string& dir_path
+                        ) {
     // Set up pdf document
     HPDF_Doc pdf = HPDF_New(NULL, NULL);
     assert(pdf);
@@ -308,4 +308,6 @@ void create_card(const kanji_data& kanji_data,
     ASSERT_HPDF_OK(HPDF_SaveToFile(pdf, path.c_str()));
 
     HPDF_Free(pdf);
+
+    return path;
 }

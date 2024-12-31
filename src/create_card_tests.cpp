@@ -28,19 +28,19 @@ TEST_CASE("create_card") {
     REQUIRE(!std::filesystem::exists(out_dir));
     REQUIRE(std::filesystem::create_directory(out_dir));
 
-    std::string kanji1 = out_dir + "/0001-生.pdf";
-    std::string kanji2 = out_dir + "/1234-働.pdf";
+    std::string exp_kanji1_path = out_dir + "/0001-生.pdf";
+    std::string exp_kanji2_path = out_dir + "/1234-働.pdf";
 
     REQUIRE(std::filesystem::exists(out_dir));
-    REQUIRE(!std::filesystem::exists(kanji1));
-    REQUIRE(!std::filesystem::exists(kanji2));
+    REQUIRE(!std::filesystem::exists(exp_kanji1_path));
+    REQUIRE(!std::filesystem::exists(exp_kanji2_path));
 
-    create_card(kanji_data1, out_dir);
-    create_card(kanji_data2, out_dir);
+    REQUIRE(exp_kanji1_path == create_card(kanji_data1, out_dir));
+    REQUIRE(exp_kanji2_path == create_card(kanji_data2, out_dir));
 
     REQUIRE(std::filesystem::exists(out_dir));
-    REQUIRE(std::filesystem::exists(kanji1));
-    REQUIRE(std::filesystem::exists(kanji2));
+    REQUIRE(std::filesystem::exists(exp_kanji1_path));
+    REQUIRE(std::filesystem::exists(exp_kanji2_path));
 }
 
 // A convenient way to run the main function
@@ -73,7 +73,7 @@ TEST_CASE("run_main", "[.]") {
                                 jmdict_e_doc
         };
 
-        create_card(kanji_data, out_dir);
-        std::cout << "Created: " << fe.get_kanji() << std::endl;
+        std::string path = create_card(kanji_data, out_dir);
+        std::cout << "Created: " << path << std::endl;
     }
 }

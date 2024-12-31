@@ -5,6 +5,6 @@
 #include <string>
 #include "kanji_data.hpp"
 
-void create_card(const kanji_data& kanji_data, const std::string& dir_path);
+std::string create_card(const kanji_data& kanji_data, const std::string& dir_path);
 
 #endif
