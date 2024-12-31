@@ -227,7 +227,7 @@ void create_card(const kanji_data& kanji_data,
     y_offset += margin;
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
-    std::string on_readings = "On_readings: ";
+    std::string on_readings = "On readings: ";
     for (auto on_reading : kanji_data.get_on_readings()) {
         on_readings += on_reading + ", ";
     }
@@ -244,7 +244,7 @@ void create_card(const kanji_data& kanji_data,
     y_offset += margin;
     ASSERT_HPDF_OK(HPDF_Page_SetFontAndSize(page, font, body_font_size));
 
-    std::string kun_readings = "Kun_readings: ";
+    std::string kun_readings = "Kun readings: ";
     for (auto kun_reading : kanji_data.get_kun_readings()) {
         kun_readings += kun_reading + ", ";
     }
