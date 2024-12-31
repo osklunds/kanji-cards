@@ -16,6 +16,7 @@ const HPDF_REAL line_break_distance = 10;
 const HPDF_REAL stroke_order_spacing = 0;
 const HPDF_REAL stroke_order_size = 140;
 const HPDF_REAL main_kanji_font_size = 160;
+const int max_word_meanings = 5;
 
 #define ASSERT_HPDF_OK(function_call)                                       \
     {                                                                       \
@@ -279,8 +280,11 @@ void create_card(const kanji_data& kanji_data,
 
         word_string += " ( " + word_data.get_reading() + " ) ";
 
-        for (auto meaning : word_data.get_meanings()) {
-            word_string += meaning + ", ";
+        for (int i = 0;
+             i < word_data.get_meanings().size() && i < max_word_meanings;
+             i++
+             ) {
+            word_string += word_data.get_meanings()[i] + ", ";
         }
         word_string.pop_back();
         word_string.pop_back();
