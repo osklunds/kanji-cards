@@ -62,10 +62,16 @@ HPDF_REAL multiline_text_out(HPDF_Page page,
             text = {};
         }
 
+        // To handle text not being inside/past the bottom margin
+        HPDF_REAL translated_y_pos = ypos - body_font_size - offset;
+        if (translated_y_pos < margin) {
+            break;
+        }
+
         ASSERT_HPDF_OK(HPDF_Page_BeginText(page));
         ASSERT_HPDF_OK(HPDF_Page_TextOut(page,
                                          margin,
-                                         ypos - body_font_size - offset,
+                                         translated_y_pos,
                                          text_this_iteration.c_str()
                                          ));
         ASSERT_HPDF_OK(HPDF_Page_EndText(page));
