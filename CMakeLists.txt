@@ -85,6 +85,16 @@ set(JMDICT_E_EXTARCTED ${CMAKE_BINARY_DIR}/JMdict_e.xml)
 download_if_needed(${JMDICT_E_URL} ${JMDICT_E_ARCHIVE})
 unzip_if_needed(${JMDICT_E_ARCHIVE} ${JMDICT_E_EXTARCTED})
 
+execute_process(
+    COMMAND ${CMAKE_SOURCE_DIR}/src/create_JMdict_e.xml.sample.sh
+    RESULT_VARIABLE result
+    ERROR_VARIABLE error
+)
+if(result)
+    message(FATAL_ERROR "Failed to create JMdict_e.xml.sample. Error: ${error}")
+endif()
+message(STATUS "JMdict_e.xml.sample created")
+
 # kanjivg
 set(KANJIVG_URL "https://github.com/KanjiVG/kanjivg/releases/download/r20240807/kanjivg-20240807-all.zip")
 set(KANJIVG_ARCHIVE ${CMAKE_BINARY_DIR}/kanjivg.zip)
