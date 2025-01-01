@@ -1,4 +1,8 @@
 
+/*
+  Test cases I've used for learning purposes.
+ */
+
 #include <iostream>
 #include <string>
 #include <string.h>

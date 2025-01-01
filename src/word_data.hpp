@@ -1,4 +1,10 @@
 
+/*
+  word_data contains all the info that is displayed per word. Based on the XML
+  document JMDict_e, word_data for all words containing a specified kanji are
+  returned, sorted by freqency.
+ */
+
 #ifndef HEADER_WORD_DATA_HPP
 #define HEADER_WORD_DATA_HPP
 

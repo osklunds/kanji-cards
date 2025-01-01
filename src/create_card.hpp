@@ -1,4 +1,9 @@
 
+/*
+  Using kanji_data, create_card() creates a PDF file with informatin about
+  the kanji.
+ */
+
 #ifndef HEADER_CREATE_CARD_HPP
 #define HEADER_CREATE_CARD_HPP
 

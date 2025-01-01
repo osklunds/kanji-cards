@@ -1,13 +1,19 @@
 
 # kanji-cards
 
-## todos
+todo: introduction
 
-Put header description of all hpp files that give a high-level understanding of what the file/class does.
+# Source code overview
+
+The "main" function of this program is the test case `run_main` located in `create_card_tests.cpp`. `run_main` in turn uses the other files and classes. See each header file for more details about each file.
+
+# Building, running, testing
+
+Run `./build_run_test.sh` located in the root level of this repository to, well, build the project and run the tests. Run `./build_run_test run_main` to run the main function that generates the kanji cards. The outout is located in `build/out`.
+
+# todos
 
 Sort also using spec1, news1 etc
-
-Documentation
 
 License and copyright
 

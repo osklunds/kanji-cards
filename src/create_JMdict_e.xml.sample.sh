@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Script for creating JMdict_e.xml.sample, which contains only a subset of
+# the words from the full JMdict_e.xml.sample. If the full data is used too
+# many words are found (per kanji) which makes the tests unwieldy.
+
 cp JMdict_e.xml JMdict_e.xml.sample
 
 #          日本$   ,$

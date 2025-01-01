@@ -1,4 +1,9 @@
 
+/*
+  This file contains a function that, given a unicode code point of a kanji,
+  returns binary jpg data of diagrams showing the stroke order for that kanji.
+ */
+
 #ifndef HEADER_STROKE_ORDER_HPP
 #define HEADER_STROKE_ORDER_HPP
 

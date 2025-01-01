@@ -1,4 +1,9 @@
 
+/*
+  kanji_data contains all the info that is displayed per kanji. Based on the XML
+  documents kanjidic2 and JMDict_e, all info is retrieved for a specified kanji.
+ */
+
 #ifndef HEADER_KANJI_DATA_HPP
 #define HEADER_KANJI_DATA_HPP
 

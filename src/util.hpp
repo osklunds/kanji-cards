@@ -1,4 +1,9 @@
 
+/*
+  Utility functions not really domain-specific or related to a single other
+  file.
+ */
+
 #ifndef HEADER_UTIL_HPP
 #define HEADER_UTIL_HPP
 
@@ -7,6 +12,7 @@
 #include <cstdint>
 
 std::vector<uint8_t> exec(std::string cmd);
+
 std::vector<uint8_t> read_file_bin(std::string path);
 
 bool regex_matches(std::string subject, std::string regex);
