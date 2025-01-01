@@ -112,7 +112,7 @@ TEST_CASE("learning_lookup_by_kanji") {
 
 TEST_CASE("learning_frequency_list") {
     std::string line;
-    std::ifstream file ("../data/kanji_freqency_list.csv");
+    std::ifstream file ("kanji_frequency_list.csv");
     REQUIRE(file.is_open());
 
     int count = 0;

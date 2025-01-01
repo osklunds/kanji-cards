@@ -102,6 +102,11 @@ set(KANJIVG_EXTRACTED ${CMAKE_BINARY_DIR}/kanjivg)
 download_if_needed(${KANJIVG_URL} ${KANJIVG_ARCHIVE})
 extract_if_needed(${KANJIVG_ARCHIVE} ${KANJIVG_EXTRACTED})
 
+# Kanji frequency list
+set(KANJI_FREQUENCY_LIST_URL "https://docs.google.com/spreadsheets/d/1MBYfKPrlST3F51KIKbAlsGw1x4c_atuHfPwSSRN5sLs/export?gid=496425456&format=csv")
+set(KANJI_FREQUENCY_LIST_FILE ${CMAKE_BINARY_DIR}/kanji_frequency_list.csv)
+download_if_needed(${KANJI_FREQUENCY_LIST_URL} ${KANJI_FREQUENCY_LIST_FILE})
+
 # pugixml
 set(PUGIXML_DIR ${CMAKE_BINARY_DIR}/pugixml)
 
