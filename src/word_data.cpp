@@ -169,27 +169,43 @@ std::weak_ordering operator<=> (const word_data& w1, const word_data& w2) {
 }
 
 int word_data::prio_mapped() const {
+    // Number of words with these tags in JMDict_e.xml
+    const int num_news1_words = 23356;
+    const int num_news2_words = 21618;
+    const int num_ichi1_words = 18487;
+    const int num_ichi2_words = 168;
+    const int num_spec1_words = 3391;
+    const int num_spec2_words = 3316;
+
+    const int num_words_per_nf_group = 500;
+
+    // The idea is, assume that if a word has tag news1, it is among
+    // the 23356 most common. Assume it is in the middle, i.e. the 23356/2
+    // most common word. Then divide by 500 to translate to nf group.
+
     int mapped_news = INT_MAX;
     if (prio_news == 1) {
-        mapped_news = (12000/500)/2;
+        mapped_news = (num_news1_words/500)/2;
     } else if (prio_news == 2) {
-        mapped_news = (24000/500)/2;
+        mapped_news = ((num_news1_words + num_news2_words)/500)/2;
     }
 
     int mapped_ichi = INT_MAX;
-    if (prio_ichi != std::nullopt) {
-        mapped_ichi = (19000/500)/2;
+    if (prio_ichi == 1) {
+        mapped_ichi = (num_ichi1_words/500)/2;
+    } else if (prio_ichi == 2) {
+        mapped_ichi = ((num_ichi1_words + num_ichi2_words)/500)/2;
     }
 
     int mapped_spec = INT_MAX;
     if (prio_spec == 1) {
-        mapped_spec = (3400/500)/2;
+        mapped_spec = (num_spec1_words/500)/2;
     } else if (prio_spec == 2) {
-        mapped_spec = (6800/500)/2;
+        mapped_spec = ((num_spec1_words+num_spec2_words)/500)/2;
     }
 
     int mapped_nf = INT_MAX;
-    if (prio_nf != std::nullopt) {
+    if (prio_nf.has_value()) {
         mapped_nf = prio_nf.value();
     }
 
