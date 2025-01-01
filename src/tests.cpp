@@ -13,6 +13,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include "pugixml.hpp"
 #include <hpdf.h>
+#include <limits.h>
 
 #include "frequency.hpp"
 #include "kanji_data.hpp"
@@ -244,5 +245,26 @@ TEST_CASE("learning_svg") {
     pugi::xml_node root = stroke_paths.child("g");
 
     iterate_node(root);
+}
+
+TEST_CASE("optional") {
+    std::optional<int> a = 1;
+    std::optional<int> b = 2;
+    std::optional<int> c = std::nullopt;
+
+    REQUIRE(a < b);
+    REQUIRE(c < b);
+}
+
+TEST_CASE("INT_MAX") {
+    int a = 4;
+    int b = INT_MAX;
+
+    REQUIRE(a < b);
+    REQUIRE(b == INT_MAX);
+    REQUIRE(!(b < INT_MAX));
+
+    REQUIRE((a <=> b) == std::weak_ordering::less);
+    REQUIRE((b <=> b) == std::weak_ordering::equivalent);
 }
 
