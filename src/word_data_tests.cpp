@@ -212,4 +212,36 @@ TEST_CASE("compare_word_data_with_one_prio_type") {
     REQUIRE(news1 < news2);
     REQUIRE(news2 < none);
 }
+
+TEST_CASE("compare_word_data_with_multiple_prio_types") {
+    word_data w = {};
+    w.set_prio_nf(90);
+
+    word_data nf4 = {};
+    nf4.set_prio_nf(4);
+
+    word_data nf19 = {};
+    nf19.set_prio_nf(19);
+
+    word_data nf24 = {};
+    nf24.set_prio_nf(24);
+
+    REQUIRE(w > nf4);
+    REQUIRE(w > nf19);
+    REQUIRE(w > nf24);
+
+    w.set_prio_news(1);
+    REQUIRE(w > nf4);
+    REQUIRE(w > nf19);
+    REQUIRE(w < nf24);
+
+    w.set_prio_ichi(1);
+    REQUIRE(w > nf4);
+    REQUIRE(w < nf19);
+    REQUIRE(w < nf24);
+
+    w.set_prio_spec(1);
+    REQUIRE(w < nf4);
+    REQUIRE(w < nf19);
+    REQUIRE(w < nf24);
 }
