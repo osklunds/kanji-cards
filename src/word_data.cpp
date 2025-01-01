@@ -178,6 +178,7 @@ int word_data::prio_mapped() const {
     const int num_spec2_words = 3316;
 
     const int num_words_per_nf_group = 500;
+    const int divisor = num_words_per_nf_group*2;
 
     // The idea is, assume that if a word has tag news1, it is among
     // the 23356 most common. Assume it is in the middle, i.e. the 23356/2
@@ -185,23 +186,23 @@ int word_data::prio_mapped() const {
 
     int mapped_news = INT_MAX;
     if (prio_news == 1) {
-        mapped_news = (num_news1_words/500)/2;
+        mapped_news = num_news1_words/divisor;
     } else if (prio_news == 2) {
-        mapped_news = ((num_news1_words + num_news2_words)/500)/2;
+        mapped_news = (num_news1_words + num_news2_words)/divisor;
     }
 
     int mapped_ichi = INT_MAX;
     if (prio_ichi == 1) {
-        mapped_ichi = (num_ichi1_words/500)/2;
+        mapped_ichi = num_ichi1_words/divisor;
     } else if (prio_ichi == 2) {
-        mapped_ichi = ((num_ichi1_words + num_ichi2_words)/500)/2;
+        mapped_ichi = (num_ichi1_words + num_ichi2_words)/divisor;
     }
 
     int mapped_spec = INT_MAX;
     if (prio_spec == 1) {
-        mapped_spec = (num_spec1_words/500)/2;
+        mapped_spec = num_spec1_words/divisor;
     } else if (prio_spec == 2) {
-        mapped_spec = ((num_spec1_words+num_spec2_words)/500)/2;
+        mapped_spec = (num_spec1_words + num_spec2_words)/divisor;
     }
 
     int mapped_nf = INT_MAX;

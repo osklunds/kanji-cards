@@ -131,3 +131,104 @@ TEST_CASE("word_data_compare") {
     REQUIRE(w1 == w2);
     REQUIRE(w2 == w1);
 }
+
+TEST_CASE("word_data_compare2") {
+    word_data none  = {};
+
+    word_data nf1 = {};
+    nf1.set_prio_nf(1);
+
+    word_data nf2 = {};
+    nf2.set_prio_nf(2);
+
+    REQUIRE(nf1 < none);
+    REQUIRE(nf1 < nf2);
+
+
+    word_data nf3 = {};
+    nf3.set_prio_nf(3);
+
+    word_data nf4 = {};
+    nf4.set_prio_nf(4);
+
+    word_data spec1 = {};
+    spec1.set_prio_spec(1);
+
+    REQUIRE(nf2 < spec1);
+    REQUIRE(nf3 == spec1);
+    REQUIRE(nf4 > spec1);
+
+
+    word_data nf5 = {};
+    nf5.set_prio_nf(5);
+
+    word_data nf6 = {};
+    nf6.set_prio_nf(6);
+
+    word_data nf7 = {};
+    nf7.set_prio_nf(7);
+
+    word_data spec2 = {};
+    spec2.set_prio_spec(2);
+
+    REQUIRE(nf5 < spec2);
+    REQUIRE(nf6 == spec2);
+    REQUIRE(nf7 > spec2);
+    REQUIRE(spec1 < spec2);
+
+
+    word_data nf17 = {};
+    nf17.set_prio_nf(17);
+
+    word_data nf18 = {};
+    nf18.set_prio_nf(18);
+
+    word_data nf19 = {};
+    nf19.set_prio_nf(19);
+
+    word_data ichi1 = {};
+    ichi1.set_prio_ichi(1);
+
+    word_data ichi2 = {};
+    ichi2.set_prio_ichi(2);
+
+    REQUIRE(nf17 < ichi1);
+    REQUIRE(nf18 == ichi1);
+    REQUIRE(nf19 > ichi1);
+    REQUIRE(ichi1 == ichi2);
+
+
+    word_data nf22 = {};
+    nf22.set_prio_nf(22);
+
+    word_data nf23 = {};
+    nf23.set_prio_nf(23);
+
+    word_data nf24 = {};
+    nf24.set_prio_nf(24);
+
+    word_data news1 = {};
+    news1.set_prio_news(1);
+
+    REQUIRE(nf22 < news1);
+    REQUIRE(nf23 == news1);
+    REQUIRE(nf24 > news1);
+
+
+    word_data nf43 = {};
+    nf43.set_prio_nf(43);
+
+    word_data nf44 = {};
+    nf44.set_prio_nf(44);
+
+    word_data nf45 = {};
+    nf45.set_prio_nf(45);
+
+    word_data news2 = {};
+    news2.set_prio_news(2);
+
+    REQUIRE(nf43 < news2);
+    REQUIRE(nf44 == news2);
+    REQUIRE(nf45 > news2);
+    REQUIRE(news1 < news2);
+}
