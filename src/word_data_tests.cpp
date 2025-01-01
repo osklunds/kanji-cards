@@ -106,33 +106,7 @@ TEST_CASE("word_data_setters") {
     REQUIRE(12 == word.get_prio_nf());
 }
 
-TEST_CASE("word_data_compare") {
-    word_data w1 = {};
-    word_data w2 = {};
-
-    REQUIRE(w1 == w2);
-    REQUIRE(w2 == w1);
-
-    w1.set_prio_nf(1);
-    REQUIRE(w1 < w2);
-    REQUIRE(w2 > w1);
-
-    w2.set_prio_nf(2);
-    REQUIRE(w1 < w2);
-    REQUIRE(w2 > w1);
-
-    w1.set_prio_nf(std::nullopt);
-    REQUIRE(w1 > w2);
-    REQUIRE(w2 < w1);
-
-    w1.set_prio_nf(3);
-    w2.set_prio_nf(3);
-
-    REQUIRE(w1 == w2);
-    REQUIRE(w2 == w1);
-}
-
-TEST_CASE("word_data_compare2") {
+TEST_CASE("compare_word_data_with_one_prio_type") {
     word_data none  = {};
 
     word_data nf1 = {};
@@ -157,6 +131,7 @@ TEST_CASE("word_data_compare2") {
     REQUIRE(nf2 < spec1);
     REQUIRE(nf3 == spec1);
     REQUIRE(nf4 > spec1);
+    REQUIRE(spec1 < none);
 
 
     word_data nf5 = {};
@@ -175,6 +150,7 @@ TEST_CASE("word_data_compare2") {
     REQUIRE(nf6 == spec2);
     REQUIRE(nf7 > spec2);
     REQUIRE(spec1 < spec2);
+    REQUIRE(spec2 < none);
 
 
     word_data nf17 = {};
@@ -196,6 +172,8 @@ TEST_CASE("word_data_compare2") {
     REQUIRE(nf18 == ichi1);
     REQUIRE(nf19 > ichi1);
     REQUIRE(ichi1 == ichi2);
+    REQUIRE(ichi1 < none);
+    REQUIRE(ichi2 < none);
 
 
     word_data nf22 = {};
@@ -213,6 +191,7 @@ TEST_CASE("word_data_compare2") {
     REQUIRE(nf22 < news1);
     REQUIRE(nf23 == news1);
     REQUIRE(nf24 > news1);
+    REQUIRE(news1 < none);
 
 
     word_data nf43 = {};
@@ -231,4 +210,6 @@ TEST_CASE("word_data_compare2") {
     REQUIRE(nf44 == news2);
     REQUIRE(nf45 > news2);
     REQUIRE(news1 < news2);
+    REQUIRE(news2 < none);
+}
 }
