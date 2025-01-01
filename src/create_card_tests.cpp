@@ -46,7 +46,7 @@ TEST_CASE("create_card") {
 // A convenient way to run the main function
 TEST_CASE("run_main", "[.]") {
     std::vector<frequency_entry> entries =
-        get_frequency_entries_from_file("../data/kanji_freqency_list.csv");
+        get_frequency_entries_from_file("kanji_frequency_list.csv");
     entries.erase(entries.begin() + 20, entries.end());
 
     pugi::xml_document kanjidic2_doc {};
