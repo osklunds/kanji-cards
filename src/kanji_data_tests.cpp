@@ -15,7 +15,7 @@ TEST_CASE("sample_data") {
 
     pugi::xml_document jmdict_e_doc;
     pugi::xml_parse_result result_jmdict_e =
-        jmdict_e_doc.load_file("../data/JMdict_e_sample.xml");
+        jmdict_e_doc.load_file("JMdict_e.xml.sample");
     REQUIRE(result_jmdict_e == true);
     
     kanji_data kanji_data { "日", 3, kanjidic2_doc, jmdict_e_doc };
@@ -44,21 +44,38 @@ TEST_CASE("sample_data") {
     std::vector<word_data> words = kanji_data.get_words();
     REQUIRE(words.size() == 2);
 
-    REQUIRE(words[0].get_word() == "日本");
-    REQUIRE(words[0].get_reading() == "にほん");
-    REQUIRE(words[0].get_meanings() == (std::vector<std::string>){ "Japan" });
-    REQUIRE(words[0].get_prio_news() == std::nullopt);
+    REQUIRE(words[0].get_word() == "日");
+    REQUIRE(words[0].get_reading() == "ひ");
+
+    std::vector<std::string> exp_meanings = {
+        "day",
+        "days",
+        "sun",
+        "sunshine",
+        "sunlight",
+        "(the) day",
+        "daytime",
+        "daylight",
+        "date",
+        "deadline",
+        "(past) days",
+        "time (e.g. of one's childhood)",
+        "case (esp. unfortunate)",
+        "event"
+    };
+    REQUIRE(words[0].get_meanings() == exp_meanings);
+    REQUIRE(words[0].get_prio_news() == 1);
     REQUIRE(words[0].get_prio_ichi() == 1);
     REQUIRE(words[0].get_prio_spec() == std::nullopt);
-    REQUIRE(words[0].get_prio_nf() == std::nullopt);
+    REQUIRE(words[0].get_prio_nf() == 3);
 
-    REQUIRE(words[1].get_word() == "日");
-    REQUIRE(words[1].get_reading() == "にち");
-    REQUIRE(words[1].get_meanings() == (std::vector<std::string>){ "Day" });
-    REQUIRE(words[1].get_prio_news() == std::nullopt);
+    REQUIRE(words[1].get_word() == "日本");
+    REQUIRE(words[1].get_reading() == "にほん");
+    REQUIRE(words[1].get_meanings() == (std::vector<std::string>){ "Japan" });
+    REQUIRE(words[1].get_prio_news() == 2);
     REQUIRE(words[1].get_prio_ichi() == std::nullopt);
-    REQUIRE(words[1].get_prio_spec() == std::nullopt);
-    REQUIRE(words[1].get_prio_nf() == std::nullopt);
+    REQUIRE(words[1].get_prio_spec() == 1);
+    REQUIRE(words[1].get_prio_nf() == 25);
 
     REQUIRE(kanji_data.get_stroke_order_jpgs().size() == 4);
 }
@@ -71,7 +88,7 @@ TEST_CASE("as_string") {
 
     pugi::xml_document jmdict_e_doc;
     pugi::xml_parse_result result_jmdict_e =
-        jmdict_e_doc.load_file("../data/JMdict_e_sample.xml");
+        jmdict_e_doc.load_file("JMdict_e.xml.sample");
     REQUIRE(result_jmdict_e == true);
 
     kanji_data kanji_data { "日", 1, kanjidic2_doc, jmdict_e_doc };
@@ -84,21 +101,21 @@ TEST_CASE("as_string") {
     exp_string.append("Kun readings: ひ, -び, -か\n");
     exp_string.append("On readings: ニチ, ジツ\n");
     exp_string.append("---\n");
+    exp_string.append("Word: 日\n");
+    exp_string.append("Reading: ひ\n");
+    exp_string.append("Meanings: day, days, sun, sunshine, sunlight, (the) day, daytime, daylight, date, deadline, (past) days, time (e.g. of one's childhood), case (esp. unfortunate), event\n");
+    exp_string.append("Prio news: 1\n");
+    exp_string.append("Prio ichi: 1\n");
+    exp_string.append("Prio spec: \n");
+    exp_string.append("Prio nf: 3\n");
+    exp_string.append("---\n");
     exp_string.append("Word: 日本\n");
     exp_string.append("Reading: にほん\n");
     exp_string.append("Meanings: Japan\n");
-    exp_string.append("Prio news: \n");
-    exp_string.append("Prio ichi: 1\n");
-    exp_string.append("Prio spec: \n");
-    exp_string.append("Prio nf: \n");
-    exp_string.append("---\n");
-    exp_string.append("Word: 日\n");
-    exp_string.append("Reading: にち\n");
-    exp_string.append("Meanings: Day\n");
-    exp_string.append("Prio news: \n");
+    exp_string.append("Prio news: 2\n");
     exp_string.append("Prio ichi: \n");
-    exp_string.append("Prio spec: \n");
-    exp_string.append("Prio nf: \n");
+    exp_string.append("Prio spec: 1\n");
+    exp_string.append("Prio nf: 25\n");
     exp_string.append("-----");
     REQUIRE(exp_string == string);
 }

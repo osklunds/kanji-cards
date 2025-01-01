@@ -8,7 +8,7 @@
 
 TEST_CASE("word_data_sample_data_read_from_doc_1_match") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/JMdict_e_sample.xml");
+    pugi::xml_parse_result result = doc.load_file("JMdict_e.xml.sample");
     REQUIRE(result == true);
 
     std::vector<word_data> word_datas = word_data::read_from_doc(doc, "語");
@@ -17,52 +17,63 @@ TEST_CASE("word_data_sample_data_read_from_doc_1_match") {
     word_data word_data = word_datas[0];
     REQUIRE(word_data.get_word() == "物語");
 
-    std::vector<std::string> meanings = { "story", "tale", "legend" };
+    std::vector<std::string> meanings = {
+        "story",
+        "tale",
+        "narrative",
+        "account",
+        "fable",
+        "legend"
+    };
     REQUIRE(word_data.get_meanings() == meanings);
 
     REQUIRE("ものがたり" == word_data.get_reading());
-    REQUIRE(2 == word_data.get_prio_news());
+    REQUIRE(1 == word_data.get_prio_news());
     REQUIRE(1 == word_data.get_prio_ichi());
-    REQUIRE(2 == word_data.get_prio_spec());
-    REQUIRE(41 == word_data.get_prio_nf());
+    REQUIRE(std::nullopt == word_data.get_prio_spec());
+    REQUIRE(3 == word_data.get_prio_nf());
 }
 
 TEST_CASE("word_data_sample_data_read_from_doc_2_matches") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/JMdict_e_sample.xml");
+    pugi::xml_parse_result result = doc.load_file("JMdict_e.xml.sample");
     REQUIRE(result == true);
 
     std::vector<word_data> word_datas = word_data::read_from_doc(doc, "動");
     REQUIRE(word_datas.size() == 2);
 
-    word_data to_move = word_datas[0];
-    REQUIRE(to_move.get_word() == "動く");
-
-    std::vector<std::string> to_move_meanings = { "to move" };
-    REQUIRE(to_move.get_meanings() == to_move_meanings);
-
-    REQUIRE("うごく" == to_move.get_reading());
-    REQUIRE(std::nullopt == to_move.get_prio_news());
-    REQUIRE(std::nullopt == to_move.get_prio_ichi());
-    REQUIRE(std::nullopt == to_move.get_prio_spec());
-    REQUIRE(1 == to_move.get_prio_nf());
-
-    word_data animal = word_datas[1];
+    word_data animal = word_datas[0];
     REQUIRE(animal.get_word() == "動物");
 
     std::vector<std::string> animal_meanings = { "animal" };
     REQUIRE(animal.get_meanings() == animal_meanings);
 
     REQUIRE("どうぶつ" == animal.get_reading());
-    REQUIRE(std::nullopt == animal.get_prio_news());
-    REQUIRE(std::nullopt == animal.get_prio_ichi());
+    REQUIRE(1 == animal.get_prio_news());
+    REQUIRE(1 == animal.get_prio_ichi());
     REQUIRE(std::nullopt == animal.get_prio_spec());
-    REQUIRE(std::nullopt == animal.get_prio_nf());
+    REQUIRE(2 == animal.get_prio_nf());
+
+    word_data to_be_perturbed = word_datas[1];
+    REQUIRE(to_be_perturbed.get_word() == "動じる");
+
+    std::vector<std::string> to_be_perturbed_meanings = {
+        "to be perturbed",
+        "to be agitated"
+    };
+    REQUIRE(to_be_perturbed.get_meanings() == to_be_perturbed_meanings);
+
+    REQUIRE("どうじる" == to_be_perturbed.get_reading());
+    REQUIRE(2 == to_be_perturbed.get_prio_news());
+    REQUIRE(1 == to_be_perturbed.get_prio_ichi());
+    REQUIRE(std::nullopt == to_be_perturbed.get_prio_spec());
+    REQUIRE(33 == to_be_perturbed.get_prio_nf());
+
 }
 
 TEST_CASE("word_data_as_string") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("../data/JMdict_e_sample.xml");
+    pugi::xml_parse_result result = doc.load_file("JMdict_e.xml.sample");
     REQUIRE(result == true);
 
     std::vector<word_data> word_datas = word_data::read_from_doc(doc, "語");
@@ -71,11 +82,11 @@ TEST_CASE("word_data_as_string") {
     std::string exp_string {};
     exp_string.append("Word: 物語\n");
     exp_string.append("Reading: ものがたり\n");
-    exp_string.append("Meanings: story, tale, legend\n");
-    exp_string.append("Prio news: 2\n");
+    exp_string.append("Meanings: story, tale, narrative, account, fable, legend\n");
+    exp_string.append("Prio news: 1\n");
     exp_string.append("Prio ichi: 1\n");
-    exp_string.append("Prio spec: 2\n");
-    exp_string.append("Prio nf: 41");
+    exp_string.append("Prio spec: \n");
+    exp_string.append("Prio nf: 3");
 
     REQUIRE(exp_string == string);
 }
