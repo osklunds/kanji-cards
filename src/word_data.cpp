@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cstring>
 #include <format>
+#include <limits.h>
 
 #include "word_data.hpp"
 
@@ -164,21 +165,40 @@ bool operator== (const word_data& w1, const word_data& w2) {
 }
 
 std::weak_ordering operator<=> (const word_data& w1, const word_data& w2) {
-    // todo: consider using spec, news and ichi too
-    // could map e.g. spec1 to nf10
-    // if spec1, news1, etc, map to the smallest of all indicator
-    if (w1.prio_nf.has_value() &&
-        w2.prio_nf.has_value() &&
-        w1.prio_nf != w2.prio_nf) {
-        return w1.prio_nf <=> w2.prio_nf;
+    return w1.prio_mapped() <=> w2.prio_mapped();
+}
+
+int word_data::prio_mapped() const {
+    int mapped_news = INT_MAX;
+    if (prio_news == 1) {
+        mapped_news = (12000/500)/2;
+    } else if (prio_news == 2) {
+        mapped_news = (24000/500)/2;
     }
 
-    if (w1.prio_nf.has_value() && !w2.prio_nf.has_value()) {
-        return std::weak_ordering::less;
-    }
-    if (!w1.prio_nf.has_value() && w2.prio_nf.has_value()) {
-        return std::weak_ordering::greater;
+    int mapped_ichi = INT_MAX;
+    if (prio_ichi != std::nullopt) {
+        mapped_ichi = (19000/500)/2;
     }
 
-    return std::weak_ordering::equivalent;
+    int mapped_spec = INT_MAX;
+    if (prio_spec == 1) {
+        mapped_spec = (3400/500)/2;
+    } else if (prio_spec == 2) {
+        mapped_spec = (6800/500)/2;
+    }
+
+    int mapped_nf = INT_MAX;
+    if (prio_nf != std::nullopt) {
+        mapped_nf = prio_nf.value();
+    }
+
+    std::vector<int> mapped_prios = {
+        mapped_nf,
+        mapped_news,
+        mapped_ichi,
+        mapped_spec
+    };
+
+    return *std::min_element(mapped_prios.begin(), mapped_prios.end());
 }

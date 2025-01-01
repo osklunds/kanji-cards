@@ -25,6 +25,8 @@ private:
     std::optional<int> prio_spec {};
     std::optional<int> prio_nf {};
 
+    int prio_mapped() const;
+
 public:
     static std::vector<word_data> read_from_doc(const pugi::xml_document& doc,
                                                 const std::string &kanji
