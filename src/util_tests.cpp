@@ -8,7 +8,7 @@ TEST_CASE("exec") {
     REQUIRE(exec("echo hej") == (std::vector<uint8_t>){'h', 'e', 'j', '\n'});
 
     // Compare exec and read_file_bin for text file
-    REQUIRE(exec("cat br.sh") == read_file_bin("br.sh"));
+    REQUIRE(exec("cat JMdict_e.xml.sample") == read_file_bin("JMdict_e.xml.sample"));
 
     // Compare exec and read_file_bin for binary file
     auto binResult = exec("cat main");

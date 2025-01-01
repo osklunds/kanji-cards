@@ -15,11 +15,7 @@ Enable more warnings
 
 Fix todos
 
-run cd inside br.sh and move script to top-level
-
-for sample file, use cmake to copy some specific lines, so can skip int_assets
-
-todo: check in zipped files, unpack in cmake
+Fix licence due to tests
 
 # Copyright, license, attribution
 
