@@ -4,6 +4,7 @@
 #include <cstring>
 #include <format>
 #include <limits.h>
+#include <cmath>
 
 #include "word_data.hpp"
 
@@ -182,7 +183,7 @@ int word_data::prio_mapped() const {
     // most common word. Then divide by 500 to translate to nf group.
     auto num_words_to_nf_group = [](int num_words) {
         const int num_words_per_nf_group = 500;
-        return num_words / (num_words_per_nf_group*2);
+        return std::round((double)num_words / (double)(num_words_per_nf_group*2));
     };
 
     int mapped_news = INT_MAX;

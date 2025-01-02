@@ -134,21 +134,21 @@ TEST_CASE("compare_word_data_with_one_prio_type") {
     REQUIRE(spec1 < none);
 
 
-    word_data nf5 = {};
-    nf5.set_prio_nf(5);
-
     word_data nf6 = {};
     nf6.set_prio_nf(6);
 
     word_data nf7 = {};
     nf7.set_prio_nf(7);
 
+    word_data nf8 = {};
+    nf8.set_prio_nf(8);
+
     word_data spec2 = {};
     spec2.set_prio_spec(2);
 
-    REQUIRE(nf5 < spec2);
-    REQUIRE(nf6 == spec2);
-    REQUIRE(nf7 > spec2);
+    REQUIRE(nf6 < spec2);
+    REQUIRE(nf7 == spec2);
+    REQUIRE(nf8 > spec2);
     REQUIRE(spec1 < spec2);
     REQUIRE(spec2 < none);
 
@@ -171,8 +171,15 @@ TEST_CASE("compare_word_data_with_one_prio_type") {
     REQUIRE(nf17 < ichi1);
     REQUIRE(nf18 == ichi1);
     REQUIRE(nf19 > ichi1);
-    REQUIRE(ichi1 == ichi2);
     REQUIRE(ichi1 < none);
+
+    word_data nf20 = {};
+    nf20.set_prio_nf(20);
+
+    REQUIRE(nf18 < ichi2);
+    REQUIRE(nf19 == ichi2);
+    REQUIRE(nf20 > ichi2);
+    REQUIRE(ichi1 < ichi2);
     REQUIRE(ichi2 < none);
 
 
@@ -194,21 +201,21 @@ TEST_CASE("compare_word_data_with_one_prio_type") {
     REQUIRE(news1 < none);
 
 
-    word_data nf43 = {};
-    nf43.set_prio_nf(43);
-
     word_data nf44 = {};
     nf44.set_prio_nf(44);
 
     word_data nf45 = {};
     nf45.set_prio_nf(45);
 
+    word_data nf46 = {};
+    nf46.set_prio_nf(46);
+
     word_data news2 = {};
     news2.set_prio_news(2);
 
-    REQUIRE(nf43 < news2);
-    REQUIRE(nf44 == news2);
-    REQUIRE(nf45 > news2);
+    REQUIRE(nf44 < news2);
+    REQUIRE(nf45 == news2);
+    REQUIRE(nf46 > news2);
     REQUIRE(news1 < news2);
     REQUIRE(news2 < none);
 }
