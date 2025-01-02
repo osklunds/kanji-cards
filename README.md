@@ -4,8 +4,8 @@
 Example
 
 <p align="middle">
-  <img src="doc/hi.jpg" width="45" />
-  <img src="doc/hon.jpg" width="45" /> 
+  <img src="doc/hi.jpg" width="45%" />
+  <img src="doc/hon.jpg" width="45%" /> 
 </p>
 
 # Source code overview
