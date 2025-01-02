@@ -1,7 +1,13 @@
 
 # kanji-cards
 
-todo: introduction
+Example
+
+<p align="middle">
+  <img src="doc/hi.jpg" width="100" />
+  <img src="doc/hon.jpg" width="100" /> 
+  <img src="doc/toki.jpg" width="100" />
+</p>
 
 # Source code overview
 
