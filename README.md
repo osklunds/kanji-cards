@@ -13,8 +13,6 @@ Run `./build_run_test.sh` located in the root level of this repository to, well,
 
 # todos
 
-Sort also using spec1, news1 etc
-
 License and copyright
 
 Enable more warnings
