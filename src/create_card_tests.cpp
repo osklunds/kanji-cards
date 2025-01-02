@@ -72,32 +72,34 @@ TEST_CASE("run_main", "[.]") {
     int seq = 1;
 
     for (int i = 0; i < num_threads; i++) {
-        threads.push_back(std::thread([&mutex,&seq,&entries,&kanjidic2_doc,&jmdict_e_doc]() {
-            while (true) {
-                std::optional<int> thread_seq = std::nullopt;
-                std::optional<frequency_entry> thread_frequency_entry = std::nullopt;
-                {
-                    std::scoped_lock lock(mutex);
+        std::thread thread =
+            std::thread([&mutex,&seq,&entries,&kanjidic2_doc,&jmdict_e_doc]() {
+                while (true) {
+                    std::optional<int> thread_seq = std::nullopt;
+                    std::optional<frequency_entry> thread_frequency_entry = std::nullopt;
+                    {
+                        std::scoped_lock lock(mutex);
 
-                    if (entries.empty()) {
-                        return;
+                        if (entries.empty()) {
+                            return;
+                        }
+                        thread_seq = seq;
+                        seq++;
+                        thread_frequency_entry = *entries.erase(entries.begin());
                     }
-                    thread_seq = seq;
-                    seq++;
-                    thread_frequency_entry = *entries.erase(entries.begin());
+
+                    kanji_data kanji_data {
+                        thread_frequency_entry.value().get_kanji(),
+                        static_cast<uint16_t>(thread_seq.value()),
+                        kanjidic2_doc,
+                        jmdict_e_doc
+                    };
+
+                    std::string path = create_card(kanji_data, out_dir);
+                    std::cout << "Created: " << path << std::endl;
                 }
-
-                kanji_data kanji_data {
-                    thread_frequency_entry.value().get_kanji(),
-                    static_cast<uint16_t>(thread_seq.value()),
-                    kanjidic2_doc,
-                    jmdict_e_doc
-                };
-
-                std::string path = create_card(kanji_data, out_dir);
-                std::cout << "Created: " << path << std::endl;
-            }
-        }));
+            });
+        threads.push_back(std::move(thread));
     }
 
     for (std::thread& thread : threads) {
