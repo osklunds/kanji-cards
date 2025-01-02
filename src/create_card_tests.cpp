@@ -74,7 +74,7 @@ TEST_CASE("run_main", "[.]") {
     for (int i = 0; i < num_threads; i++) {
         threads.push_back(std::thread([&mutex,&seq,&entries,&kanjidic2_doc,&jmdict_e_doc]() {
             while (true) {
-                int thread_seq = 0;
+                std::optional<int> thread_seq = std::nullopt;
                 std::optional<frequency_entry> thread_frequency_entry = std::nullopt;
                 {
                     std::scoped_lock lock(mutex);
@@ -89,7 +89,7 @@ TEST_CASE("run_main", "[.]") {
 
                 kanji_data kanji_data {
                     thread_frequency_entry.value().get_kanji(),
-                    static_cast<uint16_t>(thread_seq),
+                    static_cast<uint16_t>(thread_seq.value()),
                     kanjidic2_doc,
                     jmdict_e_doc
                 };
