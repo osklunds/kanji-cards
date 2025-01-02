@@ -3,7 +3,7 @@
 
 Example
 
-<p align="middle">
+<p align="middle" style="background-color:#ffd35c">
   <img src="doc/hi.jpg" width="45%" />
   <img src="doc/hon.jpg" width="45%" /> 
 </p>
