@@ -1,12 +1,26 @@
 
 # kanji-cards
 
-Example
+This project generates cards aimed for studying Kanji. Each card contains
+
+- The Kanji in question
+- The number of the Kanji, in order of (approximate) frequency of occurrence
+- Stroke order diagrams, showing how to write the Kanji
+- Meanings of the Kanji
+- On'yomi readings of the Kanji
+- Kun'yomi readings of the Kanji
+- Words containing the Kanji, in order of (approximate) frequency of occurrence, including the word in kanji, the word's reading and the word's meanings
+
+See the below example of two cards.
 
 <p align="middle">
   <img src="doc/hi.jpg" width="45%" />
   <img src="doc/hon.jpg" width="45%" /> 
 </p>
+
+The cards are PDF files. They have a shape aimed at being looked at from a smartphone. See the section `Building, running, testing` for information on how to generate the cards.
+
+This project uses some external data sources and fonts. See the section `Copyright, license, attribution` for more information.
 
 # Source code overview
 
@@ -14,15 +28,13 @@ The "main" function of this program is the test case `run_main` located in `crea
 
 # Building, running, testing
 
-Run `./build_run_test.sh` located in the root level of this repository to, well, build the project and run the tests. Run `./build_run_test run_main` to run the main function that generates the kanji cards. The outout is located in `build/out`.
+Run `./build_run_test.sh` located in the root level of this repository to, well, build the project and run the tests. Run `./build_run_test run_main` to run the main function that generates the kanji cards. The output is located in `build/out`.
 
 # todos
 
 License and copyright
 
 Enable more warnings
-
-Fix todos
 
 Fix licence due to tests
 
