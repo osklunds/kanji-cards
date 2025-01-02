@@ -172,6 +172,7 @@ TEST_CASE("learning_JMdict_e_words_with_kanji") {
         pugi::xml_node k_ele = entry.child("k_ele");
         pugi::xml_node keb = k_ele.child("keb");
 
+        keb.text().get();
         // std::cout << "oskar: " << keb.text().get() << std::endl;
     }
 }
@@ -184,7 +185,7 @@ TEST_CASE("learning_libharu") {
 
     HPDF_Page page = HPDF_AddPage(pdf);
 
-    HPDF_REAL width = HPDF_Page_GetWidth(page);
+    // HPDF_REAL width = HPDF_Page_GetWidth(page);
     HPDF_REAL height = HPDF_Page_GetHeight(page);
 
     const char* font_path =

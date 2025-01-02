@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 23)
 project(KanjiCards)
 include(ExternalProject)
 set(CMAKE_BUILD_PARALLEL_LEVEL 8)
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror")
 
 # Main executable
 add_executable(main

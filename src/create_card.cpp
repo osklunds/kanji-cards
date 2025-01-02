@@ -284,7 +284,7 @@ std::string create_card(const kanji_data& kanji_data,
 
         word_string += " ( " + word_data.get_reading() + " ) ";
 
-        for (int i = 0;
+        for (size_t i = 0;
              i < word_data.get_meanings().size() && i < max_word_meanings;
              i++
              ) {

@@ -13,12 +13,12 @@ kanji_data::kanji_data(const std::string& kanji,
                        const pugi::xml_document& jmdict_e_doc
                        )  :
     kanji { kanji },
+    frequency { frequency },
     meanings {},
     kun_readings {},
     on_readings {},
     words {},
-    stroke_order_jpgs {},
-    frequency { frequency }
+    stroke_order_jpgs {}
 {
     std::string xpath =
         std::format("/kanjidic2/character[./literal = \"{}\"]", this->kanji);
