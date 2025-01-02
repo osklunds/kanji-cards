@@ -126,17 +126,4 @@ TEST_CASE("svg_to_jpg") {
     REQUIRE(jpg.size() > 500);
     std::string as_string { jpg.begin(), jpg.end() };
     REQUIRE(as_string.find("JFIF") != std::string::npos);
-
-    // todo: delete file first, and check that check fails
-    std::ofstream out_file {};
-    out_file.open ("out.jpg");
-    for (auto byte : jpg) {
-        out_file << byte;
-    }
-    out_file.close();
 }
-
-// for the found stroke nodes, delete them one by one, starting with the latest
-// and write the svg. Then insert the DTD.
-
-// cat 04fd7-4.svg | magick svg:- out.jpg
