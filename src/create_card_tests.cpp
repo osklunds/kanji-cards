@@ -5,8 +5,12 @@
 #include <filesystem>
 #include "frequency.hpp"
 #include <iostream>
+#include <thread>
+#include <mutex>
+#include <optional>
 
 const std::string out_dir = "out";
+const int num_threads = 8;
 
 TEST_CASE("create_card") {
     pugi::xml_document kanjidic2_doc {};
@@ -48,7 +52,6 @@ TEST_CASE("create_card") {
 TEST_CASE("run_main", "[.]") {
     std::vector<frequency_entry> entries =
         get_frequency_entries_from_file("kanji_frequency_list.csv");
-    entries.erase(entries.begin() + 20, entries.end());
 
     pugi::xml_document kanjidic2_doc {};
     pugi::xml_parse_result result_kanjidic2 =
@@ -64,17 +67,40 @@ TEST_CASE("run_main", "[.]") {
     REQUIRE(!std::filesystem::exists(out_dir));
     REQUIRE(std::filesystem::create_directory(out_dir));
 
-    // todo: Since this loop is by far the bottleneck, consider using multiple
-    // threads.
-    for (int i = 0; i < entries.size(); i++) {
-        auto fe = entries[i];
-        kanji_data kanji_data { fe.get_kanji(),
-                                static_cast<uint16_t>(i + 1),
-                                kanjidic2_doc,
-                                jmdict_e_doc
-        };
+    std::mutex mutex {};
+    std::vector<std::thread> threads {};
+    int seq = 1;
 
-        std::string path = create_card(kanji_data, out_dir);
-        std::cout << "Created: " << path << std::endl;
+    for (int i = 0; i < num_threads; i++) {
+        threads.push_back(std::thread([&mutex,&seq,&entries,&kanjidic2_doc,&jmdict_e_doc]() {
+            while (true) {
+                int thread_seq = 0;
+                std::optional<frequency_entry> thread_frequency_entry = std::nullopt;
+                {
+                    std::scoped_lock lock(mutex);
+
+                    if (entries.empty()) {
+                        return;
+                    }
+                    thread_seq = seq;
+                    seq++;
+                    thread_frequency_entry = *entries.erase(entries.begin());
+                }
+
+                kanji_data kanji_data {
+                    thread_frequency_entry.value().get_kanji(),
+                    static_cast<uint16_t>(thread_seq),
+                    kanjidic2_doc,
+                    jmdict_e_doc
+                };
+
+                std::string path = create_card(kanji_data, out_dir);
+                std::cout << "Created: " << path << std::endl;
+            }
+        }));
+    }
+
+    for (std::thread& thread : threads) {
+        thread.join();
     }
 }
