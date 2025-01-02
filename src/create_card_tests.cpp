@@ -6,6 +6,8 @@
 #include "frequency.hpp"
 #include <iostream>
 
+const std::string out_dir = "out";
+
 TEST_CASE("create_card") {
     pugi::xml_document kanjidic2_doc {};
     pugi::xml_parse_result result_kanjidic2 =
@@ -23,7 +25,6 @@ TEST_CASE("create_card") {
     // 働 has multiple lines of stroker order graphs
     kanji_data kanji_data2 { "働", 1234, kanjidic2_doc, jmdict_e_doc };
 
-    std::string out_dir = "out";
     std::filesystem::remove_all(out_dir);
     REQUIRE(!std::filesystem::exists(out_dir));
     REQUIRE(std::filesystem::create_directory(out_dir));
@@ -59,8 +60,6 @@ TEST_CASE("run_main", "[.]") {
         jmdict_e_doc.load_file("JMdict_e.xml");
     REQUIRE(result_jmdict_e);
 
-    // todo: constant for out dir
-    std::string out_dir = "out";
     std::filesystem::remove_all(out_dir);
     REQUIRE(!std::filesystem::exists(out_dir));
     REQUIRE(std::filesystem::create_directory(out_dir));
