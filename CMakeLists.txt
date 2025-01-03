@@ -66,25 +66,21 @@ function(unzip_if_needed archive_path extract_path)
     endif()
 endfunction()
 
+set(EXT_ASSETS_DIR ${CMAKE_BINARY_DIR}/../ext_assets)
+
 # noto-sans-jp
-set(NOTO_SANS_JP_URL "https://font.download/dl/font/noto-sans-jp.zip")
-set(NOTO_SANS_JP_ARCHIVE ${CMAKE_BINARY_DIR}/noto-sans-jp.zip)
+set(NOTO_SANS_JP_ARCHIVE ${EXT_ASSETS_DIR}/Noto_Sans_JP.zip)
 set(NOTO_SANS_JP_EXTRACTED ${CMAKE_BINARY_DIR}/noto-sans-jp)
-download_if_needed(${NOTO_SANS_JP_URL} ${NOTO_SANS_JP_ARCHIVE})
 extract_if_needed(${NOTO_SANS_JP_ARCHIVE} ${NOTO_SANS_JP_EXTRACTED})
 
 # kanjidic2
-set(KANJIDIC2_URL "http://www.edrdg.org/kanjidic/kanjidic2.xml.gz")
-set(KANJIDIC2_ARCHIVE ${CMAKE_BINARY_DIR}/kanjidic2.xml.gz)
+set(KANJIDIC2_ARCHIVE ${EXT_ASSETS_DIR}/kanjidic2.xml.gz)
 set(KANJIDIC2_EXTARCTED ${CMAKE_BINARY_DIR}/kanjidic2.xml)
-download_if_needed(${KANJIDIC2_URL} ${KANJIDIC2_ARCHIVE})
 unzip_if_needed(${KANJIDIC2_ARCHIVE} ${KANJIDIC2_EXTARCTED})
 
 # JMdict_e
-set(JMDICT_E_URL "http://ftp.edrdg.org/pub/Nihongo/JMdict_e.gz")
-set(JMDICT_E_ARCHIVE ${CMAKE_BINARY_DIR}/JMdict_e.gz)
+set(JMDICT_E_ARCHIVE ${EXT_ASSETS_DIR}/JMdict_e.gz)
 set(JMDICT_E_EXTARCTED ${CMAKE_BINARY_DIR}/JMdict_e.xml)
-download_if_needed(${JMDICT_E_URL} ${JMDICT_E_ARCHIVE})
 unzip_if_needed(${JMDICT_E_ARCHIVE} ${JMDICT_E_EXTARCTED})
 
 execute_process(
@@ -98,10 +94,8 @@ endif()
 message(STATUS "JMdict_e.xml.sample created")
 
 # kanjivg
-set(KANJIVG_URL "https://github.com/KanjiVG/kanjivg/releases/download/r20240807/kanjivg-20240807-all.zip")
-set(KANJIVG_ARCHIVE ${CMAKE_BINARY_DIR}/kanjivg.zip)
+set(KANJIVG_ARCHIVE ${EXT_ASSETS_DIR}/kanjivg-20240807-all.zip)
 set(KANJIVG_EXTRACTED ${CMAKE_BINARY_DIR}/kanjivg)
-download_if_needed(${KANJIVG_URL} ${KANJIVG_ARCHIVE})
 extract_if_needed(${KANJIVG_ARCHIVE} ${KANJIVG_EXTRACTED})
 
 # Kanji frequency list

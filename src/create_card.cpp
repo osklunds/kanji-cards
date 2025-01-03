@@ -116,7 +116,7 @@ std::string create_card(const kanji_data& kanji_data,
     // Set up font
     const char* font_path =
         HPDF_LoadTTFontFromFile(pdf,
-                                "noto-sans-jp/NotoSansJP[wght].ttf",
+                                "noto-sans-jp/NotoSansJP-VariableFont_wght.ttf",
                                 HPDF_TRUE
                                 );
     assert(font_path);

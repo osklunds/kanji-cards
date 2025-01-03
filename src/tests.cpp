@@ -22,7 +22,7 @@
 
 TEST_CASE("learning") {
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("sample.xml");
+    pugi::xml_parse_result result = doc.load_file("../src/sample.xml");
     REQUIRE(result == true);
 
     pugi::xml_node note = doc.child("note");
@@ -190,7 +190,7 @@ TEST_CASE("learning_libharu") {
 
     const char* font_path =
         HPDF_LoadTTFontFromFile(pdf,
-                                "noto-sans-jp/NotoSansJP[wght].ttf",
+                                "noto-sans-jp/NotoSansJP-VariableFont_wght.ttf",
                                 HPDF_TRUE
                                 );
 
