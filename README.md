@@ -22,6 +22,8 @@ The cards are PDF files. They have a shape aimed at being looked at from a smart
 
 This project uses some external data sources and fonts. See the sections `External data and acknowledgments` and `Copyright, license, attribution` for more information.
 
+This project uses some external software libraries. See the section `External software libraries` for more information.
+
 # Source code overview
 
 The "main" function of this program is the test case `run_main` located in `create_card_tests.cpp`. `run_main` in turn uses the other files and classes. See each header file for more details about each file.
@@ -69,3 +71,9 @@ Copyright 2014-2021 Adobe ([http://www.adobe.com/](http://www.adobe.com/)), with
 This Font Software is licensed under the SIL Open Font License, Version 1.1 . This license is copied ~~below~~ in `ext_assets/Noto_Sans_JP.zip.license`, and is also available with a FAQ at: [https://openfontlicense.org](https://openfontlicense.org)
 
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007 
+
+# External software libraries
+
+The license files for the external software libraries used by this project are located in `3pp_library_licenses`. A big thank you to these projects!
+
+No copyright infringement intended. If you see an issue, I'm more than happy to fix it.
