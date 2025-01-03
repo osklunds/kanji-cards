@@ -14,8 +14,8 @@ This project generates cards aimed for studying Kanji. Each card contains
 See the below example of two cards.
 
 <p align="middle">
-  <img src="doc/hi.jpg" width="45%" />
-  <img src="doc/hon.jpg" width="45%" /> 
+  <img src="examples/hi.jpg" width="45%" />
+  <img src="examples/hon.jpg" width="45%" /> 
 </p>
 
 The cards are PDF files. They have a shape aimed at being looked at from a smartphone. See the section `Building, running, testing` for information on how to generate the cards.
@@ -44,23 +44,25 @@ Also, a special thanks to [jisho.org](https://jisho.org/), an awesome online Jap
 
 # Copyright, license, attribution
 
-The license for this repository is GPL v3, as specified by the separate `LICENSE` file, with the following two exceptions:
+The license for this repository is GPL v3, as specified by the separate `LICENSE` file, with the following exceptions and remarks:
 
-1. Files in `ext_assets`. This project uses assets from external projects. They are stored as copies inside `ext_assets` alongside copyright files. Their copyright notices and attribution are also shown further down in this document. Since they are copies, I don't claim any copyright or ownership over them. I simply redistribute together with this repository to make building, testing and running my code simpler and more self-contained.
+Exception 1. Files in `ext_assets`. This project uses assets from external projects. They are stored as copies inside `ext_assets` alongside copyright files. Their copyright notices and attribution are also shown further down in this document. Since they are copies, I don't claim any copyright or ownership over them. I simply redistribute together with this repository to make building, testing and running my code simpler and more self-contained.
 
-2. Files in `doc` todo
+Exception 2. Files in `examples`. The example cards are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). They contain material, and modified material, from JMdict_e.gz (CC BY-SA 4.0), kanjidic2.xml.gz (CC BY-SA 4.0), kanjivg-20240807-all.zip (CC BY-SA 3.0) and Noto_Sans_JP.zip (OFL 1.1). OFL 1.1 doesn't apply to material created using the font. CC-BY SA 3.0 and 4.0 allow derived material to be licensed under CC-BY SA 4.0. However, CC-BY SA 3.0 doesn't allow derived material to be licensed under GPL v3, hence the special case for the example cards.
+
+Remark 1. It could be argued that some test files contain material from JMdict_e.gz and kanjidic2.xml.gz since they contain lots of words, meanings, etc found in JMdict_e.gz and kanjidic2.xml.gz. However, they are licensed under CC-BY SA 4.0, and the test cases are licensed under GPL v3, this is OK.
 
 No copyright infringement intended. If you see an issue, I'm more than happy to fix it.
 
-## JMdict_e.xml and kanjidic2.xml
+## JMdict_e.gz and kanjidic2.xml.gz
 
 This package uses the [JMdict/EDICT](https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project) and [KANJIDIC](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) dictionary files. These files are the property of the [Electronic Dictionary Research and Development Group](https://www.edrdg.org/), and are used in conformance with the Group's [licence](https://www.edrdg.org/edrdg/licence.html). 
 
-## kanjivg
+## kanjivg-20240807-all.zip
 
 Stroke diagrams are based on [KanjiVG](https://kanjivg.tagaini.net/). KanjiVG is copyright © 2009-2024 Ulrich Apel. It is released under the [Creative Commons Attribution-Share Alike 3.0](https://creativecommons.org/licenses/by-sa/3.0/) license. 
 
-## NotoSansJP-VariableFont_wght.ttf
+## Noto_Sans_JP.zip
 
 Copyright 2014-2021 Adobe ([http://www.adobe.com/](http://www.adobe.com/)), with Reserved Font Name 'Source'
 
