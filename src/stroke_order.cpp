@@ -48,7 +48,13 @@ std::string path_for_kanji(const std::string& code_point) {
         padding = "0";
     }
 
-    return "kanjivg/kanji/" + padding + code_point + ".svg";
+    auto lower_case_code_point = code_point;
+    std::transform(lower_case_code_point.begin(),
+                   lower_case_code_point.end(),
+                   lower_case_code_point.begin(),
+                   [](unsigned char c){ return std::tolower(c); });
+
+    return "kanjivg/kanji/" + padding + lower_case_code_point + ".svg";
 }
 
 std::vector<std::tuple<pugi::xml_node, pugi::xml_node>>

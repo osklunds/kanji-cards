@@ -33,6 +33,12 @@ TEST_CASE("path_for_kanji") {
     REQUIRE(std::filesystem::exists(path));
 }
 
+TEST_CASE("path_for_kanji_upper_case") {
+    std::string path = path_for_kanji("0525D");
+    REQUIRE("kanjivg/kanji/0525d.svg" == path);
+    REQUIRE(std::filesystem::exists(path));
+}
+
 TEST_CASE("find_stroke_nodes") {
     pugi::xml_document doc {};
     pugi::xml_parse_result result = doc.load_file(path_for_kanji("050cd").c_str());
