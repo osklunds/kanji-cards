@@ -126,7 +126,6 @@ std::string create_card(const kanji_data& kanji_data,
     HPDF_Page page = HPDF_AddPage(pdf);
     assert(page);
 
-    const double page_height = 2400;
     ASSERT_HPDF_OK(HPDF_Page_SetWidth(page, 1200));
     ASSERT_HPDF_OK(HPDF_Page_SetHeight(page, page_height));
 
