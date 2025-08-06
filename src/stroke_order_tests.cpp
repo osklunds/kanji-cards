@@ -133,6 +133,21 @@ TEST_CASE("generate_stroke_order_svg_files") {
     REQUIRE(!regex_matches(svg_files[1], "-s2[^\n]+stroke"));
 }
 
+// To test that the regex for start position seems to work. These svg files
+// have slightly different patterns for the path string.
+TEST_CASE("generate_stroke_order_svg_files_regex") {
+    auto svg_input_files = {
+        "04fd7", // 俗
+        "0969b", // 際
+        "09803", // 頃
+    }; 
+    for (auto svg_input_file : svg_input_files) {
+        std::string path = path_for_kanji(svg_input_file);
+        auto svg_files = generate_stroke_order_svg_files(path);
+        REQUIRE(svg_files.size() > 1);
+    }
+}
+
 TEST_CASE("svg_to_jpg") {
     std::string path = path_for_kanji("04fd7");
     auto svg_files = generate_stroke_order_svg_files(path);

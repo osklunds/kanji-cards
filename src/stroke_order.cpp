@@ -160,12 +160,17 @@ std::vector<std::string> generate_stroke_order_svg_files(std::string file_path) 
         // Should result in the below extra node
         // <circle cx="30.5" cy="17.89" r="4" fill="red" stroke-width="0"></circle>
         std::string path = child.attribute("d").value();
-        std::regex regex("M([0-9]+\\.?[0-9]*),([0-9]+\\.?[0-9]*)(c|C)");
+        std::regex regex("(m|M) *([0-9]+\\.?[0-9]*),([0-9]+\\.?[0-9]*) *(c|C)");
         std::smatch match {};
         std::regex_search(path, match, regex);
-        assert(match.size() == 4);
-        std::string x_pos = match[1];
-        std::string y_pos = match[2];
+        const int exp_num_matches = 5;
+        if (match.size() != exp_num_matches) {
+            std::cout << "debug: " << file_path << " " << path << " "
+                      << match.size() << std::endl;
+        }
+        assert(match.size() == exp_num_matches);
+        std::string x_pos = match[2];
+        std::string y_pos = match[3];
 
         pugi::xml_node circle = parent.append_child("circle");
         circle.append_attribute("cx") = x_pos;
